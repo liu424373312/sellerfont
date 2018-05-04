@@ -74,10 +74,6 @@ export default {
             duration: 3000
           });
           this.$router.push({ name: "home", params: { openid: this.openid } });
-          //   this.$nextTick(() => {
-          //     this._initScroll();
-          //     this._calculateHeight();
-          //   });
         })
         .catch(function(err) {
           console.log(err);

@@ -64,7 +64,7 @@
           </a>
         </div>
       </div>
-      <div class="weui-cells weui-cells_form" id="uploader" >
+      <div class="weui-cells weui-cells_form" id="uploader">
         <div class="weui-cell">
           <div class="weui-cell__bd">
             <div class="weui-uploader">
@@ -126,10 +126,6 @@ export default {
       .then(response => {
         console.log(response.data);
         this.goodsclass = response.data.data;
-        //   this.$nextTick(() => {
-        //     this._initScroll();
-        //     this._calculateHeight();
-        //   });
       })
       .catch(function(err) {
         console.log(err);
@@ -137,6 +133,7 @@ export default {
   },
   methods: {
     addgoods() {
+      var loading = weui.loading("提交中");
       param.append("token", this.data.token);
       param.append("productName", this.data.productName);
       param.append("productPrice", this.data.productPrice);
@@ -145,16 +142,22 @@ export default {
       param.append("productDescription", this.data.productDescription);
       param.append("categoryType", this.data.categoryType);
       axios
-        .post(this.api + "/sell/seller/product/save",param, {
+        .post(this.api + "/sell/seller/product/save", param, {
           headers: {
             "Content-Type": "multipart/form-data"
           }
         })
         .then(response => {
           console.log(response.data);
+          loading.hide();
+          weui.toast("添加成功", {
+            duration: 3000
+          });
         })
         .catch(function(err) {
           console.log(err);
+          loading.hide();
+          weui.alert("错误");
         });
     },
     handleClickUploadList(e) {

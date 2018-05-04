@@ -1,59 +1,59 @@
 <template>
-    <div id="goodsclass">
-        <div @click="showDialog2" class="weui-cell weui-cell_access">
-            <div class="weui-cell__bd">
-                <p>添加商品类目</p>
-            </div>
-            <div class="weui-cell__ft"></div>
-        </div>
-        <div class="weui-cells__title">商品类目</div>
-        <div class="weui-cells">
-            <div class="weui-cell weui-cell_access" @click="showDialog1(item)" v-for="(item,index) in goodsclass" :key="index">
-                <div class="weui-cell__bd">
-                    <p>{{item.categoryName}}</p>
-                </div>
-                <div class="weui-cell__ft">编号:{{item.categoryType}}
-                </div>
-            </div>
-        </div>
-        <div class="js_dialog" v-show="dialogshow1">
-            <div class="weui-mask"></div>
-            <div class="weui-dialog">
-                <div class="weui-dialog__hd">
-                    <strong class="weui-dialog__title">修改商品类目</strong>
-                </div>
-                <div class="weui-dialog__bd">
-                    <div class="weui-cell">
-                        <input class="weui-input" v-model="newgoodsclass.categoryName" placeholder="请输入修改信息">
-                    </div>
-                </div>
-                <div class="weui-dialog__ft">
-                    <a href="javascript:;"  class="weui-dialog__btn weui-dialog__btn_primary" @click="modify">确认</a>
-                    <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_default" @click="hideDialog1">取消</a>
-                </div>
-            </div>
-        </div>
-        <div class="js_dialog" v-show="dialogshow2">
-            <div class="weui-mask"></div>
-            <div class="weui-dialog">
-                <div class="weui-dialog__hd">
-                    <strong class="weui-dialog__title">添加商品类目</strong>
-                </div>
-                <div class="weui-dialog__bd">
-                    <div class="weui-cell">
-                        <input class="weui-input" v-model="categoryName" placeholder="请输入商品类目名称">
-                    </div>
-                    <div class="weui-cell">
-                        <input class="weui-input" v-model="categoryType" placeholder="请输入商品类目编号">
-                    </div>
-                </div>
-                <div class="weui-dialog__ft">
-                    <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary" @click="add">确认</a>
-                    <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_default" @click="hideDialog2">取消</a>
-                </div>
-            </div>
-        </div>
+  <div id="goodsclass">
+    <div @click="showDialog2" class="weui-cell weui-cell_access">
+      <div class="weui-cell__bd">
+        <p>添加商品类目</p>
+      </div>
+      <div class="weui-cell__ft"></div>
     </div>
+    <div class="weui-cells__title">商品类目</div>
+    <div class="weui-cells">
+      <div class="weui-cell weui-cell_access" @click="showDialog1(item)" v-for="(item,index) in goodsclass" :key="index">
+        <div class="weui-cell__bd">
+          <p>{{item.categoryName}}</p>
+        </div>
+        <div class="weui-cell__ft">编号:{{item.categoryType}}
+        </div>
+      </div>
+    </div>
+    <div class="js_dialog" v-show="dialogshow1">
+      <div class="weui-mask"></div>
+      <div class="weui-dialog">
+        <div class="weui-dialog__hd">
+          <strong class="weui-dialog__title">修改商品类目</strong>
+        </div>
+        <div class="weui-dialog__bd">
+          <div class="weui-cell">
+            <input class="weui-input" v-model="newgoodsclass.categoryName" placeholder="请输入修改信息">
+          </div>
+        </div>
+        <div class="weui-dialog__ft">
+          <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary" @click="modify">确认</a>
+          <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_default" @click="hideDialog1">取消</a>
+        </div>
+      </div>
+    </div>
+    <div class="js_dialog" v-show="dialogshow2">
+      <div class="weui-mask"></div>
+      <div class="weui-dialog">
+        <div class="weui-dialog__hd">
+          <strong class="weui-dialog__title">添加商品类目</strong>
+        </div>
+        <div class="weui-dialog__bd">
+          <div class="weui-cell">
+            <input class="weui-input" v-model="categoryName" placeholder="请输入商品类目名称">
+          </div>
+          <div class="weui-cell">
+            <input class="weui-input" v-model="categoryType" placeholder="请输入商品类目编号">
+          </div>
+        </div>
+        <div class="weui-dialog__ft">
+          <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary" @click="add">确认</a>
+          <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_default" @click="hideDialog2">取消</a>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -122,6 +122,9 @@ export default {
         })
         .catch(function(err) {
           console.log(err);
+          loading.hide();
+          weui.alert("错误");
+          this.getgoodsclass();
         });
     },
     add() {
@@ -147,6 +150,9 @@ export default {
         .catch(function(err) {
           loading.hide();
           console.log(err);
+          loading.hide();
+          weui.alert("错误");
+          this.getgoodsclass();
         });
     },
     getgoodsclass() {
@@ -164,10 +170,6 @@ export default {
         .then(response => {
           console.log(response.data);
           this.goodsclass = response.data.data;
-          //   this.$nextTick(() => {
-          //     this._initScroll();
-          //     this._calculateHeight();
-          //   });
         })
         .catch(function(err) {
           console.log(err);
