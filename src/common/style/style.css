@@ -1,0 +1,62 @@
+@font-face {
+  font-family: 'icomoon';
+  src:  url('../fonts/icomoon.eot?y6bbto');
+  src:  url('../fonts/icomoon.eot?y6bbto#iefix') format('embedded-opentype'),
+    url('../fonts/icomoon.ttf?y6bbto') format('truetype'),
+    url('../fonts/icomoon.woff?y6bbto') format('woff'),
+    url('../fonts/icomoon.svg?y6bbto#icomoon') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'icomoon' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-domitory:before {
+  content: "\e903";
+}
+.icon-order:before {
+  content: "\e922";
+}
+.icon-statistica:before {
+  content: "\e953";
+}
+.icon-cross:before {
+  content: "\ea0f";
+}
+.icon-checkmark:before {
+  content: "\ea10";
+}
+.icon-goods:before {
+  content: "\ea53";
+}
+.icon-dropbox:before {
+  content: "\eaae";
+}
+.icon-box-remove:before {
+  content: "\e95f";
+}
+.icon-database:before {
+  content: "\e964";
+}
+.icon-truck:before {
+  content: "\e9b0";
+}
+.icon-clipboard:before {
+  content: "\e9b8";
+}
+.icon-user:before {
+  content: "\e971";
+}
