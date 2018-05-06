@@ -1,43 +1,43 @@
 <template>
-    <div id="orderdetail">
+    <div id="replenishdetail">
         <div class="weui-panel__hd hd">订单信息</div>
         <div class="weui-form-preview">
             <div class="weui-form-preview__bd">
                 <div class="weui-form-preview__item">
                     <label class="weui-form-preview__label">寝室号</label>
-                    <span class="weui-form-preview__value">{{orderdetail.groupNo}}</span>
+                    <span class="weui-form-preview__value">{{replenishdetail.groupNo}}</span>
                 </div>
                 <div class="weui-form-preview__item">
                     <label class="weui-form-preview__label">姓名</label>
-                    <span class="weui-form-preview__value">{{orderdetail.userName}}</span>
+                    <span class="weui-form-preview__value">{{replenishdetail.userName}}</span>
                 </div>
                 <div class="weui-form-preview__item">
                     <label class="weui-form-preview__label">电话</label>
-                    <span class="weui-form-preview__value">{{orderdetail.userPhone}}</span>
+                    <span class="weui-form-preview__value">{{replenishdetail.userPhone}}</span>
                 </div>
                 <div class="weui-form-preview__item">
                     <label class="weui-form-preview__label">金额</label>
-                    <span class="weui-form-preview__value">{{orderdetail.orderAmount}}</span>
+                    <span class="weui-form-preview__value">{{replenishdetail.replenishAmount}}</span>
                 </div>
                 <div class="weui-form-preview__item">
                     <label class="weui-form-preview__label">时间</label>
-                    <span class="weui-form-preview__value">{{orderdetail.createTime}}</span>
+                    <span class="weui-form-preview__value">{{replenishdetail.createTime}}</span>
                 </div>
                 <div class="weui-form-preview__item">
                     <label class="weui-form-preview__label">订单状态</label>
-                    <span class="weui-form-preview__value">{{orderstatus(orderdetail.orderStatus)}}</span>
+                    <span class="weui-form-preview__value">{{orderstatus(replenishdetail.replenishStatus)}}</span>
                 </div>
                 <div class="weui-form-preview__item">
                     <label class="weui-form-preview__label">订单编号</label>
-                    <span class="weui-form-preview__value">{{orderdetail.orderId}}</span>
+                    <span class="weui-form-preview__value">{{replenishdetail.replenishId}}</span>
                 </div>
             </div>
         </div>
         <div class="weui-panel__hd hd">商品列表</div>
         <div class="page__bd page__bd_spacing ">
-            <div class="weui-panel weui-panel_access goodslist" v-for="(item,index) in orderdetail.orderDetailList" :key="index">
+            <div class="weui-panel weui-panel_access goodslist" v-for="(item,index) in replenishdetail.replenishDetailList" :key="index">
                 <div class="weui-panel__bd">
-                    <a href="javascript:void(0);" class="weui-media-box weui-media-box_appmsg">
+                    <a class="weui-media-box weui-media-box_appmsg" @click="goodsdetail(item)">
                         <div class="weui-media-box__hd">
                             <img class="weui-media-box__thumb" :src="item.productIcon" alt="">
                         </div>
@@ -46,18 +46,18 @@
                             <p class="weui-media-box__desc">{{item.productPrice}}元</p>
                         </div>
                         <div class="weui-media-box__ft">
-                            <p class="weui-media-box__desc">x{{item.productQuantity}}</p>
+                            <p class="weui-media-box__title">x{{item.productQuantity}}</p>
                         </div>
                     </a>
                 </div>
             </div>
         </div>
-        <router-link :to="{name:'applydomitory'}" class="weui-cell weui-cell_access">
+        <a class="weui-cell weui-cell_access" @click="dispatch">
             <div class="weui-cell__bd">
                 <p>生成配送单</p>
             </div>
             <div class="weui-cell__ft"></div>
-        </router-link>
+        </a>
     </div>
 </template>
 
@@ -69,23 +69,24 @@ export default {
     return {
       api: "http://wxsell.nat200.top",
       token: "",
-      orderId: "",
-      orderdetail: ""
+      replenishId: "",
+      replenishdetail: "",
+      data: []
     };
   },
   created() {
     this.token = this.getCookie("token");
-    this.orderId = this.getCookie("orderId");
+    this.replenishId = this.getCookie("replenishId");
     axios
       .get(
         API_PROXY +
           this.api +
-          "/sell/seller/order/detail?orderId=" +
-          this.orderId
+          "/sell/seller/replenish/detail?replenishId=" +
+          this.replenishId
       )
       .then(response => {
         console.log(response.data);
-        this.orderdetaill = response.data.data;
+        this.replenishdetail = response.data.data;
       })
       .catch(function(err) {
         console.log(err);
@@ -94,14 +95,37 @@ export default {
   methods: {
     orderstatus(item) {
       if (item == "0") {
-        return "新订单";
+        return "已配送";
+      } else {
+        return "待配送";
       }
-      if (item == "1") {
-        return "已完结";
+    },
+    dispatch() {
+      this.data = [];
+      for (var i = 0; i < item.replenishDetailList.length; i++) {
+        this.data[i] = {
+          replenishId: item.replenishDetailList[i].replenishId,
+          productId: item.replenishDetailList[i].productId,
+          productQuantity: item.replenishDetailList[i].productQuantity
+        };
       }
-      if (item == "2") {
-        return "已取消";
-      }
+      console.log(this.data);
+      // axios
+      //   .post(this.api + "/sell/seller/replenish/finish" + this.token, {
+      //     headers: { "Content-Type": "application/x-www-form-urlencoded" }
+      //   })
+      //   .then(res => {
+      //     console.log(res);
+      //     console.log();
+      //     this.listdata = res.data.data.list;
+      //   })
+      //   .catch(err => {
+      //     console.log(err);
+      //   });
+    },
+    goodsdetail(item) {
+      this.setCookie("productId", item.productId, 1);
+      this.$router.push("goodsdetail");
     }
   }
 };

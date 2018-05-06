@@ -7,6 +7,8 @@ import domitory from '../pages/domitory/domitory'
 import adddomitory from '../pages/adddomitory/adddomitory'
 import order from '../pages/order/order'
 import orderdetail from '../pages/orderdetail/orderdetail'
+import dispatchdetail from '../pages/orderdetail/dispatchdetail'
+import replenishdetail from '../pages/orderdetail/replenishdetail'
 import domitorydetail from '../pages/domitorydetail/domitorydetail'
 import goodsclass from '../pages/goodsclass/goodsclass'
 import textinput from '../pages/textinput/textinput'
@@ -18,10 +20,12 @@ import login from '../pages/login/login'
 import domitoryorder from '../pages/domitoryorder/domitoryorder'
 import domitorydemo from '../pages/domitorydemo/domitorydemo'
 import authorize from '../pages/authorize/authorize'
-import {getCookie} from '../util/util'
+import personal from '../pages/personal/personal'
+import { getCookie } from '../util/util'
+
 Vue.use(Router);
 
-const vueRouter =new Router({
+const vueRouter = new Router({
   routes: [
     {
       path: '/authorize',
@@ -113,6 +117,21 @@ const vueRouter =new Router({
       path: '/domitorydemo',
       name: 'domitorydemo',
       component: domitorydemo
+    },
+    {
+      path: '/replenishdetail',
+      name: 'replenishdetail',
+      component: replenishdetail
+    },
+    {
+      path: '/dispatchdetail',
+      name: 'dispatchdetail',
+      component: dispatchdetail
+    },
+    {
+      path: '/personal',
+      name: 'personal',
+      component: personal
     }
   ]
 })

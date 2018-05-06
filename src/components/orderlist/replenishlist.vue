@@ -1,7 +1,7 @@
 <template>
-  <div id="orederlist">
-    <div class="weui-panel__hd hd">支付订单列表</div>
-    <div v-for="(item,index) in orderlist" :key="index" class="weui-form-preview orderitem">
+  <div id="replenishlist">
+    <div class="weui-panel__hd hd">补货订单列表</div>
+    <div v-for="(item,index) in replenishlist" :key="index" class="weui-form-preview orderitem">
       <div class="weui-form-preview__hd">
         <div class="weui-form-preview__item">
           <label class="weui-form-preview__label">寝室号</label>
@@ -11,7 +11,7 @@
       <div class="weui-form-preview__bd">
         <div class="weui-form-preview__item">
           <label class="weui-form-preview__label">付款金额</label>
-          <span class="weui-form-preview__value">{{item.orderAmount}}</span>
+          <span class="weui-form-preview__value">{{item.replenishAmount}}</span>
         </div>
         <div class="weui-form-preview__item">
           <label class="weui-form-preview__label">时间</label>
@@ -20,7 +20,7 @@
         <div class="weui-form-preview__item">
           <label class="weui-form-preview__label">商品</label>
           <span class="weui-form-preview__value ordergoods">
-            <span v-for="(goods,index) in item.orderDetailVOList" :key="index">{{goods.productName}} </span>
+            <span v-for="(goods,index) in item.replenishDetailList" :key="index">{{goods.productName}} </span>
           </span>
         </div>
       </div>
@@ -32,8 +32,8 @@
         </div>
       </a>
       <div class="weui-form-preview__ft">
-        <button class="weui-form-preview__btn weui-form-preview__btn_primary" @click="confirm(item)">完结</button>
-        <button class="weui-form-preview__btn weui-form-preview__btn_primary" @click="cancel(item)">取消</button>
+        <button class="weui-form-preview__btn weui-form-preview__btn_primary" @click="confirm(item)">生成配送单</button>
+        <button class="weui-form-preview__btn weui-form-preview__btn_primary" @click="cancel(item)">取消补货</button>
       </div>
     </div>
   </div>
@@ -46,10 +46,11 @@ export default {
   data() {
     return {
       token: "",
-      api: "http://wxsell.nat200.top"
+      api: "http://wxsell.nat200.top",
+      data: []
     };
   },
-  props: ["orderlist"],
+  props: ["replenishlist"],
   created() {
     let token = this.getCookie("token");
     if (token === null || !token) {
@@ -60,15 +61,22 @@ export default {
   },
   methods: {
     confirm(item) {
+      this.data = [];
+      for (var i = 0; i < item.replenishDetailList.length; i++) {
+        this.data[i] = {
+          token: this.token,
+          replenishId: item.replenishDetailList[i].replenishId,
+          productId: item.replenishDetailList[i].productId,
+          productQuantity: item.replenishDetailList[i].productQuantity
+        };
+      }
+      console.log(this.data);
       axios
-        .get(
-          API_PROXY +
-            this.api +
-            "/sell/seller/order/finish?token=" +
-            this.token +
-            "&orderId=" +
-            item.orderId
-        )
+        .post(this.api + "/sell/seller/replenish/finish", this.data, {
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded"
+          }
+        })
         .then(res => {
           console.log(res);
         })
@@ -77,14 +85,13 @@ export default {
         });
     },
     cancel(item) {
+      console.log(item.replenishId);
       axios
         .get(
           API_PROXY +
             this.api +
-            "/sell/seller/order/cancel?token=" +
-            this.token +
-            "&orderId=" +
-            item.orderId
+            "/sell/seller/replenish/cancel?replenishId=" +
+            item.replenishId
         )
         .then(response => {
           console.log(response.data);
@@ -94,8 +101,8 @@ export default {
         });
     },
     detail(item) {
-      this.setCookie("orderId", item.orderId, 1);
-      this.$router.push({ name: "orderdetail" });
+      this.setCookie("replenishId", item.replenishId, 1);
+      this.$router.push({ name: "replenishdetail" });
     }
   }
 };
@@ -103,7 +110,7 @@ export default {
 
 <style>
 #orderlist {
-  height: 550px;
+  height: 530px;
   overflow: auto;
 }
 .orderitem {

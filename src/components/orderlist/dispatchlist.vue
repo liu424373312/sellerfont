@@ -1,7 +1,7 @@
 <template>
-  <div id="orederlist">
-    <div class="weui-panel__hd hd">支付订单列表</div>
-    <div v-for="(item,index) in orderlist" :key="index" class="weui-form-preview orderitem">
+  <div id="dispatchlist">
+    <div class="weui-panel__hd hd">补货订单列表</div>
+    <div v-for="(item,index) in dispatchlist" :key="index" class="weui-form-preview orderitem">
       <div class="weui-form-preview__hd">
         <div class="weui-form-preview__item">
           <label class="weui-form-preview__label">寝室号</label>
@@ -11,7 +11,7 @@
       <div class="weui-form-preview__bd">
         <div class="weui-form-preview__item">
           <label class="weui-form-preview__label">付款金额</label>
-          <span class="weui-form-preview__value">{{item.orderAmount}}</span>
+          <span class="weui-form-preview__value">{{item.dispatchAmount}}</span>
         </div>
         <div class="weui-form-preview__item">
           <label class="weui-form-preview__label">时间</label>
@@ -20,7 +20,7 @@
         <div class="weui-form-preview__item">
           <label class="weui-form-preview__label">商品</label>
           <span class="weui-form-preview__value ordergoods">
-            <span v-for="(goods,index) in item.orderDetailVOList" :key="index">{{goods.productName}} </span>
+            <span v-for="(goods,index) in item.dispatchDetailList" :key="index">{{goods.productName}} </span>
           </span>
         </div>
       </div>
@@ -32,7 +32,7 @@
         </div>
       </a>
       <div class="weui-form-preview__ft">
-        <button class="weui-form-preview__btn weui-form-preview__btn_primary" @click="confirm(item)">完结</button>
+        <button class="weui-form-preview__btn weui-form-preview__btn_primary" @click="confirm(item)">完成</button>
         <button class="weui-form-preview__btn weui-form-preview__btn_primary" @click="cancel(item)">取消</button>
       </div>
     </div>
@@ -49,7 +49,7 @@ export default {
       api: "http://wxsell.nat200.top"
     };
   },
-  props: ["orderlist"],
+  props: ["dispatchlist"],
   created() {
     let token = this.getCookie("token");
     if (token === null || !token) {
@@ -64,10 +64,10 @@ export default {
         .get(
           API_PROXY +
             this.api +
-            "/sell/seller/order/finish?token=" +
+            "/sell/seller/dispatch/finish?token=" +
             this.token +
-            "&orderId=" +
-            item.orderId
+            "&groupNo=" +
+            item.groupNo
         )
         .then(res => {
           console.log(res);
@@ -81,10 +81,10 @@ export default {
         .get(
           API_PROXY +
             this.api +
-            "/sell/seller/order/cancel?token=" +
+            "/sell/seller/dispatch/cancel?token=" +
             this.token +
-            "&orderId=" +
-            item.orderId
+            "&groupNo=" +
+            item.groupNo
         )
         .then(response => {
           console.log(response.data);
@@ -93,9 +93,9 @@ export default {
           console.log(err);
         });
     },
-    detail(item) {
-      this.setCookie("orderId", item.orderId, 1);
-      this.$router.push({ name: "orderdetail" });
+        detail(item) {
+      this.setCookie("groupNo", item.groupNo, 1);
+      this.$router.push({ name: "dispatchdetail" });
     }
   }
 };
@@ -106,6 +106,7 @@ export default {
   height: 550px;
   overflow: auto;
 }
+
 .orderitem {
   margin-bottom: 30px;
 }

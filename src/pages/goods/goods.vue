@@ -1,6 +1,6 @@
 <template>
     <div id="goods">
-        <search class="search"></search>
+        <search class="search" :data='goods'></search>
         <div class="addgoods">
             <router-link :to="{ name:'addgoods',params:{goodsclass:goods}}" class="weui-cell weui-cell_access">
                 <div class="weui-cell__bd">
@@ -75,22 +75,7 @@ export default {
 </script>
 
 <style>
-#goods {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-}
-.goodslist {
-  flex: 1;
-  overflow: auto;
-}
-.addgoods {
-  flex: 0;
-}
-.search {
-  flex: 0;
-}
-.hd {
-  flex: 0;
+.goods{
+    position: fixed;
 }
 </style>
