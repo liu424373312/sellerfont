@@ -1,6 +1,6 @@
 <template>
   <div id="domitory">
-    <search ref="schil"></search>
+    <searchdomitory ref="schil"></searchdomitory>
     <div>
       <router-link to="adddomitory" class="weui-cell weui-cell_access" href="javascript:;">
         <div class="weui-cell__bd">
@@ -43,7 +43,7 @@
 
 <script>
 import axios from "axios";
-import search from "../../components/search/search";
+import searchdomitory from "../../components/search/searchdomitory";
 
 const API_PROXY = "http://bird.ioliu.cn/v2?url=";
 export default {
@@ -213,7 +213,7 @@ export default {
     }
   },
   components: {
-    search
+    searchdomitory
   }
 };
 </script>

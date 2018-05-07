@@ -31,24 +31,28 @@
                 </div>
                 <p class="weui-grid__label">个人中心</p>
             </router-link>
+            <router-link to="payorder" class="weui-grid">
+                <div class="weui-grid__icon">
+                    <i class="icon-user homeicon"></i>
+                </div>
+                <p class="weui-grid__label">支付订单</p>
+            </router-link>
         </div>
     </div>
 </template>
 
 <script>
 export default {
-  data(){
-    return{
-    }
+  data() {
+    return {};
   },
-  methods:{
-  }
+  methods: {}
 };
 </script>
 
 <style>
-.homeicon{
-    font-size:28px;
-    color:dodgerblue;
+.homeicon {
+  font-size: 28px;
+  color: dodgerblue;
 }
 </style>

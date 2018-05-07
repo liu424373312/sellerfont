@@ -1,7 +1,7 @@
 <template>
   <div id="replenishlist">
     <div class="weui-panel__hd hd">补货订单列表</div>
-    <div v-for="(item,index) in replenishlist" :key="index" class="weui-form-preview orderitem">
+    <div v-if="item.replenishStatus=='0'" v-for="(item,index) in replenishlist" :key="index" class="weui-form-preview orderitem">
       <div class="weui-form-preview__hd">
         <div class="weui-form-preview__item">
           <label class="weui-form-preview__label">寝室号</label>
@@ -47,7 +47,7 @@ export default {
     return {
       token: "",
       api: "http://wxsell.nat200.top",
-      data: []
+      items: ""
     };
   },
   props: ["replenishlist"],
@@ -61,22 +61,28 @@ export default {
   },
   methods: {
     confirm(item) {
-      this.data = [];
+      this.items = "";
       for (var i = 0; i < item.replenishDetailList.length; i++) {
-        this.data[i] = {
-          token: this.token,
-          replenishId: item.replenishDetailList[i].replenishId,
-          productId: item.replenishDetailList[i].productId,
-          productQuantity: item.replenishDetailList[i].productQuantity
-        };
+        this.items =
+          "[{replenishId:" +
+          item.replenishDetailList[i].replenishId +
+          ",productId:" +
+          item.replenishDetailList[i].productId +
+          ",productQuantity:" +
+          item.replenishDetailList[i].productQuantity +
+          "}]";
       }
-      console.log(this.data);
+      console.log(this.items);
       axios
-        .post(this.api + "/sell/seller/replenish/finish", this.data, {
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded"
+        .post(
+          this.api + "/sell/seller/replenish/finish",
+          { items: this.items, token: this.token },
+          {
+            headers: {
+              "Content-Type": "application/x-www-form-urlencoded"
+            }
           }
-        })
+        )
         .then(res => {
           console.log(res);
         })

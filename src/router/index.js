@@ -21,6 +21,7 @@ import domitoryorder from '../pages/domitoryorder/domitoryorder'
 import domitorydemo from '../pages/domitorydemo/domitorydemo'
 import authorize from '../pages/authorize/authorize'
 import personal from '../pages/personal/personal'
+import payorder from '../pages/payorder/payorder'
 import { getCookie } from '../util/util'
 
 Vue.use(Router);
@@ -132,6 +133,11 @@ const vueRouter = new Router({
       path: '/personal',
       name: 'personal',
       component: personal
+    },
+    {
+      path: '/payorder',
+      name: 'payorder',
+      component: payorder
     }
   ]
 })

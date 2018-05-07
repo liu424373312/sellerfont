@@ -1,6 +1,6 @@
 <template>
     <div id="goods">
-        <search class="search" :data='goods'></search>
+        <searchgoods class="search" :data='goods'></searchgoods>
         <div class="addgoods">
             <router-link :to="{ name:'addgoods',params:{goodsclass:goods}}" class="weui-cell weui-cell_access">
                 <div class="weui-cell__bd">
@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import search from "../../components/search/search";
+import searchgoods from "../../components/search/searchgoods";
 import axios from "axios";
 const API_PROXY = "http://bird.ioliu.cn/v1?url=";
 export default {
@@ -46,7 +46,7 @@ export default {
     };
   },
   components: {
-    search
+    searchgoods
   },
   methods: {
       goodslist(index){

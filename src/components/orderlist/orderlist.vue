@@ -32,8 +32,7 @@
         </div>
       </a>
       <div class="weui-form-preview__ft">
-        <button class="weui-form-preview__btn weui-form-preview__btn_primary" @click="confirm(item)">完结</button>
-        <button class="weui-form-preview__btn weui-form-preview__btn_primary" @click="cancel(item)">取消</button>
+        <button v-if="orderStatus=='0'" class="weui-form-preview__btn weui-form-preview__btn_primary" @click="confirm(item)">完结</button>
       </div>
     </div>
   </div>
@@ -49,7 +48,7 @@ export default {
       api: "http://wxsell.nat200.top"
     };
   },
-  props: ["orderlist"],
+  props: ["orderlist","orderStatus"],
   created() {
     let token = this.getCookie("token");
     if (token === null || !token) {
