@@ -1,5 +1,14 @@
 <template>
     <div id="personal">
+        <div class="weui-cells__title hd">注册管理员</div>
+        <div class="weui-cells">
+            <div class="weui-cell weui-cell_access">
+                <div class="weui-cell__bd">
+                    <p>卖家注册二维码</p>
+                </div>
+                <div class="weui-cell__ft"></div>
+            </div>
+        </div>
         <div class="weui-cells__title hd">修改信息</div>
         <div class="weui-cells">
             <div class="weui-cell weui-cell_access" @click="showdialog">
@@ -16,20 +25,20 @@
                     <strong class="weui-dialog__title">修改密码</strong>
                 </div>
                 <div class="weui-dialog__title">
-                    <div class="weui-cell">
+                    <!--<div class="weui-cell">
                         <div class="weui-cell__hd">
                             <label class="weui-label">用户名</label>
                         </div>
                         <div class="weui-cell__bd">
                             <input class="weui-input" v-model="username" pattern="[0-9]*" placeholder="请输入用户名" />
                         </div>
-                    </div>
+                    </div>-->
                     <div class="weui-cell">
                         <div class="weui-cell__hd">
                             <label class="weui-label">原密码</label>
                         </div>
                         <div class="weui-cell__bd">
-                            <input class="weui-input" v-model="password" type='password' pattern="[0-9]*" placeholder="请输入原密码" />
+                            <input class="weui-input" v-model="oldpassword" type='password' pattern="[0-9]*" placeholder="请输入原密码" />
                         </div>
                     </div>
                     <div class="weui-cell">
@@ -52,7 +61,7 @@
 
 <script>
 import axios from "axios";
-import weui from 'weui.js'
+import weui from "weui.js";
 const API_PROXY = "http://bird.ioliu.cn/v1?url=";
 var qs = require("qs");
 export default {
@@ -61,37 +70,41 @@ export default {
       username: this.getCookie("username"),
       password: "",
       newpassword: "",
+      oldpassword: "",
       dialogshow: false,
       api: "http://wxsell.nat200.top",
-      token:this.getCookie('token')
+      token: this.getCookie("token")
     };
   },
   components: {},
   methods: {
     showdialog() {
-      this.dialogshow=true;
+      this.dialogshow = true;
     },
     hidedialog() {
-      this.dialogshow=false;
+      this.dialogshow = false;
     },
     changepassword() {
       this.hidedialog();
-      if (this.password == this.getCookie("password")) {
+      console.log(this.oldpassword);
+      console.log(this.getCookie("password"));
+      if (this.oldpassword === this.getCookie("password")) {
         var loading = weui.loading("提交中");
         axios
           .post(
             this.api + "/sell/seller/update",
             qs.stringify({
               token: this.token,
-              username: this.username,
-              password: this.newpassword
+              //username: this.username,
+              passwordOld: this.oldpassword,
+              passwordNew: this.newpassword
             }),
             {
               headers: { "Content-Type": "application/x-www-form-urlencoded" }
             }
           )
           .then(response => {
-            console.log(response.data);
+            console.log(response);
             loading.hide();
             weui.toast("修改成功", {
               duration: 3000
@@ -102,12 +115,14 @@ export default {
             loading.hide();
             weui.alert("修改失败");
           });
-      }else{
-          weui.alert("密码错误");
+      } else {
+        weui.alert("密码错误");
       }
     }
   },
-  created() {}
+  created() {
+    console.log(this.getCookie("password"));
+  }
 };
 </script>
 

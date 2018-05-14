@@ -14,7 +14,7 @@
                             <p class="weui-media-box__desc">进价：{{foods.purchasePrice}}元</p>
                         </div>
                         <div class="weui-media-box__ft">
-                            <p class="weui-media-box__desc">库存:{{foods.stock}}</p>
+                            <p class="weui-media-box__desc">{{status(foods.status)}} 库存:{{foods.stock}}</p>
                         </div>
                     </div>
                 </div>
@@ -22,7 +22,7 @@
             <div v-else class="weui-panel weui-panel_access goodslist">
                 <div class="weui-panel__bd" v-for="(item,index) in goodslist.foods" :key="index" @click='goodsdetail(item)'>
                     <div class="weui-media-box weui-media-box_appmsg">
-                     <div class="weui-media-box__hd">
+                        <div class="weui-media-box__hd">
                             <img class="weui-media-box__thumb" :src=item.icon alt="">
                         </div>
                         <div class="weui-media-box__bd">
@@ -31,7 +31,7 @@
                             <p class="weui-media-box__desc">进价：{{item.purchasePrice}}元</p>
                         </div>
                         <div class="weui-media-box__ft">
-                            <p class="weui-media-box__desc">库存:{{item.stock}}</p>
+                            <p class="weui-media-box__desc"> {{status(item.status)}} 库存:{{item.stock}}</p>
                         </div>
                     </div>
                 </div>
@@ -54,10 +54,10 @@ export default {
     };
   },
   created() {
-    if(this.getCookie('all')=='false'){
-        this.all=false
-    }else{
-        this.all=true
+    if (this.getCookie("all") == "false") {
+      this.all = false;
+    } else {
+      this.all = true;
     }
     this.token = this.getCookie("token");
     axios
@@ -66,11 +66,10 @@ export default {
       )
       .then(response => {
         console.log(response.data);
-        if(this.all){
-        this.goodslist = response.data.data;
-        }
-        else{
-        this.goodslist = response.data.data[this.getCookie('goodsclass')];
+        if (this.all) {
+          this.goodslist = response.data.data;
+        } else {
+          this.goodslist = response.data.data[this.getCookie("goodsclass")];
         }
       })
       .catch(function(err) {
@@ -81,6 +80,13 @@ export default {
     goodsdetail(item) {
       this.setCookie("productId", item.id, 1);
       this.$router.push("goodsdetail");
+    },
+    status(item) {
+      if (item == 0) {
+        return "在售";
+      } else {
+        return "下架";
+      }
     }
   }
 };

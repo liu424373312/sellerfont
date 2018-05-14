@@ -22,12 +22,36 @@ import domitorydemo from '../pages/domitorydemo/domitorydemo'
 import authorize from '../pages/authorize/authorize'
 import personal from '../pages/personal/personal'
 import payorder from '../pages/payorder/payorder'
-import { getCookie } from '../util/util'
+import createTemplate from '../pages/createTemplate/createTemplate'
+import dorReplenishList from '../pages/dorReplenishList/dorReplenishList'
+import orderdetail1 from '../pages/orderdetail1/orderdetail1'
+import pic from '../pages/pic/pic'
+import util from '../util/util'
 
 Vue.use(Router);
 
 const vueRouter = new Router({
   routes: [
+    {
+      path: '/orderdetail1',
+      name: 'orderdetail1',
+      component: orderdetail1
+    },
+    {
+      path: '/pic',
+      name: 'pic',
+      component: pic
+    },
+    {
+      path: '/dorReplenishList',
+      name: 'dorReplenishList',
+      component: dorReplenishList
+    },
+    {
+      path: '/createTemplate',
+      name: 'createTemplate',
+      component: createTemplate
+    },
     {
       path: '/authorize',
       name: 'authorize',
@@ -141,25 +165,15 @@ const vueRouter = new Router({
     }
   ]
 })
-// vueRouter.beforeEach((to, from, next) => {
-//   if(to.meta.requireAuth) {
-//    fetch('m/is/login').then(res => {
-//     if(res.errCode == 200) {
-//      next();
-//     } else {
-//      if(getCookie('session')) {
-//       delCookie('session');
-//      }
-//      if(getCookie('u_uuid')) {
-//       delCookie('u_uuid');
-//      }
-//      next({
-//       path: '/'
-//      });
-//     }
-//    });
-//   } else {
-//    next();
-//   }
-//  });
+vueRouter.beforeEach((to, from, next) => {
+  function getCookie(name) {
+    var v = window.document.cookie.match('(^|;) ?' + name + '=([^;]*)(;|$)');
+    return v ? v[2] : null;
+  }
+  console.log('openid:' + getCookie('openid'));
+  console.log('token:' + getCookie('token'));
+  if (getCookie('openid') == 'null') {
+  }
+  next();
+});
 export default vueRouter

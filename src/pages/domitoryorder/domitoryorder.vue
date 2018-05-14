@@ -50,11 +50,11 @@ export default {
     }
   },
   mounted(){
-    let that = this;
+    /*let that = this;
     that.pushHistory();
     window.addEventListener('popstate',function(e){
       window.location.href="  http://rm4nka.natappfree.cc/domitory";
-    },false);
+    },false);*/
   },
   created(){
     let token = this.getCookie('token');
@@ -66,7 +66,7 @@ export default {
     this.orderNo = this.$route.params.dorOrder;
     console.log(this.orderNo);
     this.getDorOrder();
-    this.pushHistory();
+    //this.pushHistory();
   },
   methods:{
     pushHistory(){
@@ -77,7 +77,7 @@ export default {
       window.history.pushState(state,'title','#');
     },
     getDorOrder(){
-      axios.get(API_PROXY+this.api+'/sell/seller/group/productList?token='+this.token+'&groupNo='+this.orderNo).then((res)=>{
+      axios.get(API_PROXY+this.api+'/sell/seller/order/list?token='+this.token+'&groupNo='+this.orderNo+'&payStatus=0').then((res)=>{
         console.log(res);
       }).catch((err) => {
         console.log(err);

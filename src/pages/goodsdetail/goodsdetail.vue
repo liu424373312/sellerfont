@@ -2,14 +2,14 @@
   <div id="goodsdetail">
     <div class="weui-cells__title">商品信息</div>
     <div class="weui-cells">
-      <router-link class="weui-cell weui-cell_access" to="textinput">
+      <div class="weui-cell weui-cell_access">
         <div class="weui-cell__bd">
           <p>商品图片</p>
         </div>
         <div class="weui-cell__ft">
           <img :src=goodsdetail.icon alt="" style="width:20px;margin-right:5px;display:block">
         </div>
-      </router-link>
+      </div>
       <div class="weui-cell weui-cell_access" @click="showdialog(1,goodsdetail.name)">
         <div class="weui-cell__bd">
           <p>商品名称</p>
@@ -39,6 +39,16 @@
           <p>商品状态</p>
         </div>
         <div class="weui-cell__ft">{{status}}</div>
+      </div>
+      <div class="weui-cell weui-cell_select weui-cell_select-after">
+        <div class="weui-cell__hd">
+          <label for="" class="weui-label">商品类目</label>
+        </div>
+        <div class="weui-cell__bd">
+          <select v-model="goodsdetail.categoryType" class="weui-select" name="select2">
+            <option :value="item.type" v-for="(item,index) in goodsclass" :key="index">{{item.name}}</option>
+          </select>
+        </div>
       </div>
       <div class="weui-cell weui-cell_access" @click="showdialog(5,goodsdetail.description)">
         <div class="weui-cell__bd">
@@ -71,11 +81,13 @@
 
 <script>
 import axios from "axios";
+import weui from "weui.js";
 let param = new FormData();
 const API_PROXY = "http://bird.ioliu.cn/v1?url=";
 export default {
   data() {
     return {
+      goodsclass: [],
       goodsdetail: [],
       api: "http://wxsell.nat200.top",
       btnshow: true,
@@ -83,15 +95,29 @@ export default {
       status: "",
       dialogshow: false,
       textinput: "",
-      index: ""
+      index: "",
+      token: this.getCookie("token"),
     };
   },
   created() {
     this.getgoodsdetail();
+    console.log(this.getCookie("goodsclass"));
+    axios
+      .get(
+        API_PROXY + this.api + "/sell/seller/product/list?token=" + this.token
+      )
+      .then(response => {
+        console.log(response.data);
+        this.goodsclass = response.data.data;
+      })
+      .catch(function(err) {
+        console.log(err);
+      });
   },
   mounted() {},
   methods: {
     modifygoods() {
+      var loading = weui.loading("提交中");
       if (this.index == 1) {
         this.goodsdetail.name = this.textinput;
       }
@@ -107,13 +133,16 @@ export default {
       if (this.index == 5) {
         this.goodsdetail.description = this.textinput;
       }
-      console.log(this.goodsdetail)
-      param.append("token", this.goodsdetail.token);
+      param.append("token", this.getCookie("token"));
+      param.append("productId", this.goodsdetail.id);
       param.append("productName", this.goodsdetail.name);
       param.append("productPrice", this.goodsdetail.price);
-      param.append("purchasePrice", this.goodsdetail.purchaseprice);
+      param.append("purchasePrice", this.goodsdetail.purchasePrice);
       param.append("productStock", this.goodsdetail.stock);
       param.append("productDescription", this.goodsdetail.description);
+      param.append("categoryType", this.goodsdetail.categoryType);
+      param.append("productIcon", this.goodsdetail.icon);
+      console.log(param);
       axios
         .post(this.api + "/sell/seller/product/save", param, {
           headers: {
@@ -122,11 +151,20 @@ export default {
         })
         .then(response => {
           console.log(response.data);
+          loading.hide();
+          weui.toast("修改成功", {
+            duration: 1000
+          });
+          this.hidedialog();
+          this.getgoodsdetail();
         })
         .catch(function(err) {
           console.log(err);
+          loading.hide();
+          this.hidedialog();
+          weui.topTips("修改失败!");
+          this.getgoodsdetail();
         });
-      this.getgoodsdetail();
     },
     onsale() {
       axios

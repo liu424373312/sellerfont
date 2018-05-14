@@ -16,7 +16,7 @@ export default {
   methods: {
   },
   created() {
-       window.location.href='http://wxsell.nat200.top/sell/wechat/authorize?returnUrl=http://5ygsri.natappfree.cc';
+       window.location.href='http://wxsell.nat200.top/sell/wechat/authorize?returnUrl=http://wxsell.nat200.top/sellerInterface/#/';
   }
 };
 </script>
