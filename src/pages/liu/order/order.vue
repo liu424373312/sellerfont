@@ -1,0 +1,109 @@
+<template>
+  <div id="order">
+    <searchorder></searchorder>
+    <replenishlist v-if="replenishlistshow" :replenishlist='listdata'></replenishlist>
+    <dispatchlist v-if="dispatchlistshow" :dispatchlist='listdata'></dispatchlist>
+    <div class="weui-tabbar tabbar">
+      <a href="javascript:;" class="weui-tabbar__item weui-bar__item_on" @click="replenishlist">
+        <i class="icon-truck ordericon"></i>
+        <p class="weui-tabbar__label">补货订单</p>
+      </a>
+      <a class="weui-tabbar__item" @click="dispatchlist">
+        <i class="icon-dropbox ordericon"></i>
+        <p class="weui-tabbar__label">配送订单</p>
+      </a>
+    </div>
+  </div>
+</template>
+
+<script>
+import axios from "axios";
+import searchorder from "../../../components/search/searchorder";
+import dispatchlist from "../../../components/orderlist/dispatchlist";
+import replenishlist from "../../../components/orderlist/replenishlist";
+import $ from "jquery";
+const API_PROXY = "http://bird.ioliu.cn/v1?url=";
+export default {
+  components: {
+    replenishlist,
+    dispatchlist,
+    searchorder
+  },
+  data() {
+    return {
+      token: "",
+      api: "http://wxsell.nat200.top",
+      listdata: [],
+      replenishlistshow: true,
+      dispatchlistshow: false
+    };
+  },
+  created() {
+    this.token = this.getCookie("token");
+    this.replenishlist();
+  },
+  mounted() {
+    $(function() {
+      $(".weui-tabbar__item").on("click", function() {
+        $(this)
+          .addClass("weui-bar__item_on")
+          .siblings(".weui-bar__item_on")
+          .removeClass("weui-bar__item_on");
+      });
+    });
+  },
+  methods: {
+    dispatchlist() {
+      axios
+        .get(
+          API_PROXY +
+            this.api +
+            "/sell/seller/dispatch/list?token=" +
+            this.token
+        )
+        .then(res => {
+          console.log(res);
+          this.listdata = res.data.data.list;
+        })
+        .catch(err => {
+          console.log(err);
+        });
+      this.replenishlistshow = false;
+      this.dispatchlistshow = true;
+    },
+    replenishlist() {
+      axios
+        .get(
+          API_PROXY +
+            this.api +
+            "/sell/seller/replenish/list?token=" +
+            this.token
+        )
+        .then(res => {
+          console.log(res);
+          console.log();
+          this.listdata = res.data.data.list;
+        })
+        .catch(err => {
+          console.log(err);
+        });
+      this.replenishlistshow = true;
+      this.dispatchlistshow = false;
+    }
+  }
+};
+</script>
+
+<style>
+.tabbar {
+  position: fixed;
+  bottom: 0;
+}
+.ordericon {
+  font-size: 27px;
+  color: dodgerblue;
+}
+#order{
+  background-color: #f8f8f8
+}
+</style>

@@ -1,38 +1,37 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import home from '../pages/home/home'
-import goods from '../pages/goods/goods'
-import addgoods from '../pages/addgoods/addgoods'
-import domitory from '../pages/domitory/domitory'
-import adddomitory from '../pages/adddomitory/adddomitory'
-import order from '../pages/order/order'
-import orderdetail from '../pages/orderdetail/orderdetail'
-import dispatchdetail from '../pages/orderdetail/dispatchdetail'
-import replenishdetail from '../pages/orderdetail/replenishdetail'
-import domitorydetail from '../pages/domitorydetail/domitorydetail'
-import goodsclass from '../pages/goodsclass/goodsclass'
-import textinput from '../pages/textinput/textinput'
-import applydomitory from '../pages/applydomitory/applydomitory'
-import statistica from '../pages/statistica/statistica'
-import goodslist from '../pages/goodslist/goodslist'
-import goodsdetail from '../pages/goodsdetail/goodsdetail'
-import login from '../pages/login/login'
-import domitoryorder from '../pages/domitoryorder/domitoryorder'
-import domitorydemo from '../pages/domitorydemo/domitorydemo'
-import authorize from '../pages/authorize/authorize'
-import personal from '../pages/personal/personal'
-import payorder from '../pages/payorder/payorder'
-import createTemplate from '../pages/createTemplate/createTemplate'
-import dorReplenishList from '../pages/dorReplenishList/dorReplenishList'
+import home from '../pages/liu/home/home'
+import goods from '../pages/liu/goods/goods'
+import addgoods from '../pages/liu/addgoods/addgoods'
+import order from '../pages/liu/order/order'
+import orderdetail from '../pages/liu/orderdetail/orderdetail'
+import dispatchdetail from '../pages/liu/orderdetail/dispatchdetail'
+import replenishdetail from '../pages/liu/orderdetail/replenishdetail'
+import goodsclass from '../pages/liu/goodsclass/goodsclass'
+import goodslist from '../pages/liu/goodslist/goodslist'
+import goodsdetail from '../pages/liu/goodsdetail/goodsdetail'
+import login from '../pages/liu/login/login'
+import authorize from '../pages/liu/authorize/authorize'
+import personal from '../pages/liu/personal/personal'
+import payorder from '../pages/liu/payorder/payorder'
+
 import orderdetail1 from '../pages/orderdetail1/orderdetail1'
+
+import domitory from '../pages/chen/domitory/domitory'
+import adddomitory from '../pages/chen/adddomitory/adddomitory'
+import domitorydetail from '../pages/chen/domitorydetail/domitorydetail'
+import applydomitory from '../pages/chen/applydomitory/applydomitory'
+import statistica from '../pages/chen/statistica/statistica'
+import domitoryorder from '../pages/chen/domitoryorder/domitoryorder'
+import domitorydemo from '../pages/chen/domitorydemo/domitorydemo'
+import createTemplate from '../pages/chen/createTemplate/createTemplate'
+import dorReplenishList from '../pages/chen/dorReplenishList/dorReplenishList'
 import pic from '../pages/pic/pic'
-import util from '../util/util'
 
 Vue.use(Router);
 
 const vueRouter = new Router({
-  routes: [
-    {
+  routes: [{
       path: '/orderdetail1',
       name: 'orderdetail1',
       component: orderdetail1
@@ -59,7 +58,6 @@ const vueRouter = new Router({
     },
     {
       path: '/home',
-      //redirect:'/home'
       name: 'home',
       component: home
     },
@@ -107,11 +105,6 @@ const vueRouter = new Router({
       path: '/goodsclass',
       name: 'goodsclass',
       component: goodsclass
-    },
-    {
-      path: '/textinput',
-      name: 'textinput',
-      component: textinput
     },
     {
       path: '/applydomitory',
@@ -172,8 +165,20 @@ vueRouter.beforeEach((to, from, next) => {
   }
   console.log('openid:' + getCookie('openid'));
   console.log('token:' + getCookie('token'));
-  if (getCookie('openid') == 'null') {
-  }
+  // if (to.name != 'authorize') {
+  //   if (getCookie('openid') == 'null') {
+  //     next({
+  //       name: 'authorize'
+  //     })
+  //   }
+  //   if (to.name != 'login') {
+  //     if (getCookie('token') == 'null') {
+  //       next({
+  //         name: 'login'
+  //       })
+  //     }
+  //   }
+  // }
   next();
 });
 export default vueRouter

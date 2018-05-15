@@ -1,7 +1,26 @@
 <template>
   <div id="replenishlist">
-    <div class="weui-panel__hd hd">补货订单列表</div>
-    <div v-if="item.replenishStatus=='0'" v-for="(item,index) in replenishlist" :key="index" class="weui-form-preview orderitem">
+    <div class="weui-panel weui-panel_access">
+      <div class="weui-panel__hd">补货订单列表</div>
+      <div class="weui-panel__bd" v-if="item.replenishStatus=='0'" v-for="(item,index) in replenishlist" :key="index">
+        <div class="weui-media-box weui-media-box_text">
+          <div class="weui-cell">
+            <div class="weui-cell__bd">
+              <p>寝室号</p>
+            </div>
+            <div class="weui-cell__ft">{{item.groupNo}}</div>
+          </div>
+          <h4 class="weui-media-box__title">寝室号:{{item.groupNo}}</h4>
+          <p class="weui-media-box__desc">付款金额:{{item.replenishAmount}}元</p>
+          <p class="weui-media-box__desc">时间:{{item.createTime}}元</p>
+          <p class="weui-media-box__desc">商品:{{item.replenishAmount}}元</p>
+          <span class="weui-form-preview__value ordergoods">
+            <span v-for="(goods,index) in item.replenishDetailList" :key="index">{{goods.productName}} </span>
+          </span>
+        </div>
+      </div>
+    </div>
+    <!-- <div v-if="item.replenishStatus=='0'" v-for="(item,index) in replenishlist" :key="index" class="weui-form-preview orderitem">
       <div class="weui-form-preview__hd">
         <div class="weui-form-preview__item">
           <label class="weui-form-preview__label">寝室号</label>
@@ -35,7 +54,7 @@
         <button class="weui-form-preview__btn weui-form-preview__btn_primary" @click="confirm(item)">生成配送单</button>
         <button class="weui-form-preview__btn weui-form-preview__btn_primary" @click="cancel(item)">取消补货</button>
       </div>
-    </div>
+    </div> -->
   </div>
 </template>
 
