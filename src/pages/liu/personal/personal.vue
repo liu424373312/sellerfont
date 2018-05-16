@@ -1,7 +1,7 @@
 <template>
     <div id="personal">
         <div class="weui-cells__title">注册管理员</div>
-        <div class="weui-cells" @click="register">
+        <div class="weui-cells" @click="showpic">
             <div class="weui-cell weui-cell_access">
                 <div class="weui-cell__bd">
                     <p>卖家注册二维码</p>
@@ -25,14 +25,6 @@
                     <strong class="weui-dialog__title">修改密码</strong>
                 </div>
                 <div class="weui-dialog__title">
-                    <!--<div class="weui-cell">
-                        <div class="weui-cell__hd">
-                            <label class="weui-label">用户名</label>
-                        </div>
-                        <div class="weui-cell__bd">
-                            <input class="weui-input" v-model="username" pattern="[0-9]*" placeholder="请输入用户名" />
-                        </div>
-                    </div>-->
                     <div class="weui-cell">
                         <div class="weui-cell__hd">
                             <label class="weui-label">原密码</label>
@@ -56,6 +48,12 @@
                 </div>
             </div>
         </div>
+        <div class="js_dialog" v-show="picshow" @click="hidepic">
+            <div class="weui-mask"></div>
+            <div class="weui-dialog">
+                <img :src="pic" style="">
+            </div>
+        </div>
     </div>
 </template>
 
@@ -72,8 +70,12 @@ export default {
       newpassword: "",
       oldpassword: "",
       dialogshow: false,
+      picshow: false,
       api: "http://wxsell.nat200.top",
-      token: this.getCookie("token")
+      token: this.getCookie("token"),
+      pic:
+        "http://wxsell.nat200.top/sell/seller/qrcode/createAdmin?token=" +
+        this.getCookie("token")
     };
   },
   components: {},
@@ -84,47 +86,45 @@ export default {
     hidedialog() {
       this.dialogshow = false;
     },
+    showpic() {
+      this.picshow = true;
+    },
+    hidepic() {
+      this.picshow = false;
+    },
     changepassword() {
       this.hidedialog();
-      console.log(this.getCookie("password"));
-      if (this.oldpassword === this.getCookie("password")) {
-        var loading = weui.loading("提交中");
-        axios
-          .post(
-            this.api + "/sell/seller/update",
-            qs.stringify({
-              token: this.token,
-              passwordOld: this.oldpassword,
-              passwordNew: this.newpassword
-            }),
-            {
-              headers: { "Content-Type": "application/x-www-form-urlencoded" }
-            }
-          )
-          .then(response => {
-            console.log(response);
-            loading.hide();
+
+      var loading = weui.loading("提交中");
+      axios
+        .post(
+          this.api + "/sell/seller/update",
+          qs.stringify({
+            token: this.token,
+            passwordOld: this.oldpassword,
+            passwordNew: this.newpassword
+          }),
+          {
+            headers: { "Content-Type": "application/x-www-form-urlencoded" }
+          }
+        )
+        .then(response => {
+          console.log(response);
+          loading.hide();
+          if (response.data.code == 0) {
             weui.toast("修改成功", {
               duration: 3000
             });
-          })
-          .catch(function(err) {
-            console.log(err);
-            loading.hide();
+            this.oldpassword = "";
+            this.newpassword = "";
+          } else {
             weui.alert("修改失败");
-          });
-      } else {
-        weui.alert("密码错误");
-      }
-    },
-    register() {
-      axios
-        .get(this.api + "/sell/seller/qrcode/createAdmin?token="+this.token)
-        .then(response => {
-          console.log(response);
+          }
         })
         .catch(function(err) {
           console.log(err);
+          loading.hide();
+          weui.alert("修改失败");
         });
     }
   },
@@ -133,5 +133,4 @@ export default {
 </script>
 
 <style>
-
 </style>

@@ -89,7 +89,6 @@
               }else{
                 weui.topTips("请关闭当前页面重新登录");
               }
-              //
             }
           })
           .catch(function (err) {

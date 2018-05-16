@@ -1,60 +1,18 @@
 <template>
   <div id="replenishlist">
-    <div class="weui-panel weui-panel_access">
-      <div class="weui-panel__hd">补货订单列表</div>
-      <div class="weui-panel__bd" v-if="item.replenishStatus=='0'" v-for="(item,index) in replenishlist" :key="index">
-        <div class="weui-media-box weui-media-box_text">
-          <div class="weui-cell">
-            <div class="weui-cell__bd">
-              <p>寝室号</p>
-            </div>
-            <div class="weui-cell__ft">{{item.groupNo}}</div>
-          </div>
-          <h4 class="weui-media-box__title">寝室号:{{item.groupNo}}</h4>
-          <p class="weui-media-box__desc">付款金额:{{item.replenishAmount}}元</p>
-          <p class="weui-media-box__desc">时间:{{item.createTime}}元</p>
-          <p class="weui-media-box__desc">商品:{{item.replenishAmount}}元</p>
-          <span class="weui-form-preview__value ordergoods">
-            <span v-for="(goods,index) in item.replenishDetailList" :key="index">{{goods.productName}} </span>
-          </span>
+    <div class="weui-panel__bd" v-if="item.replenishStatus=='0'" v-for="(item,index) in replenishlist" :key="index" @click="detail(item)">
+      <div class="weui-media-box weui-media-box_appmsg">
+
+        <div class="weui-media-box__bd">
+          <h4 class="weui-media-box__title">{{item.groupNo}}</h4>
+          <p class="weui-media-box__desc">{{item.userName}} {{item.userPhone}}</p>
+          <p class="weui-media-box__desc">时间:{{timestampToTime(item.createTime)}}</p>
+        </div>
+        <div class="weui-media-box__ft">
+          <p class="weui-media-box__desc">{{item.replenishAmount}}￥</p>
         </div>
       </div>
     </div>
-    <!-- <div v-if="item.replenishStatus=='0'" v-for="(item,index) in replenishlist" :key="index" class="weui-form-preview orderitem">
-      <div class="weui-form-preview__hd">
-        <div class="weui-form-preview__item">
-          <label class="weui-form-preview__label">寝室号</label>
-          <em class="weui-form-preview__value">{{item.groupNo}}</em>
-        </div>
-      </div>
-      <div class="weui-form-preview__bd">
-        <div class="weui-form-preview__item">
-          <label class="weui-form-preview__label">付款金额</label>
-          <span class="weui-form-preview__value">{{item.replenishAmount}}</span>
-        </div>
-        <div class="weui-form-preview__item">
-          <label class="weui-form-preview__label">时间</label>
-          <span class="weui-form-preview__value">{{item.createTime}}</span>
-        </div>
-        <div class="weui-form-preview__item">
-          <label class="weui-form-preview__label">商品</label>
-          <span class="weui-form-preview__value ordergoods">
-            <span v-for="(goods,index) in item.replenishDetailList" :key="index">{{goods.productName}} </span>
-          </span>
-        </div>
-      </div>
-      <a class="weui-cell weui-cell_access" @click="detail(item)">
-        <div class="weui-cell__bd">
-          <p>查看详情</p>
-        </div>
-        <div class="weui-cell__ft">
-        </div>
-      </a>
-      <div class="weui-form-preview__ft">
-        <button class="weui-form-preview__btn weui-form-preview__btn_primary" @click="confirm(item)">生成配送单</button>
-        <button class="weui-form-preview__btn weui-form-preview__btn_primary" @click="cancel(item)">取消补货</button>
-      </div>
-    </div> -->
   </div>
 </template>
 
@@ -128,6 +86,19 @@ export default {
     detail(item) {
       this.setCookie("replenishId", item.replenishId, 1);
       this.$router.push({ name: "replenishdetail" });
+    },
+    timestampToTime(timestamp) {
+      var date = new Date(timestamp * 1000); //时间戳为10位需*1000，时间戳为13位的话不需乘1000
+      var Y = date.getFullYear() + "-";
+      var M =
+        (date.getMonth() + 1 < 10
+          ? "0" + (date.getMonth() + 1)
+          : date.getMonth() + 1) + "-";
+      var D = date.getDate() + " ";
+      var h = date.getHours() + ":";
+      var m = date.getMinutes() + ":";
+      var s = date.getSeconds();
+      return Y + M + D + h + m + s;
     }
   }
 };
