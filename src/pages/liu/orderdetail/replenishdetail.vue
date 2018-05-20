@@ -37,16 +37,16 @@
         <div class="page__bd page__bd_spacing ">
             <div class="weui-panel weui-panel_access goodslist" v-for="(item,index) in replenishdetail.replenishDetailList" :key="index">
                 <div class="weui-panel__bd">
-                    <a class="weui-media-box weui-media-box_appmsg" @click="goodsdetail(item)">
-                        <div class="weui-media-box__hd">
+                    <a class="weui-media-box weui-media-box_appmsg">
+                        <div class="weui-media-box__hd" @click="goodsdetail(item)">
                             <img class="weui-media-box__thumb" :src="item.productIcon" alt="">
                         </div>
-                        <div class="weui-media-box__bd">
+                        <div class="weui-media-box__bd" @click="goodsdetail(item)">
                             <h4 class="weui-media-box__title">{{item.productName}}</h4>
                             <p class="weui-media-box__desc">{{item.productPrice}}元</p>
                         </div>
                         <div class="weui-media-box__ft">
-                            <p class="weui-media-box__title">x{{item.productQuantity}}</p>
+                            <carcontrol :count='item.productQuantity' v-on:receive="changecount"></carcontrol>
                         </div>
                     </a>
                 </div>
@@ -62,6 +62,7 @@
 </template>
 
 <script>
+import carcontrol from "../../../components/carcontrol/carcontrol";
 import axios from "axios";
 const API_PROXY = "http://bird.ioliu.cn/v1?url=";
 export default {
@@ -73,6 +74,9 @@ export default {
       replenishdetail: "",
       data: []
     };
+  },
+  components:{
+      carcontrol,
   },
   created() {
     this.token = this.getCookie("token");
@@ -110,22 +114,13 @@ export default {
         };
       }
       console.log(this.data);
-      // axios
-      //   .post(this.api + "/sell/seller/replenish/finish" + this.token, {
-      //     headers: { "Content-Type": "application/x-www-form-urlencoded" }
-      //   })
-      //   .then(res => {
-      //     console.log(res);
-      //     console.log();
-      //     this.listdata = res.data.data.list;
-      //   })
-      //   .catch(err => {
-      //     console.log(err);
-      //   });
     },
     goodsdetail(item) {
       this.setCookie("productId", item.productId, 1);
       this.$router.push("goodsdetail");
+    },
+    changecount(count){
+        console.log(count);
     }
   }
 };
