@@ -45,10 +45,11 @@ export default {
   data() {
     return {
       token: "",
-      api: "http://wxsell.nat200.top"
+      api: "http://wxsell.nat200.top",
+      
     };
   },
-  props: ["orderlist","orderStatus"],
+  props: ["orderlist", "orderStatus"],
   created() {
     let token = this.getCookie("token");
     if (token === null || !token) {
@@ -58,6 +59,26 @@ export default {
     }
   },
   methods: {
+    orderlist() {
+      axios
+        .get(
+          API_PROXY +
+            this.api +
+            "/sell/seller/order/list?token=" +
+            this.token +
+            "&orderStatus=" +
+            this.orderStatus +
+            "&payStatus" +
+            this.payStatus
+        )
+        .then(res => {
+          console.log(res);
+          this.listdata = res.data.data.orderDTOVOList;
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
     confirm(item) {
       axios
         .get(

@@ -2,7 +2,6 @@
   <div id="replenishlist">
     <div class="weui-panel__bd" v-if="item.replenishStatus=='0'" v-for="(item,index) in replenishlist" :key="index" @click="detail(item)">
       <div class="weui-media-box weui-media-box_appmsg">
-
         <div class="weui-media-box__bd">
           <h4 class="weui-media-box__title">{{item.groupNo}}</h4>
           <p class="weui-media-box__desc">{{item.userName}} {{item.userPhone}}</p>
