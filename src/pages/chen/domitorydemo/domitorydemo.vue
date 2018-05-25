@@ -1,7 +1,7 @@
 <template>
   <div id="stockout">
     <div class="weui-cells__title"><span class="weui-media-box__title" style="font-weight: bold">{{this.goodsList.templateName}}</span>&nbsp;商品模板</div>
-    <div class="weui-panel__bd" v-for="(item,index) in this.goodsList.templateDetailList" :key="index">
+    <div class="weui-panel__bd" v-if="deleteStatus === 0" v-for="(item,index) in this.goodsList.templateDetailList" :key="index">
       <div class="weui-cells weui-cells_checkbox">
         <label class="weui-cell weui-check__label" for="s11">
           <!--<div class="weui-cell__hd">
@@ -18,7 +18,7 @@
         </label>
       </div>
     </div>
-    <div class="weui-form-preview__ft">
+    <div class="weui-form-preview__ft"  v-if="deleteStatus === 0">
       <button class="weui-form-preview__btn weui-form-preview__btn_primary" @click="createRE" style="background:#0bb20c;color:#fff;">创建配送单</button>
       <button class="weui-form-preview__btn weui-form-preview__btn_primary" @click="delRE" style="background:red;color:#fff;">删除模板</button>
     </div>
@@ -38,7 +38,8 @@
         token: '',
         goodsList: [],
         items: '',
-        templateId: ''
+        templateId: '',
+        deleteStatus:0
       }
     },
     created() {
@@ -51,6 +52,11 @@
         axios.get(API_PROXY + this.api + '/sell/seller/template/detail?token=' + this.token + '&groupNo=' + this.groupNo).then((res) => {
           console.log(res);
           this.goodsList = res.data.data;
+          this.deleteStatus = this.goodsList.deleteStatus;
+          if(this.deleteStatus === 1){
+            weui.alert("暂未创建模板!");
+            //this.$router.go(-1);
+          }
           this.templateId = this.goodsList.templateId;
           console.log(this.goodsList);
         }).catch((err) => {
@@ -78,7 +84,8 @@
           if (res.data.msg === "成功") {
             weui.toast("删除成功!", {
               duration: 1000
-            })
+            });
+            this.$router.go(-1);
           }else{
             weui.alert(""+res.data.msg);
           }

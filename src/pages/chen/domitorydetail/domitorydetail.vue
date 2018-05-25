@@ -8,18 +8,18 @@
                 </div>
                 <div class="weui-cell__ft">{{this.dorDetail.groupNo}}</div>
             </div>
-            <router-link class="weui-cell weui-cell_access" :to="{name:'textinput'}">
-                <div class="weui-cell__bd">
-                    <p>申请人</p>
-                </div>
-                <div class="weui-cell__ft">{{this.dorDetail.userName}}</div>
-            </router-link>
-            <router-link class="weui-cell weui-cell_access" :to="{name:'textinput'}">
-                <div class="weui-cell__bd">
-                    <p>申请人电话</p>
-                </div>
-                <div class="weui-cell__ft">{{this.dorDetail.userPhone}}</div>
-            </router-link>
+          <div class="weui-cell">
+            <div class="weui-cell__bd">
+              <p>申请人</p>
+            </div>
+            <div class="weui-cell__ft">{{this.dorDetail.userName}}</div>
+          </div>
+          <div class="weui-cell">
+            <div class="weui-cell__bd">
+              <p>申请人电话</p>
+            </div>
+            <div class="weui-cell__ft">{{this.dorDetail.userPhone}}</div>
+          </div>
           <router-link to="pic" class="weui-cell weui-cell_access">
             <div class="weui-cell__bd">
               <p>寝室二维码</p>
@@ -28,7 +28,7 @@
           </router-link>
         </div>
         <div class="weui-cells__title">操作</div>
-        <div class="weui-cells">
+        <div class="weui-cells"><!--createTemplate-->
             <router-link class="weui-cell weui-cell_access" :to="{name:'createTemplate'}">
                 <div class="weui-cell__bd">
                     <p>给寝室补货</p>
@@ -41,12 +41,12 @@
                 </div>
                 <div class="weui-cell__ft"></div>
             </router-link>
-          <router-link class="weui-cell weui-cell_access" :to="{name:'dorgroup'}">
+         <!-- <router-link class="weui-cell weui-cell_access" :to="{name:'dorgroup'}">
             <div class="weui-cell__bd">
               <p>寝室补货快照</p>
             </div>
             <div class="weui-cell__ft"></div>
-          </router-link>
+          </router-link>-->
           <router-link class="weui-cell weui-cell_access" :to="{name:'dorGoodsList'}">
             <div class="weui-cell__bd">
               <p>寝室商品列表</p>
@@ -100,13 +100,6 @@ export default {
     })
   },
   methods:{
-    pushHistory(){
-      let state = {
-        title:'title',
-        url:'#'
-      };
-      window.history.pushState(state,'title','#');
-    },
     getPic(){
         this.$router.push({name:"pic"})
       /*axios.get(API_PROXY + this.api + '/sell/seller/qrcode/create?token='+this.token+'&groupNo='+this.groupNo).then((res) => {

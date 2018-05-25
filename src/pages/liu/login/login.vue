@@ -44,11 +44,11 @@
     },
     created() {
       this.openid = this.getQueryOpenid("openid");
-      let nickname=this.getQueryOpenid("nickname");
+      //let nickname=this.getQueryOpenid("nickname");
       let headImg = this.getQueryOpenid("headImgUrl");
       this.setCookie("headImg", headImg, 1);
       this.setCookie("openid", this.openid, 1);
-      this.setCookie("nickname",this.nickname,1);
+      //this.setCookie("nickname",this.nickname,1);
     },
     methods: {
       login() {
@@ -65,7 +65,7 @@
             qs.stringify({
               username: this.username,
               password: this.password,
-              openid: 'oSpuJ1ryJLJwSnRbusu8wa1XjqnM'
+              openid: this.openid
             }),
             {
               headers: {"Content-Type": "application/x-www-form-urlencoded"}
@@ -73,8 +73,10 @@
           )
           .then(response => {
             console.log(response.data);
+            console.log(response.data.data.schoolNo);
             if(response.data.msg === "成功") {
               this.setCookie("token", response.data.data.token, 1);
+              this.setCookie("schoolNo",response.data.data.schoolNo,1);
               this.setCookie("username", this.username, 1);
               this.setCookie("password", this.password, 1);
               loading.hide();
@@ -84,7 +86,7 @@
               this.$router.push({name: "home", params: {openid: this.openid}});
             }else{
               loading.hide();
-              if(this.openid != ''){
+              if(this.openid !== ''){
                 weui.topTips("账号或密码错误!");
               }else{
                 weui.topTips("请关闭当前页面重新登录");

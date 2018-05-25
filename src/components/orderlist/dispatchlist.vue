@@ -8,7 +8,7 @@
           <p class="weui-media-box__desc">时间:{{timestampToTime(item.createTime)}}</p>
         </div>
         <div class="weui-media-box__ft">
-          <p class="weui-media-box__desc">{{item.dispatchAmount}}￥</p>
+          <p class="weui-media-box__title">{{item.dispatchAmount}}￥</p>
         </div>
       </div>
     </div>

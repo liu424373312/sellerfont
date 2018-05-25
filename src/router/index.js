@@ -26,12 +26,55 @@ import domitoryorder from '../pages/chen/domitoryorder/domitoryorder'
 import domitorydemo from '../pages/chen/domitorydemo/domitorydemo'
 import createTemplate from '../pages/chen/createTemplate/createTemplate'
 import dorReplenishList from '../pages/chen/dorReplenishList/dorReplenishList'
+import dorstatistic from '../pages/chen/dorstatistic/dorstatistic'
+import templates from '../pages/chen/templates/templates'
+import dorGoodsList from '../pages/chen/dorGoodsList/dorGoodsList'
+import textinput from '../pages/chen/textinput/textinput'
+import dorgroup from '../pages/chen/dorgroup/dorgroup'
+import templatesDetail from '../pages/chen/templatesDetail/templatesDetail'
+import orderdetail2 from '../pages/chen/orderdetail2/orderdetail2'
 import pic from '../pages/pic/pic'
 
 Vue.use(Router);
 
 const vueRouter = new Router({
-  routes: [{
+  routes: [
+    {
+      path:'/orderdetail2',
+      name:'orderdetail2',
+      component:orderdetail2
+    },
+    {
+      path:'/dorgroup',
+      name:'dorgroup',
+      component:dorgroup
+    },
+    {
+      path:'/dorGoodsList',
+      name:'dorGoodsList',
+      component:dorGoodsList
+    },
+    {
+      path:'/textinput',
+      name:'textinput',
+      component:textinput
+    },
+    {
+      path:'/templatesDetail',
+      name:'templatesDetail',
+      component:templatesDetail
+    },
+    {
+      path:'/templates',
+      name:'templates',
+      component:templates
+    },
+    {
+      path:'/dorstatistic',
+      name:'dorstatistic',
+      component:dorstatistic
+    },
+    {
       path: '/orderdetail1',
       name: 'orderdetail1',
       component: orderdetail1
@@ -165,20 +208,20 @@ vueRouter.beforeEach((to, from, next) => {
   }
   console.log('openid:' + getCookie('openid'));
   console.log('token:' + getCookie('token'));
-  // if (to.name != 'authorize') {
-  //   if (getCookie('openid') == 'null') {
-  //     next({
-  //       name: 'authorize'
-  //     })
-  //   }
-  //   if (to.name != 'login') {
-  //     if (getCookie('token') == 'null') {
-  //       next({
-  //         name: 'login'
-  //       })
-  //     }
-  //   }
-  // }
+  if (to.name != 'authorize') {
+    if (getCookie('openid') == 'null') {
+      next({
+        name: 'authorize'
+      })
+    }
+    if (to.name != 'login') {
+      if (getCookie('token') == 'null') {
+        next({
+          name: 'login'
+        })
+      }
+    }
+  }
   next();
 });
 export default vueRouter

@@ -17,7 +17,7 @@
     <div class="weui-cells searchbar-result" id="searchResult">
       <div v-for="(item,index) in data" :key="index">
         <div v-for="(item,index) in item.foods" :key="index">
-          <div v-if="resultshow(item)" class="weui-cell weui-cell_access">
+          <div v-if="resultshow(item)" class="weui-cell weui-cell_access" @click="goodsdetail(item)">
             <div class="weui-cell__bd weui-cell_primary">
               <p>{{item.name}}</p>
             </div>
@@ -48,6 +48,10 @@ export default {
       } else {
         return false;
       }
+    },
+    goodsdetail(item) {
+      this.setCookie("productId", item.id, 1);
+      this.$router.push("goodsdetail");
     }
   },
   created() {},

@@ -7,8 +7,22 @@
           <p class="weui-media-box__desc">{{item.userName}} {{item.userPhone}}</p>
           <p class="weui-media-box__desc">时间:{{timestampToTime(item.createTime)}}</p>
         </div>
-        <div class="weui-media-box__ft">
-          <p class="weui-media-box__desc">{{item.replenishAmount}}￥</p>
+        <div class="weui-media-box__ft fttext">
+          <p class="weui-media-box__desc">{{orderstatus(item.replenishStatus)}}</p>
+          <p class="weui-media-box__title">{{item.replenishAmount}}￥</p>
+        </div>
+      </div>
+    </div>
+    <div class="weui-panel__bd" v-if="item.replenishStatus=='1'" v-for="(item,index) in replenishlist" :key="index" @click="detail(item)">
+      <div class="weui-media-box weui-media-box_appmsg">
+        <div class="weui-media-box__bd">
+          <h4 class="weui-media-box__title">{{item.groupNo}}</h4>
+          <p class="weui-media-box__desc">{{item.userName}} {{item.userPhone}}</p>
+          <p class="weui-media-box__desc">时间:{{timestampToTime(item.createTime)}}</p>
+        </div>
+        <div class="weui-media-box__ft fttext">
+          <p class="weui-media-box__desc">{{orderstatus(item.replenishStatus)}}</p>
+          <p class="weui-media-box__title">{{item.replenishAmount}}￥</p>
         </div>
       </div>
     </div>
@@ -36,6 +50,13 @@ export default {
     }
   },
   methods: {
+    orderstatus(item) {
+      if (item == "1") {
+        return "已配送";
+      } else {
+        return "待配送";
+      }
+    },
     confirm(item) {
       this.items = "";
       for (var i = 0; i < item.replenishDetailList.length; i++) {
@@ -110,5 +131,8 @@ export default {
 }
 .orderitem {
   margin-bottom: 30px;
+}
+.fttext{
+  text-align: right;
 }
 </style>

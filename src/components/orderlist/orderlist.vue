@@ -1,38 +1,16 @@
 <template>
   <div id="orederlist">
     <div class="weui-panel__hd hd">支付订单列表</div>
-    <div v-for="(item,index) in orderlist" :key="index" class="weui-form-preview orderitem">
-      <div class="weui-form-preview__hd">
-        <div class="weui-form-preview__item">
-          <label class="weui-form-preview__label">寝室号</label>
-          <em class="weui-form-preview__value">{{item.groupNo}}</em>
+    <div class="weui-panel__bd" v-for="(item,index) in orderlist" :key="index" @click="detail(item)">
+      <div class="weui-media-box weui-media-box_appmsg">
+        <div class="weui-media-box__bd">
+          <h4 class="weui-media-box__title">{{item.groupNo}}</h4>
+          <p class="weui-media-box__desc">{{item.userName}} {{item.userPhone}}</p>
+          <p class="weui-media-box__desc">时间:{{timestampToTime(item.createTime)}}</p>
         </div>
-      </div>
-      <div class="weui-form-preview__bd">
-        <div class="weui-form-preview__item">
-          <label class="weui-form-preview__label">付款金额</label>
-          <span class="weui-form-preview__value">{{item.orderAmount}}</span>
+        <div class="weui-media-box__ft">
+          <p class="weui-media-box__title">{{item.orderAmount}}￥</p>
         </div>
-        <div class="weui-form-preview__item">
-          <label class="weui-form-preview__label">时间</label>
-          <span class="weui-form-preview__value">{{item.createTime}}</span>
-        </div>
-        <div class="weui-form-preview__item">
-          <label class="weui-form-preview__label">商品</label>
-          <span class="weui-form-preview__value ordergoods">
-            <span v-for="(goods,index) in item.orderDetailVOList" :key="index">{{goods.productName}} </span>
-          </span>
-        </div>
-      </div>
-      <a class="weui-cell weui-cell_access" @click="detail(item)">
-        <div class="weui-cell__bd">
-          <p>查看详情</p>
-        </div>
-        <div class="weui-cell__ft">
-        </div>
-      </a>
-      <div class="weui-form-preview__ft">
-        <button v-if="orderStatus=='0'" class="weui-form-preview__btn weui-form-preview__btn_primary" @click="confirm(item)">完结</button>
       </div>
     </div>
   </div>
@@ -45,8 +23,7 @@ export default {
   data() {
     return {
       token: "",
-      api: "http://wxsell.nat200.top",
-      
+      api: "http://wxsell.nat200.top"
     };
   },
   props: ["orderlist", "orderStatus"],
@@ -59,26 +36,6 @@ export default {
     }
   },
   methods: {
-    orderlist() {
-      axios
-        .get(
-          API_PROXY +
-            this.api +
-            "/sell/seller/order/list?token=" +
-            this.token +
-            "&orderStatus=" +
-            this.orderStatus +
-            "&payStatus" +
-            this.payStatus
-        )
-        .then(res => {
-          console.log(res);
-          this.listdata = res.data.data.orderDTOVOList;
-        })
-        .catch(err => {
-          console.log(err);
-        });
-    },
     confirm(item) {
       axios
         .get(
@@ -116,6 +73,19 @@ export default {
     detail(item) {
       this.setCookie("orderId", item.orderId, 1);
       this.$router.push({ name: "orderdetail" });
+    },
+    timestampToTime(timestamp) {
+      var date = new Date(timestamp * 1000); //时间戳为10位需*1000，时间戳为13位的话不需乘1000
+      var Y = date.getFullYear() + "-";
+      var M =
+        (date.getMonth() + 1 < 10
+          ? "0" + (date.getMonth() + 1)
+          : date.getMonth() + 1) + "-";
+      var D = date.getDate() + " ";
+      var h = date.getHours() + ":";
+      var m = date.getMinutes() + ":";
+      var s = date.getSeconds();
+      return Y + M + D + h + m + s;
     }
   }
 };

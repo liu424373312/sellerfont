@@ -1,18 +1,23 @@
 <template>
   <div id="order">
-    <searchorder></searchorder>
+    <div class="page__bd" style="height: 100%;">
+      <div class="weui-tab">
+        <div class="weui-navbar">
+          <a href="javascript:;" class="weui-tabbar__item weui-bar__item_on" @click="replenishlist">
+            <i class="icon-truck ordericon"></i>
+            <p class="weui-tabbar__label">补货订单</p>
+          </a>
+          <a class="weui-tabbar__item" @click="dispatchlist">
+            <i class="icon-dropbox ordericon"></i>
+            <p class="weui-tabbar__label">配送订单</p>
+          </a>
+        </div>
+        <div class="weui-tab__panel">
+        </div>
+      </div>
+    </div>
     <replenishlist v-if="replenishlistshow" :replenishlist='listdata'></replenishlist>
     <dispatchlist v-if="dispatchlistshow" :dispatchlist='listdata'></dispatchlist>
-    <div class="weui-tabbar tabbar">
-      <a href="javascript:;" class="weui-tabbar__item weui-bar__item_on" @click="replenishlist">
-        <i class="icon-truck ordericon"></i>
-        <p class="weui-tabbar__label">补货订单</p>
-      </a>
-      <a class="weui-tabbar__item" @click="dispatchlist">
-        <i class="icon-dropbox ordericon"></i>
-        <p class="weui-tabbar__label">配送订单</p>
-      </a>
-    </div>
   </div>
 </template>
 
@@ -103,7 +108,7 @@ export default {
   font-size: 27px;
   color: dodgerblue;
 }
-#order{
-  background-color: #f8f8f8
+#order {
+  background-color: #f8f8f8;
 }
 </style>

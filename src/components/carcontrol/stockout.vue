@@ -12,9 +12,9 @@
   import Vue from 'vue';
 
   export default {
-    data(){
+    data() {
       return {
-        salesQuantity:''
+        salesQuantity: ''
       }
     },
     props: ["food"],
@@ -23,10 +23,15 @@
     },
     methods: {
       addCart(event) {
-        if(!this.food.count){
-          Vue.set(this.food,'count',1);
-        }else{
+        if(this.food.stock === 0){
+          return;
+        }
+        if (!this.food.count) {
+          Vue.set(this.food, 'count', 1);
+        } else if (this.food.count < this.food.stock) {
           this.food.count++;
+        } else {
+          return;
         }
         /*if (!this.food.sales) {
           Vue.set(this.food, 'sales', 1);
@@ -38,7 +43,7 @@
         //console.log(this.$refs.fff.value);
       },
       decreaseCart(event) {
-        if (this.food.count) {
+        if (this.food.count > 0) {
           this.food.count--;
         }
       }
