@@ -30,7 +30,7 @@
       </div>
     </div>
     <a href="javascript:;" class="weui-btn weui-btn_primary" @click="selectMore">查询</a>
-    <div v-if="amount > 0" class="weui-cells__title" style="border-bottom:1px solid rgba(7,17,27,0.1)">合计金额￥{{this.amount}}</div>
+    <div v-if="amount > 0" class="weui-cells__title" style="border-bottom:1px solid rgba(7,17,27,0.1)">合计金额￥{{amount}}</div>
     <div v-if="kk === 2" class="domitorylist">
       <router-link v-for="(item,index) in this.dorList" :key="index"
                    :to="{name:'orderdetail2',params:{dorDE:item}}" class="weui-cell weui-cell_access">
@@ -138,15 +138,21 @@
           console.log(res);
           this.goodsList = res.data.data;
           console.log(this.goodsList);
-          for(let i = 0;i < this.goodsList.length;i++){
-            for(let j = 0;j < this.goodsList[i].foods.length;j++){
-              this.amount += this.goodsList[i].foods[j].price * this.goodsList[i].foods[j].quantity;
-            }
-          }
+          this.totalP();
+
 
         }).catch((err) => {
           console.log(err);
         });
+      },
+      totalP(){
+        this.amount = 0;
+        for(let i = 0;i < this.goodsList.length;i++){
+          for(let j = 0;j < this.goodsList[i].foods.length;j++){
+            this.amount += this.goodsList[i].foods[j].price * this.goodsList[i].foods[j].quantity;
+          }
+        }
+        return this.amount.toFixed(2);
       },
       getDetail(obj){
         //console.log(obj);

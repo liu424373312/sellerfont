@@ -25,6 +25,12 @@
                 </div>
                 <p class="weui-grid__label">销售统计</p>
             </router-link>
+            <router-link :to="{name:'templates'}" class="weui-grid">
+            <div class="weui-grid__icon">
+              <i class="icon-order homeicon"></i>
+            </div>
+            <p class="weui-grid__label">模板管理</p>
+          </router-link>
             <router-link to="personal" class="weui-grid">
                 <div class="weui-grid__icon">
                     <i class="icon-user homeicon"></i>

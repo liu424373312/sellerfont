@@ -21,12 +21,12 @@
     </div>
     <div v-if="val !== ''">
       <div class="weui-panel__hd hd">查询结果</div>
-      <router-link :to="{name:'domitorydetail',params:{arry:item}}" v-for="(item,index) in this.name" :key="index" class="weui-cell weui-cell_access">
+      <div v-for="(item,index) in this.name" :key="index" class="weui-cell weui-cell_access" @click="gotoDor(item)">
         <div class="weui-cell__bd">
           <h4 class="weui-media-box__title">{{item.groupNo}}</h4>
           <!--<p class="weui-media-box__desc">{{createsTime[index]}}</p>-->
         </div>
-      </router-link>
+      </div>
     </div>
   </div>
 </template>
@@ -87,6 +87,11 @@
       cancelSearch(){
         this.val = '';
         this.name.splice(0,this.splice.length);
+      },
+      gotoDor(obj){
+        console.log(obj);
+        this.setCookie("groupId",obj.groupId,1);
+        this.$router.push({name:'domitorydetail'});
       }
     }
 

@@ -25,11 +25,11 @@
       <div class="weui-cell__hd">
         <label for="" class="weui-label">寝室分区</label>
       </div>
-      <div class="weui-cell__bd">
+      <!--<div class="weui-cell__bd">
         <select v-model="schoolNo" class="weui-select" name="select2" @change="getsDormitory">
           <option v-for="(item,index) in this.school" :key="index" :value="item.schoolNo">{{item.schoolName}}</option>
         </select>
-      </div>
+      </div>-->
       <div class="weui-cell__bd">
         <select v-model="groupDistrict" class="weui-select" name="select2" @change="getAll">
           <option :value="item.groupDistrict" v-for="(item,index) in domitory" :key="index">{{item.districtName}}
@@ -68,12 +68,13 @@
         domitory: [],
         groupDistrict: 1,
         groupId: '',
-        schoolNo: 1,
+        schoolNo: 0,
         school: [],
       };
     },
     created() {
       this.token = this.getCookie("token");
+      this.schoolNo = this.getCookie("schoolNo");
       this.default_dormitory();
       axios.get(API_PROXY + this.api + '/sell/seller/school/list?token=' + this.token).then((res) => {
         console.log(res);

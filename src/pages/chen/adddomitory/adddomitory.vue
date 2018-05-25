@@ -34,9 +34,6 @@
             <div class="weui-cell__bd">
                 <select class="weui-select" name="select2" @change="getAll($event)">
                   <option v-for="(h,k) in this.index" :key="k" :value="h.indexId">{{h.name}}</option>
-                    <!--<option value="1">一区用户</option>
-                    <option value="2">二区用户</option>
-                    <option value="3">七区用户</option>-->
                 </select>
             </div>
         </div>
@@ -102,12 +99,8 @@ export default {
     }
   },
   created(){
-    let token = this.getCookie('token');
-    if (token === null || !token) {
-      window.location.href = " http://rm4nka.natappfree.cc";
-    } else {
-      this.token = token;
-    }
+    this.token = this.getCookie('token');
+
   },
   methods:{
     getAll(event){
@@ -156,9 +149,6 @@ export default {
             this.groupNo = '';
             this.userName = '';
             this.userPhone = '';
-            /*this.$refs.grupNo.value = '';
-            this.$refs.userName.value = '';
-            this.$refs.userPhone.value = '';*/
           }
         }).catch((err) => {
           weui.alert("该寝室已存在!");

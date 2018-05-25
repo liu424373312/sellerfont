@@ -1,36 +1,29 @@
 <template>
   <div id="dorstatistic">
-    <div class="weui-panel__hd hd">寝室销售统计</div>
-    <div class="weui-form-preview orderitem" v-for="(item,index) in this.staData" :key="index">
-      <div class="weui-form-preview__hd">
-        <div class="weui-form-preview__item">
-          <label class="weui-form-preview__label">寝室号</label>
-          <em class="weui-form-preview__value">{{item.groupNo}}</em>
-        </div>
+    <div class="weui-form-preview__item" style="margin-left:25%;">
+      <a href="javascript:;" class="weui-btn weui-btn_primary weui-btn_mini" v-show="!this.showFlag"  @click="getQue" style="background:#fff;color:#33cc00;top:10px;">缺货100间</a>
+      <a href="javascript:;" class="weui-btn weui-btn_primary weui-btn_mini" v-show="this.showFlag" @click="getQue" style="background:#33cc00;color:#fff;">缺货100间</a>
+      <a href="javascript:;" class="weui-btn weui-btn_primary weui-btn_mini" v-show="!this.showDor"  @click="getStatistic" style="background:#fff;color:#33cc00;top:10px;">寝室销售统计</a>
+      <a href="javascript:;" class="weui-btn weui-btn_primary weui-btn_mini" v-show="this.showDor" @click="getStatistic" style="background:#33cc00;color:#fff;">寝室销售统计</a>
       </div>
-      <div class="weui-form-preview__bd">
-        <div class="weui-form-preview__item">
-          <label class="weui-form-preview__label">购买人</label>
-          <span class="weui-form-preview__value ordergoods">
-            <span>{{item.userName}} </span>
-          </span>
+    <div class="weui-panel__hd hd">{{dorname}}</div>
+    <div id="replenishlist">
+    <div class="weui-panel__bd" v-for="(item,index) in this.staData" :key="index">
+      <div class="weui-media-box weui-media-box_appmsg">
+
+        <div class="weui-media-box__bd">
+          <h4 class="weui-media-box__title">{{item.groupNo}}</h4>
+          <p class="weui-media-box__desc">{{item.userName}} Tel:{{item.userPhone}}</p>
+          <p class="weui-media-box__desc">时间:{{upTimes[index]}}</p>
+
         </div>
-        <div class="weui-form-preview__item">
-          <label class="weui-form-preview__label">联系方式</label>
-          <span class="weui-form-preview__value ordergoods">
-            <span>{{item.userPhone}} </span>
-          </span>
-        </div>
-        <div class="weui-form-preview__item">
-          <label class="weui-form-preview__label">付款金额</label>
-          <span class="weui-form-preview__value">￥{{item.groupConsume}}</span>
-        </div>
-        <div class="weui-form-preview__item">
-          <label class="weui-form-preview__label">时间</label>
-          <span class="weui-form-preview__value">{{upTimes[index]}}</span>
+        <div class="weui-media-box__ft">
+          <p class="weui-media-box__desc">消费金额:￥{{item.groupConsume}}</p>
+          <p class="weui-media-box__desc">寝室商品总额:￥{{item.groupAmount}}</p>
         </div>
       </div>
     </div>
+  </div>
     <div class="weui-form-preview__item" style="margin-top:10px;">
       <a href="javascript:;" class="weui-btn weui-btn_default weui-btn_mini" @click="lastPage">上一页</a>
       <input type="number" class="weui-search-bar_input"
@@ -54,15 +47,58 @@
         staData: [],
         upTimes: [],
         page: 1,
+        showFlag:false,
+        showDor:false,
+        dorname:'缺货100间',
+        sort:0
       }
     },
     created() {
       this.token = this.getCookie("token");
       console.log(this.token);
-      this.getStatistic();
+      this.getQue();
+      this.getStyle();
+      //this.getStatistic();
     },
     methods: {
+      //缺货100间
+      getQue(){
+        this.showDor = !this.showDor;
+        this.showFlag = !this.showFlag;
+        this.dorname = "缺货100间";
+        this.sort = 0;
+        axios.get(API_PROXY + this.api + '/sell/seller/group/salesList?token=' + this.token + '&page=' + this.page).then((res) => {
+          console.log(res);
+          this.staData = res.data.data.list;
+          this.upTimes.splice(0, this.upTimes.length);
+          for (let i = 0; i < this.staData.length; i++) {
+            var _x = this.staData[i].updateTime;
+            if (_x.toString().length === 10) {
+              var date = new Date(_x * 1000);
+            } else {
+              var date = new Date(_x);
+            }
+            this.times(date);
+          }
+          console.log(this.staData);
+        }).catch((err) => {
+          console.log(err);
+        })
+      },
+      getShow(){
+        this.showDor = true;
+        this.showFlag = false;
+      },
+      getStyle(){
+        this.showFlag = true;
+        this.showDor = false;
+      },
+      //销售统计
       getStatistic() {
+        this.showDor = !this.showDor;
+        this.showFlag = !this.showFlag;
+        this.dorname = "寝室销售统计";
+        this.sort = 1;
         axios.get(API_PROXY + this.api + '/sell/seller/group/salesList?token=' + this.token + '&orderField=groupConsume' + '&page=' + this.page).then((res) => {
           console.log(res);
           this.staData = res.data.data.list;
@@ -109,68 +145,150 @@
       gotoPages() {
         //console.log(this.content);
         console.log(this.page);
-        axios.get(API_PROXY + this.api + '/sell/seller/group/salesList?token=' + this.token + '&orderField=groupConsume' + '&page=' + this.page).then((res) => {
-          console.log(res);
-          this.staData = res.data.data.list;
-          if (this.staData.length === 0) {
-            weui.topTips("请输入正确的页码!");
-          } else {
-            this.upTimes.splice(0, this.upTimes.length);
-            for (let i = 0; i < this.staData.length; i++) {
-              var _x = this.staData[i].updateTime;
-              if (_x.toString().length === 10) {
-                var date = new Date(_x * 1000);
-              } else {
-                var date = new Date(_x);
+        if(this.sort === 1){
+          this.showFlag = true;
+          this.showDor = false;
+          axios.get(API_PROXY + this.api + '/sell/seller/group/salesList?token=' + this.token + '&orderField=groupConsume' + '&page=' + this.page).then((res) => {
+            console.log(res);
+            this.staData = res.data.data.list;
+            if (this.staData.length === 0) {
+              weui.topTips("请输入正确的页码!");
+
+            } else {
+              this.upTimes.splice(0, this.upTimes.length);
+              for (let i = 0; i < this.staData.length; i++) {
+                var _x = this.staData[i].updateTime;
+                if (_x.toString().length === 10) {
+                  var date = new Date(_x * 1000);
+                } else {
+                  var date = new Date(_x);
+                }
+                this.times(date);
               }
-              this.times(date);
+              console.log(this.staData);
+            }
+
+          }).catch((err) => {
+            weui.topTips("请输入正确的页码!");
+            console.log(err);
+          });
+        }else if(this.sort === 0){
+          this.showFlag = false;
+          this.showDor = true;
+          axios.get(API_PROXY + this.api + '/sell/seller/group/salesList?token=' + this.token + '&page=' + this.page).then((res) => {
+            console.log(res);
+            this.staData = res.data.data.list;
+            if (this.staData.length === 0) {
+              weui.topTips("请输入正确的页码!");
+            } else {
+              this.upTimes.splice(0, this.upTimes.length);
+              for (let i = 0; i < this.staData.length; i++) {
+                var _x = this.staData[i].updateTime;
+                if (_x.toString().length === 10) {
+                  var date = new Date(_x * 1000);
+                } else {
+                  var date = new Date(_x);
+                }
+                this.times(date);
+              }
             }
             console.log(this.staData);
-          }
+          }).catch((err) => {
+            console.log(err);
+          })
+        }
 
-        }).catch((err) => {
-          weui.topTips("请输入正确的页码!");
-          console.log(err);
-        })
 
-        this.getStatistic();
+        //this.getStatistic();
       },
       lastPage() {
-        this.page--;
-        if (this.page === 0) {
-          weui.alert("不能再翻啦");
-          this.page += 1;
-        } else {
-          this.getStatistic();
+        this.page -= 1;
+        if(this.sort === 0){
+          this.showFlag = false;
+          this.showDor = true;
+          if (this.page === 0) {
+            weui.alert("不能再翻啦~");
+            this.page += 1;
+          } else {
+            this.getQue();
+          }
+        }else if(this.sort === 1){
+          this.showFlag = true;
+          this.showDor = false;
+          if (this.page === 0) {
+            weui.alert("不能再翻啦~");
+            this.page += 1;
+          } else {
+            this.getStatistic();
+          }
         }
+
       },
       nextPage() {
-        this.page++;
-        axios.get(API_PROXY + this.api + '/sell/seller/group/salesList?token=' + this.token + '&orderField=groupConsume' + '&page=' + this.page).then((res) => {
-          console.log(res);
-          this.staData = res.data.data.list;
-          if (this.staData.length === 0) {
-            weui.alert('不能再翻啦');
-            this.page -= 1;
-            console.log(this.page);
-            this.getStatistic();
-          } else {
-            this.upTimes.splice(0, this.upTimes.length);
-            for (let i = 0; i < this.staData.length; i++) {
-              var _x = this.staData[i].updateTime;
-              if (_x.toString().length === 10) {
-                var date = new Date(_x * 1000);
-              } else {
-                var date = new Date(_x);
+        this.page += 1;
+        if(this.sort === 1){
+          this.showFlag = true;
+          this.showDor = false;
+          //this.getShow();
+          axios.get(API_PROXY + this.api + '/sell/seller/group/salesList?token=' + this.token + '&orderField=groupConsume' + '&page=' + this.page).then((res) => {
+            console.log(res);
+            this.staData = res.data.data.list;
+            console.log(res.data.data.list.length);
+            if (res.data.data.list.length === 0) {
+              weui.alert('不能再翻啦~');
+              this.page -= 1;
+              console.log(this.page);
+              this.getStatistic();
+            } else {
+              this.upTimes.splice(0, this.upTimes.length);
+              for (let i = 0; i < this.staData.length; i++) {
+                var _x = this.staData[i].updateTime;
+                if (_x.toString().length === 10) {
+                  var date = new Date(_x * 1000);
+                } else {
+                  var date = new Date(_x);
+                }
+                this.times(date);
               }
-              this.times(date);
+              console.log(this.staData);
             }
-            console.log(this.staData);
-          }
 
-        }).catch((err) => {
-          console.log(err);
-        })
+          }).catch((err) => {
+            console.log(err);
+          })
+        }else if(this.sort === 0){
+          //this.getStyle();
+          this.showFlag = false;
+          this.showDor = true;
+          this.staData.splice(0,this.staData.length);
+          axios.get(API_PROXY + this.api + '/sell/seller/group/salesList?token=' + this.token + '&page=' + this.page).then((res) => {
+            console.log(res);
+            this.staData = res.data.data.list;
+            console.log(res.data.data.list.length);
+            if (res.data.data.list.length === 0) {
+              weui.alert('不能再翻啦~');
+              this.page -= 1;
+              console.log(this.page);
+              this.getQue();
+            } else {
+              this.upTimes.splice(0, this.upTimes.length);
+              for (let i = 0; i < this.staData.length; i++) {
+                var _x = this.staData[i].updateTime;
+                if (_x.toString().length === 10) {
+                  var date = new Date(_x * 1000);
+                } else {
+                  var date = new Date(_x);
+                }
+                this.times(date);
+              }
+              console.log(this.staData);
+            }
+
+          }).catch((err) => {
+            console.log(err);
+          })
+        }
+
       }
     }
   };

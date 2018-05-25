@@ -1,9 +1,9 @@
 <template>
   <div id="stockout">
     <div class="page__bd page__bd_spacing" v-for="(item,index) in this.goodsList" :key="index">
-      <div class="weui-cells__title">{{item.name}}</div>
-      <div class="weui-panel weui-panel_access goodslist" v-for="(x,y) in item.foods" :key="y">
-        <div class="weui-panel__bd">
+      <div class="weui-cells__title" v-if="item.foods.length !== list[index]">{{item.name}}</div>
+      <div class="weui-panel weui-panel_access goodslist" v-for="(x,y) in item.foods" :key="y" v-if="x.stock > 0">
+        <div class="weui-panel__bd" >
           <div class="weui-media-box weui-media-box_appmsg">
             <div class="weui-media-box__hd">
               <img class="weui-media-box__thumb" :src="x.icon">
@@ -12,7 +12,7 @@
               <h4 class="weui-media-box__title">{{x.name}}</h4>
               <!--<p class="weui-media-box__desc">￥{{x.price}}</p>
               <p class="weui-media-box__desc">仓库库存:{{x.quantity}}</p>-->
-              <p v-if="x.stock > 0" class="weui-media-box__desc"><span style="color:red;">回收数量最大不超过</span>寝室商品库存:{{x.stock}}</p>
+              <p class="weui-media-box__desc"><span style="color:red;">回收数量最大不超过</span>寝室商品库存:{{x.stock}}</p>
               <!--<p v-if="x.sales > 0" class="weui-media-box__desc">寝室商品出售数量:{{x.sales}}</p>
               <p v-if="x.stockout > 0" class="weui-media-box__desc">寝室商品回收数量:{{x.stockout}}</p>-->
             </div>
@@ -39,6 +39,8 @@
         token:'',
         goodsList:[],
         items:'',
+        status:0,
+        list:[]
       }
     },
     created() {
@@ -53,7 +55,19 @@
         axios.get(API_PROXY + this.api +'/sell/seller/group/productList?token='+this.token+'&groupNo='+this.groupNo).then((res) => {
           //console.log(res);
           this.goodsList = res.data.data;
-          console.log(this.goodsList)
+          console.log(this.goodsList);
+          //this.status = 0;
+          this.list.splice(0,this.list.length);
+          for(let i = 0;i < this.goodsList.length;i++){
+            this.status = 0;
+            for(let j = 0;j < this.goodsList[i].foods.length;j++){
+              if(this.goodsList[i].foods[j].stock === 0){
+                this.status += 1;
+              }
+            }
+            this.list.push(this.status);
+          }
+          console.log(this.list);
         }).catch((err) => {
           console.log(err);
         })
@@ -66,7 +80,7 @@
             if (this.goodsList[i].foods[j].count > 0) {
               var productId = this.goodsList[i].foods[j].id;
               var productQuantity = this.goodsList[i].foods[j].count;
-              str += '{productId:"'+ productId + '",productQuantity:' + productQuantity + '},';
+              str += '{productId:"'+ productId + '",productQuantity:"' + productQuantity + '",groupNo:'+ this.groupNo + '},';
             }
           }
         }

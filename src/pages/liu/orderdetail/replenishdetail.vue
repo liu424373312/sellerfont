@@ -33,45 +33,40 @@
                 </div>
             </div>
         </div>
-        <div class="weui-panel__hd hd">商品列表</div>
-        <div class="page__bd page__bd_spacing ">
-            <div class="weui-panel weui-panel_access goodslist" v-for="(item,index) in replenishdetail.replenishDetailList" :key="index">
-                <div class="weui-panel__bd">
-                    <a class="weui-media-box weui-media-box_appmsg" @click="goodsdetail(item)">
-                        <div class="weui-media-box__hd">
-                            <img class="weui-media-box__thumb" :src="item.productIcon" alt="">
-                        </div>
-                        <div class="weui-media-box__bd">
-                            <h4 class="weui-media-box__title">{{item.productName}}</h4>
-                            <p class="weui-media-box__desc">{{item.productPrice}}元</p>
-                        </div>
-                        <div class="weui-media-box__ft">
-                            <p class="weui-media-box__title">x{{item.productQuantity}}</p>
-                        </div>
-                    </a>
+        <div class="weui-cells__title">商品列表</div>
+        <div class="weui-cells">
+            <a class="weui-cell" v-for="(item,index) in replenishdetail.replenishDetailList" :key="index" @click="goodsdetail(item)">
+                <div class="weui-cell__hd"><img :src="item.productIcon" alt="" style="width:20px;margin-right:5px;display:block"></div>
+                <div class="weui-cell__bd">
+                    <p>{{item.productName}}</p>
                 </div>
-            </div>
+                <div class="weui-cell__ft">x{{item.productQuantity}}</div>
+            </a>
         </div>
-        <a class="weui-cell weui-cell_access" @click="dispatch">
-            <div class="weui-cell__bd">
-                <p>生成配送单</p>
-            </div>
-            <div class="weui-cell__ft"></div>
-        </a>
+        <a v-if="replenishdetail.replenishStatus==0" class="weui-btn weui-btn_primary" @click="createRE">生成配送单</a>
+        <a class="weui-btn weui-btn_warn" @click="cancel">取消</a>
     </div>
 </template>
 
 <script>
 import axios from "axios";
+import qs from "qs";
+import weui from "weui.js";
+import Cartcontrol from "../../../components/carcontrol/carcontrol";
 const API_PROXY = "http://bird.ioliu.cn/v1?url=";
 export default {
+  components: {
+    Cartcontrol
+  },
   data() {
     return {
       api: "http://wxsell.nat200.top",
       token: "",
       replenishId: "",
       replenishdetail: "",
-      data: []
+      data: [],
+      goods: [],
+      listHeight: []
     };
   },
   created() {
@@ -95,42 +90,100 @@ export default {
   methods: {
     orderstatus(item) {
       if (item == "0") {
-        return "已配送";
-      } else {
         return "待配送";
+      } else {
+        return "已配送";
       }
-    },
-    dispatch() {
-      this.data = [];
-      for (var i = 0; i < item.replenishDetailList.length; i++) {
-        this.data[i] = {
-          replenishId: item.replenishDetailList[i].replenishId,
-          productId: item.replenishDetailList[i].productId,
-          productQuantity: item.replenishDetailList[i].productQuantity
-        };
-      }
-      console.log(this.data);
-      // axios
-      //   .post(this.api + "/sell/seller/replenish/finish" + this.token, {
-      //     headers: { "Content-Type": "application/x-www-form-urlencoded" }
-      //   })
-      //   .then(res => {
-      //     console.log(res);
-      //     console.log();
-      //     this.listdata = res.data.data.list;
-      //   })
-      //   .catch(err => {
-      //     console.log(err);
-      //   });
     },
     goodsdetail(item) {
       this.setCookie("productId", item.productId, 1);
       this.$router.push("goodsdetail");
+    },
+    setFoods() {
+      this.amount = 0;
+      let str = "[";
+      for (
+        let i = 0;
+        i < this.replenishdetail.replenishDetailList.length;
+        i++
+      ) {
+        let replenishId = this.replenishdetail.replenishDetailList[i]
+          .replenishId;
+        let productId = this.replenishdetail.replenishDetailList[i].productId;
+        let productQuantity = this.replenishdetail.replenishDetailList[i]
+          .productQuantity;
+        str +=
+          '{replenishId:"' +
+          replenishId +
+          '",productId:"' +
+          productId +
+          '",productQuantity:' +
+          productQuantity +
+          "},";
+      }
+      str = str.substring(0, str.length - 1);
+      str += "]";
+      console.log(str);
+      const obj = {
+        token: this.token,
+        items: str
+      };
+      console.log(obj);
+      return qs.stringify(obj);
+    },
+    createRE() {
+      const send = this.setFoods();
+      //   this.totalP();
+      console.log(send);
+      axios
+        .post(this.api + "/sell/seller/replenish/finish", send, {
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded"
+          }
+        })
+        .then(res => {
+          console.log(res);
+          if (res.data.msg === "成功") {
+            weui.toast("创建配送单成功!", {
+              duration: 3000
+            });
+            this.$router.push("order");
+          } else {
+            weui.alert("" + res.data.msg);
+          }
+        })
+        .catch(err => {
+          console.log(err);
+          weui.alert("创建订单失败!");
+        });
+    },
+    cancel() {
+      axios
+        .get(
+          API_PROXY +
+            this.api +
+            "/sell/seller/replenish/cancel?replenishId=" +
+            this.replenishId
+        )
+        .then(res => {
+          console.log(res.data);
+          if (res.data.msg === "成功") {
+            weui.toast("取消成功!", {
+              duration: 3000
+            });
+            this.$router.push("order");
+          } else {
+            weui.alert("" + res.data.msg);
+          }
+        })
+        .catch(function(err) {
+          console.log(err);
+          weui.alert("取消失败!");
+        });
     }
   }
 };
 </script>
 
 <style>
-
 </style>

@@ -1,34 +1,31 @@
 <template>
-    <div id="payorder">
-        <searchorder></searchorder>
-        <orderlist :orderlist='listdata' :orderStatus='orderStatus'></orderlist>
-        <div class="weui-tabbar tabbar">
-            <a href="javascript:;" class="weui-tabbar__item weui-bar__item_on">
-                <i class="icon-truck ordericon" @click="neworder"></i>
-                <p class="weui-tabbar__label">新订单</p>
-            </a>
-            <a class="weui-tabbar__item">
-                <i class="icon-clipboard ordericon" @click="payorder"></i>
-                <p class="weui-tabbar__label">已支付订单</p>
-            </a>
-            <a class="weui-tabbar__item">
-                <i class="icon-clipboard ordericon" @click="finishorder"></i>
-                <p class="weui-tabbar__label">完结订单</p>
-            </a>
+  <div id="payorder">
+    <div class="page__bd" style="height: 100%;">
+      <div class="weui-tab">
+        <div class="weui-navbar">
+          <a href="javascript:;" class="weui-tabbar__item weui-bar__item_on">
+            <i class="icon-truck ordericon" @click="neworder"></i>
+            <p class="weui-tabbar__label">未支付订单</p>
+          </a>
+          <a class="weui-tabbar__item">
+            <i class="icon-clipboard ordericon" @click="payorder"></i>
+            <p class="weui-tabbar__label">已支付订单</p>
+          </a>
         </div>
+      </div>
     </div>
+    <orderlist :orderlist='listdata' :orderStatus='orderStatus'></orderlist>
+  </div>
 </template>
 
 <script>
 import axios from "axios";
-import searchorder from "../../../components/search/searchorder";
 import orderlist from "../../../components/orderlist/orderlist";
 import $ from "jquery";
 const API_PROXY = "http://bird.ioliu.cn/v1?url=";
 export default {
   components: {
-    orderlist,
-    searchorder
+    orderlist
   },
   data() {
     return {
@@ -63,7 +60,7 @@ export default {
             this.token +
             "&orderStatus=" +
             this.orderStatus +
-            "&payStatus" +
+            "&payStatus=" +
             this.payStatus
         )
         .then(res => {
@@ -83,21 +80,12 @@ export default {
       this.orderStatus = "0";
       this.payStatus = "1";
       this.orderlist();
-    },
-    finishorder() {
-      this.orderStatus = "1";
-      this.payStatus = "1";
-      this.orderlist();
     }
   }
 };
 </script>
 
 <style>
-.tabbar {
-  position: fixed;
-  bottom: 0;
-}
 .ordericon {
   font-size: 27px;
   color: dodgerblue;

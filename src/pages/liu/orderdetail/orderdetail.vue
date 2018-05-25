@@ -8,14 +8,6 @@
                     <span class="weui-form-preview__value">{{orderdetail.groupNo}}</span>
                 </div>
                 <div class="weui-form-preview__item">
-                    <label class="weui-form-preview__label">姓名</label>
-                    <span class="weui-form-preview__value">{{orderdetail.userName}}</span>
-                </div>
-                <div class="weui-form-preview__item">
-                    <label class="weui-form-preview__label">电话</label>
-                    <span class="weui-form-preview__value">{{orderdetail.userPhone}}</span>
-                </div>
-                <div class="weui-form-preview__item">
                     <label class="weui-form-preview__label">金额</label>
                     <span class="weui-form-preview__value">{{orderdetail.orderAmount}}</span>
                 </div>
@@ -33,31 +25,16 @@
                 </div>
             </div>
         </div>
-        <div class="weui-panel__hd hd">商品列表</div>
-        <div class="page__bd page__bd_spacing ">
-            <div class="weui-panel weui-panel_access goodslist" v-for="(item,index) in orderdetail.orderDetailList" :key="index">
-                <div class="weui-panel__bd">
-                    <a href="javascript:void(0);" class="weui-media-box weui-media-box_appmsg">
-                        <div class="weui-media-box__hd">
-                            <img class="weui-media-box__thumb" :src="item.productIcon" alt="">
-                        </div>
-                        <div class="weui-media-box__bd">
-                            <h4 class="weui-media-box__title">{{item.productName}}</h4>
-                            <p class="weui-media-box__desc">{{item.productPrice}}元</p>
-                        </div>
-                        <div class="weui-media-box__ft">
-                            <p class="weui-media-box__desc">x{{item.productQuantity}}</p>
-                        </div>
-                    </a>
+        <div class="weui-cells__title">商品列表</div>
+        <div class="weui-cells">
+            <a class="weui-cell" v-for="(item,index) in orderdetail.orderDetailList" :key="index">
+                <div class="weui-cell__hd"><img :src="item.productIcon" alt="" style="width:20px;margin-right:5px;display:block"></div>
+                <div class="weui-cell__bd">
+                    <p>{{item.productName}}</p>
                 </div>
-            </div>
+                <div class="weui-cell__ft">x{{item.productQuantity}}</div>
+            </a>
         </div>
-        <router-link :to="{name:'applydomitory'}" class="weui-cell weui-cell_access">
-            <div class="weui-cell__bd">
-                <p>生成配送单</p>
-            </div>
-            <div class="weui-cell__ft"></div>
-        </router-link>
     </div>
 </template>
 
@@ -70,7 +47,7 @@ export default {
       api: "http://wxsell.nat200.top",
       token: "",
       orderId: "",
-      orderdetail: ""
+      orderdetail: []
     };
   },
   created() {
@@ -85,7 +62,7 @@ export default {
       )
       .then(response => {
         console.log(response.data);
-        this.orderdetaill = response.data.data;
+        this.orderdetail = response.data.data;
       })
       .catch(function(err) {
         console.log(err);
@@ -108,5 +85,4 @@ export default {
 </script>
 
 <style>
-
 </style>
