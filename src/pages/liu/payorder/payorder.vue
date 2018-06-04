@@ -15,6 +15,11 @@
       </div>
     </div>
     <orderlist :orderlist='listdata' :orderStatus='orderStatus'></orderlist>
+    <div class="page">
+    <button class="weui-btn weui-btn_mini weui-btn_default" @click="backpage">上一页</button>
+    <span>第{{page}}页</span>
+    <button class="weui-btn weui-btn_mini weui-btn_default" @click="nextpage">下一页</button>
+    </div>
   </div>
 </template>
 
@@ -33,7 +38,8 @@ export default {
       api: "http://wxsell.nat200.top",
       listdata: [],
       orderStatus: "0",
-      payStatus: "0"
+      payStatus: "0",
+      page: "1"
     };
   },
   created() {
@@ -58,6 +64,8 @@ export default {
             this.api +
             "/sell/seller/order/list?token=" +
             this.token +
+            "&page=" +
+            this.page +
             "&orderStatus=" +
             this.orderStatus +
             "&payStatus=" +
@@ -79,6 +87,14 @@ export default {
     payorder() {
       this.orderStatus = "0";
       this.payStatus = "1";
+      this.orderlist();
+    },
+    nextpage(){
+      this.page++;
+      this.orderlist();
+    },
+    backpage(){
+      this.page--;
       this.orderlist();
     }
   }

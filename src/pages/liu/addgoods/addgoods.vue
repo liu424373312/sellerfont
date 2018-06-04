@@ -76,7 +76,7 @@
               <div class="weui-uploader__bd">
                 <ul class="weui-uploader__files" id="uploaderFiles" @click="handleClickUploadList"></ul>
                 <div class="weui-uploader__input-box">
-                  <input @change="update" name="file" id="uploaderInput" class="weui-uploader__input" type="file" accept="image/*" capture="camera" multiple="" />
+                  <input @change="update" name="file" id="uploaderInput" class="weui-uploader__input" type="file" accept="image/*" multiple="" />
                 </div>
               </div>
             </div>

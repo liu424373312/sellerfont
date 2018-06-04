@@ -34,7 +34,7 @@ import dorgroup from '../pages/chen/dorgroup/dorgroup'
 import templatesDetail from '../pages/chen/templatesDetail/templatesDetail'
 import orderdetail2 from '../pages/chen/orderdetail2/orderdetail2'
 import pic from '../pages/pic/pic'
-
+import register from '../pages/liu/register/register'
 Vue.use(Router);
 
 const vueRouter = new Router({
@@ -198,6 +198,11 @@ const vueRouter = new Router({
       path: '/payorder',
       name: 'payorder',
       component: payorder
+    },
+    {
+      path: '/register',
+      name: 'register',
+      component: register
     }
   ]
 })
@@ -208,20 +213,20 @@ vueRouter.beforeEach((to, from, next) => {
   }
   console.log('openid:' + getCookie('openid'));
   console.log('token:' + getCookie('token'));
-  if (to.name != 'authorize') {
-    if (getCookie('openid') == 'null') {
-      next({
-        name: 'authorize'
-      })
-    }
-    if (to.name != 'login') {
-      if (getCookie('token') == 'null') {
-        next({
-          name: 'login'
-        })
-      }
-    }
-  }
+  // if (to.name != 'authorize') {
+  //   if (getCookie('openid') == 'null') {
+  //     next({
+  //       name: 'authorize'
+  //     })
+  //   }
+  //   if (to.name != 'login') {
+  //     if (getCookie('token') == 'null') {
+  //       next({
+  //         name: 'login'
+  //       })
+  //     }
+  //   }
+  // }
   next();
 });
 export default vueRouter

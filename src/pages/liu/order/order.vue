@@ -18,6 +18,12 @@
     </div>
     <replenishlist v-if="replenishlistshow" :replenishlist='listdata'></replenishlist>
     <dispatchlist v-if="dispatchlistshow" :dispatchlist='listdata'></dispatchlist>
+    <div class="page">
+    <button class="weui-btn weui-btn_mini weui-btn_default" @click="backpage">上一页</button>
+    <span v-if="replenishlistshow">第{{replenishpage}}页</span>
+    <span v-if="dispatchlistshow">第{{dispatchpage}}页</span>
+    <button class="weui-btn weui-btn_mini weui-btn_default" @click="nextpage">下一页</button>
+    </div>
   </div>
 </template>
 
@@ -40,7 +46,9 @@ export default {
       api: "http://wxsell.nat200.top",
       listdata: [],
       replenishlistshow: true,
-      dispatchlistshow: false
+      dispatchlistshow: false,
+      replenishpage:'1',
+      dispatchpage:'1'
     };
   },
   created() {
@@ -64,7 +72,7 @@ export default {
           API_PROXY +
             this.api +
             "/sell/seller/dispatch/list?token=" +
-            this.token
+            this.token+"&page="+this.dispatchpage
         )
         .then(res => {
           console.log(res);
@@ -81,8 +89,8 @@ export default {
         .get(
           API_PROXY +
             this.api +
-            "/sell/seller/replenish/list?token=" +
-            this.token
+            "/sell/seller/replenish/list?token="+
+            this.token+"&page="+this.replenishpage
         )
         .then(res => {
           console.log(res);
@@ -94,6 +102,26 @@ export default {
         });
       this.replenishlistshow = true;
       this.dispatchlistshow = false;
+    },
+    nextpage(){
+      if(this.replenishlistshow){
+        this.replenishpage++;
+        this.replenishlist();
+      }
+      if(this.dispatchlistshow){
+        this.dispatchpage++;
+        this.dispatchlist();
+      }
+    },
+    backpage(){
+      if(this.replenishlistshow){
+        this.replenishpage--;
+        this.replenishlist();
+      }
+      if(this.dispatchlistshow){
+        this.dispatchpage--;
+        this.dispatchlist();
+      }
     }
   }
 };
@@ -110,5 +138,9 @@ export default {
 }
 #order {
   background-color: #f8f8f8;
+}
+.page{
+  position: relative;
+  align-self: center;
 }
 </style>

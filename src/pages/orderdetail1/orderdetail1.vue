@@ -50,7 +50,7 @@
               <h4 class="weui-media-box__title">{{m.name}}</h4>
               <p class="weui-media-box__desc">{{m.description}}</p>
               <p class="weui-media-box__desc">￥{{m.price}}</p>
-              <!--<p class="weui-media-box__desc">仓库库存:{{item.productQuantity}}</p>
+              <!<p class="weui-media-box__desc">仓库库存:{{item.productQuantity}}</p>
             </div>
             <a class="weui-cell weui-cell_access" href="javascript:;">
               <div class="weui-cell__bd">x{{m.quantity}}

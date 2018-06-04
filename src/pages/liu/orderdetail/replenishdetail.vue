@@ -1,6 +1,6 @@
 <template>
     <div id="replenishdetail">
-        <div class="weui-panel__hd hd">订单信息</div>
+        <div class="weui-panel__hd ">订单信息</div>
         <div class="weui-form-preview">
             <div class="weui-form-preview__bd">
                 <div class="weui-form-preview__item">

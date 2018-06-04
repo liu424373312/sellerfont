@@ -38,7 +38,7 @@
         id: "",
         api: "http://wxsell.nat200.top",
         token: "",
-        openid: "",
+        openid: '',
         nickname: "",
       };
     },

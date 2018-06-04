@@ -1,28 +1,28 @@
 <template>
   <div id="replenishlist">
-    <div class="weui-panel__bd" v-if="item.replenishStatus=='0'" v-for="(item,index) in replenishlist" :key="index" @click="detail(item)">
+    <div class="weui-panel__bd" v-if="item1.replenishStatus=='0'" v-for="(item1,index) in replenishlist" :key="index" @click="detail(item1)">
       <div class="weui-media-box weui-media-box_appmsg">
         <div class="weui-media-box__bd">
-          <h4 class="weui-media-box__title">{{item.groupNo}}</h4>
-          <p class="weui-media-box__desc">{{item.userName}} {{item.userPhone}}</p>
-          <p class="weui-media-box__desc">时间:{{timestampToTime(item.createTime)}}</p>
+          <h4 class="weui-media-box__title">{{item1.groupNo}}</h4>
+          <p class="weui-media-box__desc">{{item1.userName}} {{item1.userPhone}}</p>
+          <p class="weui-media-box__desc">时间:{{timestampToTime(item1.createTime)}}</p>
         </div>
         <div class="weui-media-box__ft fttext">
-          <p class="weui-media-box__desc">{{orderstatus(item.replenishStatus)}}</p>
-          <p class="weui-media-box__title">{{item.replenishAmount}}￥</p>
+          <p class="weui-media-box__desc">{{orderstatus(item1.replenishStatus)}}</p>
+          <p class="weui-media-box__title">{{item1.replenishAmount}}￥</p>
         </div>
       </div>
     </div>
-    <div class="weui-panel__bd" v-if="item.replenishStatus=='1'" v-for="(item,index) in replenishlist" :key="index" @click="detail(item)">
+    <div class="weui-panel__bd" v-if="item2.replenishStatus=='1'" v-for="(item2,index) in replenishlist" :key="index" @click="detail(item2)">
       <div class="weui-media-box weui-media-box_appmsg">
         <div class="weui-media-box__bd">
-          <h4 class="weui-media-box__title">{{item.groupNo}}</h4>
-          <p class="weui-media-box__desc">{{item.userName}} {{item.userPhone}}</p>
-          <p class="weui-media-box__desc">时间:{{timestampToTime(item.createTime)}}</p>
+          <h4 class="weui-media-box__title">{{item2.groupNo}}</h4>
+          <p class="weui-media-box__desc">{{item2.userName}} {{item2.userPhone}}</p>
+          <p class="weui-media-box__desc">时间:{{timestampToTime(item2.createTime)}}</p>
         </div>
         <div class="weui-media-box__ft fttext">
-          <p class="weui-media-box__desc">{{orderstatus(item.replenishStatus)}}</p>
-          <p class="weui-media-box__title">{{item.replenishAmount}}￥</p>
+          <p class="weui-media-box__desc">{{orderstatus(item2.replenishStatus)}}</p>
+          <p class="weui-media-box__title">{{item2.replenishAmount}}￥</p>
         </div>
       </div>
     </div>
@@ -125,13 +125,6 @@ export default {
 </script>
 
 <style>
-#orderlist {
-  height: 530px;
-  overflow: auto;
-}
-.orderitem {
-  margin-bottom: 30px;
-}
 .fttext{
   text-align: right;
 }
