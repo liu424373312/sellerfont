@@ -1,51 +1,58 @@
 <template>
-    <div id="replenishdetail">
-        <div class="weui-panel__hd ">订单信息</div>
-        <div class="weui-form-preview">
-            <div class="weui-form-preview__bd">
-                <div class="weui-form-preview__item">
-                    <label class="weui-form-preview__label">寝室号</label>
-                    <span class="weui-form-preview__value">{{replenishdetail.groupNo}}</span>
-                </div>
-                <div class="weui-form-preview__item">
-                    <label class="weui-form-preview__label">姓名</label>
-                    <span class="weui-form-preview__value">{{replenishdetail.userName}}</span>
-                </div>
-                <div class="weui-form-preview__item">
-                    <label class="weui-form-preview__label">电话</label>
-                    <span class="weui-form-preview__value">{{replenishdetail.userPhone}}</span>
-                </div>
-                <div class="weui-form-preview__item">
-                    <label class="weui-form-preview__label">金额</label>
-                    <span class="weui-form-preview__value">{{replenishdetail.replenishAmount}}</span>
-                </div>
-                <div class="weui-form-preview__item">
-                    <label class="weui-form-preview__label">时间</label>
-                    <span class="weui-form-preview__value">{{replenishdetail.createTime}}</span>
-                </div>
-                <div class="weui-form-preview__item">
-                    <label class="weui-form-preview__label">订单状态</label>
-                    <span class="weui-form-preview__value">{{orderstatus(replenishdetail.replenishStatus)}}</span>
-                </div>
-                <div class="weui-form-preview__item">
-                    <label class="weui-form-preview__label">订单编号</label>
-                    <span class="weui-form-preview__value">{{replenishdetail.replenishId}}</span>
-                </div>
-            </div>
+  <div id="replenishdetail">
+    <div class="weui-panel__hd ">订单信息</div>
+    <div class="weui-form-preview">
+      <div class="weui-form-preview__bd">
+        <div class="weui-form-preview__item">
+          <label class="weui-form-preview__label">寝室号</label>
+          <span class="weui-form-preview__value">{{replenishdetail.groupNo}}</span>
         </div>
-        <div class="weui-cells__title">商品列表</div>
-        <div class="weui-cells">
-            <a class="weui-cell" v-for="(item,index) in replenishdetail.replenishDetailList" :key="index" @click="goodsdetail(item)">
-                <div class="weui-cell__hd"><img :src="item.productIcon" alt="" style="width:20px;margin-right:5px;display:block"></div>
-                <div class="weui-cell__bd">
-                    <p>{{item.productName}}</p>
-                </div>
-                <div class="weui-cell__ft">x{{item.productQuantity}}</div>
-            </a>
+        <div class="weui-form-preview__item">
+          <label class="weui-form-preview__label">姓名</label>
+          <span class="weui-form-preview__value">{{replenishdetail.userName}}</span>
         </div>
-        <a v-if="replenishdetail.replenishStatus==0" class="weui-btn weui-btn_primary" @click="createRE">生成配送单</a>
-        <a class="weui-btn weui-btn_warn" @click="cancel">取消</a>
+        <div class="weui-form-preview__item">
+          <label class="weui-form-preview__label">电话</label>
+          <span class="weui-form-preview__value">{{replenishdetail.userPhone}}</span>
+        </div>
+        <div class="weui-form-preview__item">
+          <label class="weui-form-preview__label">金额</label>
+          <span class="weui-form-preview__value">{{replenishdetail.replenishAmount}}</span>
+        </div>
+        <div class="weui-form-preview__item">
+          <label class="weui-form-preview__label">时间</label>
+          <span class="weui-form-preview__value">{{timestampToTime(replenishdetail.createTime)}}</span>
+        </div>
+        <div class="weui-form-preview__item">
+          <label class="weui-form-preview__label">订单状态</label>
+          <span class="weui-form-preview__value">{{orderstatus(replenishdetail.replenishStatus)}}</span>
+        </div>
+        <div class="weui-form-preview__item">
+          <label class="weui-form-preview__label">订单编号</label>
+          <span class="weui-form-preview__value">{{replenishdetail.replenishId}}</span>
+        </div>
+      </div>
     </div>
+    <div class="weui-cells__title">商品列表</div>
+    <div class="weui-cells">
+      <a class="weui-cell" v-for="(item,index) in replenishdetail.replenishDetailList" :key="index">
+        <div class="weui-cell__hd" @click="goodsdetail(item)"><img :src="item.productIcon" alt="" style="width:20px;margin-right:5px;display:block"></div>
+        <div class="weui-cell__bd" @click="goodsdetail(item)">
+          <p>{{item.productName}}</p>
+        </div>
+        <div class="weui-cell__ft">
+          <span @click="decreseQuantity(index)">
+            <i style="margin-right:5px; font-size: 10px; color: dodgerblue;" class="icon-minus"></i>
+          </span>{{item.productQuantity}}
+          <span @click="addQuantity(index)">
+            <i style="margin-left: 5px;font-size: 10px; color: dodgerblue;" class="icon-plus"></i>
+          </span>
+        </div>
+      </a>
+    </div>
+    <a v-if="replenishdetail.replenishStatus==0" class="weui-btn weui-btn_primary" @click="createRE">生成配送单</a>
+    <a class="weui-btn weui-btn_warn" @click="cancel">取消</a>
+  </div>
 </template>
 
 <script>
@@ -88,11 +95,17 @@ export default {
       });
   },
   methods: {
+    decreseQuantity(index) {
+      this.replenishdetail.replenishDetailList[index].productQuantity--;
+    },
+    addQuantity(index) {
+      this.replenishdetail.replenishDetailList[index].productQuantity++;
+    },
     orderstatus(item) {
       if (item == "0") {
-        return "待配送";
+        return "待生成配送单";
       } else {
-        return "已配送";
+        return "已生成配送单";
       }
     },
     goodsdetail(item) {
@@ -180,6 +193,19 @@ export default {
           console.log(err);
           weui.alert("取消失败!");
         });
+    },
+    timestampToTime(timestamp) {
+      var date = new Date(timestamp * 1000); //时间戳为10位需*1000，时间戳为13位的话不需乘1000
+      var Y = date.getFullYear() + "-";
+      var M =
+        (date.getMonth() + 1 < 10
+          ? "0" + (date.getMonth() + 1)
+          : date.getMonth() + 1) + "-";
+      var D = date.getDate() + " ";
+      var h = date.getHours() + ":";
+      var m = date.getMinutes() + ":";
+      var s = date.getSeconds();
+      return Y + M + D + h + m + s;
     }
   }
 };

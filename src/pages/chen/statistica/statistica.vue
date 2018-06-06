@@ -17,7 +17,7 @@
           <label for="" class="weui-label">开始时间</label>
         </div>
         <div class="weui-cell__bd">
-          <input class="weui-input" type="date" value="" v-model="sTime"/>
+          <input class="weui-input" type="date" v-model="sTime"/>
         </div>
       </div>
       <div class="weui-cell">
@@ -113,8 +113,20 @@
       this.token = this.getCookie('token');
       //this.getGoodsSta();
       //this.getOrder();
+      //this.getCurrentTime();
     },
     methods: {
+      getCurrentTime(){
+        var date1 = new Date();
+         var Y = date1.getFullYear();
+        //console.log(Y);
+        //console.log(dorTime);
+        var M = (date1.getMonth() + 1 < 0 ? +(date1.getMonth() + 1) : date1.getMonth() + 1);
+        //console.log(M);
+        var D = date1.getDate();
+        this.sTime = Y + '-' + M + '-' + D;
+        console.log(this.sTime);
+      },
       getOrders(){
         axios.get(API_PROXY+this.api+'/sell/seller/order/timeBetween?token='+this.token+'&startTime='+this.sTime+'&endTime='+this.eTime+'&page='+this.page).then((res) => {
           console.log(res);

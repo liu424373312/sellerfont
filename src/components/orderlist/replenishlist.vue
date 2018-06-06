@@ -52,9 +52,9 @@ export default {
   methods: {
     orderstatus(item) {
       if (item == "1") {
-        return "已配送";
+        return "已生成配送单";
       } else {
-        return "待配送";
+        return "待生成配送单";
       }
     },
     confirm(item) {

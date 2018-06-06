@@ -27,7 +27,7 @@
             </router-link>
             <router-link :to="{name:'templates'}" class="weui-grid">
             <div class="weui-grid__icon">
-              <i class="icon-order homeicon"></i>
+              <i class="icon-copy homeicon"></i>
             </div>
             <p class="weui-grid__label">模板管理</p>
           </router-link>
@@ -39,7 +39,7 @@
             </router-link>
             <router-link to="payorder" class="weui-grid">
                 <div class="weui-grid__icon">
-                    <i class="icon-user homeicon"></i>
+                    <i class="icon-database homeicon"></i>
                 </div>
                 <p class="weui-grid__label">支付订单</p>
             </router-link>

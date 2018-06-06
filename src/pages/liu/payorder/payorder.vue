@@ -4,7 +4,7 @@
       <div class="weui-tab">
         <div class="weui-navbar">
           <a href="javascript:;" class="weui-tabbar__item weui-bar__item_on">
-            <i class="icon-truck ordericon" @click="neworder"></i>
+            <i class="icon-paste ordericon" @click="neworder"></i>
             <p class="weui-tabbar__label">未支付订单</p>
           </a>
           <a class="weui-tabbar__item">

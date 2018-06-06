@@ -21,7 +21,7 @@
       <div v-for="(item,index) in this.crGoods" :key="index" class="weui-cell weui-cell_access">
         <div class="weui-cell__bd">
           <h4 class="weui-media-box__title">{{item.productName}}</h4>
-          <p class="weui-media-box__desc">仓库库存:{{item.productQuantity}}</p>
+          <p class="weui-media-box__desc">商品数量:{{item.productQuantity}}</p>
         </div>
         <!--<carcontrol :food="item"></carcontrol>&nbsp;&nbsp;&nbsp;&nbsp;-->
         <!--<a href="javascript:;" class="weui-btn weui-btn_warn weui-btn_mini" @click="delCR">删除</a>-->

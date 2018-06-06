@@ -218,8 +218,7 @@ vueRouter.beforeEach((to, from, next) => {
   //     next({
   //       name: 'authorize'
   //     })
-  //   }
-  //   if (to.name != 'login') {
+  //   }else if (to.name != 'login') {
   //     if (getCookie('token') == 'null') {
   //       next({
   //         name: 'login'

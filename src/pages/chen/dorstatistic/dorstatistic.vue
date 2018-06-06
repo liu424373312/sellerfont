@@ -1,8 +1,8 @@
 <template>
   <div id="dorstatistic">
     <div class="weui-form-preview__item" style="margin-left:25%;">
-      <a href="javascript:;" class="weui-btn weui-btn_primary weui-btn_mini" v-show="!this.showFlag"  @click="getQue" style="background:#fff;color:#33cc00;top:10px;">缺货100间</a>
-      <a href="javascript:;" class="weui-btn weui-btn_primary weui-btn_mini" v-show="this.showFlag" @click="getQue" style="background:#33cc00;color:#fff;">缺货100间</a>
+      <a href="javascript:;" class="weui-btn weui-btn_primary weui-btn_mini" v-show="!this.showFlag"  @click="getQue" style="background:#fff;color:#33cc00;top:10px;">存货排行</a>
+      <a href="javascript:;" class="weui-btn weui-btn_primary weui-btn_mini" v-show="this.showFlag" @click="getQue" style="background:#33cc00;color:#fff;">存货排行</a>
       <a href="javascript:;" class="weui-btn weui-btn_primary weui-btn_mini" v-show="!this.showDor"  @click="getStatistic" style="background:#fff;color:#33cc00;top:10px;">寝室销售统计</a>
       <a href="javascript:;" class="weui-btn weui-btn_primary weui-btn_mini" v-show="this.showDor" @click="getStatistic" style="background:#33cc00;color:#fff;">寝室销售统计</a>
       </div>
@@ -24,7 +24,7 @@
       </div>
     </div>
   </div>
-    <div class="weui-form-preview__item" style="margin-top:10px;">
+    <div class="weui-form-preview__item" style="margin-top:10px;margin-left:10%">
       <a href="javascript:;" class="weui-btn weui-btn_default weui-btn_mini" @click="lastPage">上一页</a>
       <input type="number" class="weui-search-bar_input"
              style="display:inline-block;width:50px;height:18px;text-align: center" value="" v-model="page"
@@ -49,7 +49,7 @@
         page: 1,
         showFlag:false,
         showDor:false,
-        dorname:'缺货100间',
+        dorname:'存货排行',
         sort:0
       }
     },
@@ -65,7 +65,7 @@
       getQue(){
         this.showDor = !this.showDor;
         this.showFlag = !this.showFlag;
-        this.dorname = "缺货100间";
+        this.dorname = "存货排行";
         this.sort = 0;
         axios.get(API_PROXY + this.api + '/sell/seller/group/salesList?token=' + this.token + '&page=' + this.page).then((res) => {
           console.log(res);
@@ -197,8 +197,6 @@
             console.log(err);
           })
         }
-
-
         //this.getStatistic();
       },
       lastPage() {

@@ -6,6 +6,7 @@ import router from './router'
 import 'weui'
 import './common/dist/style/weui.css'
 import './common/style/style.css'
+import './common/style/style1.css'
 import util from './util/util'
 
 Vue.config.productionTip = false

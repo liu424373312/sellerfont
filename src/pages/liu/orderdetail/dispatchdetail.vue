@@ -12,8 +12,8 @@
           <span class="weui-form-preview__value">{{dispatchdetail.dispatchAmount}}</span>
         </div>
         <div class="weui-form-preview__item">
-          <label class="weui-form-preview__label">时间</label>
-          <span class="weui-form-preview__value">{{dispatchdetail.createTime}}</span>
+          <label class="weui-form-preview__label">创建时间</label>
+          <span class="weui-form-preview__value">{{timestampToTime(dispatchdetail.createTime)}}</span>
         </div>
         <div class="weui-form-preview__item">
           <label class="weui-form-preview__label">订单状态</label>
@@ -21,7 +21,7 @@
         </div>
         <div class="weui-form-preview__item">
           <label class="weui-form-preview__label">订单编号</label>
-          <span class="weui-form-preview__value">{{dispatchdetail.dispatchIdId}}</span>
+          <span class="weui-form-preview__value">{{dispatchdetail.dispatchId}}</span>
         </div>
       </div>
     </div>
@@ -38,7 +38,7 @@
     <a class="weui-btn weui-btn_primary" @click="finish">
       <p>完成配送</p>
     </a>
-    <a class="weui-btn weui-btn_warn">取消</a>
+    <a class="weui-btn weui-btn_warn" @click="cancelorder">取消</a>
   </div>
 </template>
 
@@ -107,6 +107,45 @@ export default {
         .catch(function(err) {
           console.log(err);
           weui.alert("完成配送失败!");
+        });
+    },
+    timestampToTime(timestamp) {
+      var date = new Date(timestamp * 1000); //时间戳为10位需*1000，时间戳为13位的话不需乘1000
+      var Y = date.getFullYear() + "-";
+      var M =
+        (date.getMonth() + 1 < 10
+          ? "0" + (date.getMonth() + 1)
+          : date.getMonth() + 1) + "-";
+      var D = date.getDate() + " ";
+      var h = date.getHours() + ":";
+      var m = date.getMinutes() + ":";
+      var s = date.getSeconds();
+      return Y + M + D + h + m + s;
+    },
+    cancelorder(){
+      axios
+        .get(
+          API_PROXY +
+            this.api +
+            "/sell/seller/dispatch/cancel?groupNo=" +
+            this.groupNo +
+            "&token=" +
+            this.token
+        )
+        .then(res => {
+          console.log(res.data);
+          if (res.data.msg === "成功") {
+            weui.toast("取消成功!", {
+              duration: 3000
+            });
+            this.$router.push("order");
+          } else {
+            weui.alert("" + res.data.msg);
+          }
+        })
+        .catch(function(err) {
+          console.log(err);
+          weui.alert("取消失败!");
         });
     }
   }

@@ -39,14 +39,12 @@
         </div>
         <div class="weui-cell__ft">{{status}}</div>
       </div>
-      <div class="weui-cell weui-cell_select weui-cell_select-after">
+      <div class="weui-cell weui-cell_access" @click="showdialog(6,goodsdetail.categoryType)">
         <div class="weui-cell__hd">
           <label for="" class="weui-label">商品类目</label>
         </div>
         <div class="weui-cell__bd">
-          <select v-model="goodsdetail.categoryType" class="weui-select" name="select2">
-            <option class="weui-cell__ft" :value="item.type" v-for="(item,index) in goodsclass" :key="index">{{item.name}}</option>
-          </select>
+          <div v-if="goodsdetail.categoryType==item.type" class="weui-cell__ft" v-for="(item,index) in goodsclass" :key="index">{{item.name}}</div>
         </div>
       </div>
       <div class="weui-cell weui-cell_access" @click="showdialog(5,goodsdetail.description)">
@@ -75,13 +73,29 @@
         </div>
       </div>
     </div>
+    <div class="js_dialog" v-show="goodsclassdialogshow">
+      <div class="weui-mask"></div>
+      <div class="weui-dialog">
+        <div class="weui-dialog__hd">
+          <strong class="weui-dialog__title">修改商品信息</strong>
+        </div>
+        <div class="weui-dialog__bd">
+          <select v-model="goodsdetail.categoryType" class="weui-select" name="select2">
+            <option class="weui-cell__ft" :value="item.type" v-for="(item,index) in goodsclass" :key="index">{{item.name}}</option>
+          </select>
+        </div>
+        <div class="weui-dialog__ft">
+          <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary" @click="modifygoods">确认</a>
+          <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_default" @click="hidedialog">取消</a>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 import axios from "axios";
 import weui from "weui.js";
-let param = new FormData();
 const API_PROXY = "http://bird.ioliu.cn/v1?url=";
 export default {
   data() {
@@ -93,9 +107,10 @@ export default {
       data: {},
       status: "",
       dialogshow: false,
+      goodsclassdialogshow: false,
       textinput: "",
       index: "",
-      token: this.getCookie("token"),
+      token: this.getCookie("token")
     };
   },
   created() {
@@ -115,6 +130,7 @@ export default {
   mounted() {},
   methods: {
     modifygoods() {
+      let param = new FormData();
       var loading = weui.loading("提交中");
       if (this.index == 1) {
         this.goodsdetail.name = this.textinput;
@@ -226,17 +242,20 @@ export default {
         });
     },
     showdialog(index, item) {
+      if (index == 6) {
+        this.goodsclassdialogshow = true;
+      }
       this.dialogshow = true;
       this.textinput = item;
       this.index = index;
     },
     hidedialog() {
       this.dialogshow = false;
+      this.goodsclassdialogshow= false;
     }
   }
 };
 </script>
 
 <style>
-
 </style>
