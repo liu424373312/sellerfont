@@ -40,8 +40,8 @@ export default {
     };
   },
   created() {
-    // this.openid = "oSpuJ1ryJLJwSnRbusu8wa1XjqnM";
-    this.openid = this.getQueryOpenid("openid");
+    this.openid = "oSpuJ1ryJLJwSnRbusu8wa1XjqnM";
+    // this.openid = this.getQueryOpenid("openid");
     //let nickname=this.getQueryOpenid("nickname");
     let headImg = this.getQueryOpenid("headImgUrl");
     this.setCookie("headImg", headImg, 1);

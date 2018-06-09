@@ -21,26 +21,8 @@
           <p class="weui-media-box__desc">时间:{{timestampToTime(item2.createTime)}}</p>
         </div>
         <div class="weui-media-box__ft fttext">
-<<<<<<< HEAD
           <p class="weui-media-box__desc">{{orderstatus(item2.replenishStatus)}}</p>
           <p class="weui-media-box__title">{{item2.replenishAmount}}￥</p>
-=======
-          <p class="weui-media-box__desc">{{orderstatus(item.replenishStatus)}}</p>
-          <p class="weui-media-box__title">{{item.replenishAmount}}￥</p>
-        </div>
-      </div>
-    </div>
-    <div class="weui-panel__bd" v-if="item.replenishStatus=='1'" v-for="(item,index) in replenishlist" :key="index" @click="detail(item)">
-      <div class="weui-media-box weui-media-box_appmsg">
-        <div class="weui-media-box__bd">
-          <h4 class="weui-media-box__title">{{item.groupNo}}</h4>
-          <p class="weui-media-box__desc">{{item.userName}} {{item.userPhone}}</p>
-          <p class="weui-media-box__desc">时间:{{timestampToTime(item.createTime)}}</p>
-        </div>
-        <div class="weui-media-box__ft fttext">
-          <p class="weui-media-box__desc">{{orderstatus(item.replenishStatus)}}</p>
-          <p class="weui-media-box__title">{{item.replenishAmount}}￥</p>
->>>>>>> 1b377a023c30d2b40bd86acb65decee603ce7aac
         </div>
       </div>
     </div>
@@ -70,15 +52,9 @@ export default {
   methods: {
     orderstatus(item) {
       if (item == "1") {
-<<<<<<< HEAD
         return "已生成配送单";
       } else {
         return "待生成配送单";
-=======
-        return "已配送";
-      } else {
-        return "待配送";
->>>>>>> 1b377a023c30d2b40bd86acb65decee603ce7aac
       }
     },
     confirm(item) {

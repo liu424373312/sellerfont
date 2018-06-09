@@ -27,11 +27,7 @@
             </router-link>
             <router-link :to="{name:'templates'}" class="weui-grid">
             <div class="weui-grid__icon">
-<<<<<<< HEAD
               <i class="icon-copy homeicon"></i>
-=======
-              <i class="icon-order homeicon"></i>
->>>>>>> 1b377a023c30d2b40bd86acb65decee603ce7aac
             </div>
             <p class="weui-grid__label">模板管理</p>
           </router-link>
