@@ -44,12 +44,10 @@ import weui from "weui.js";
 import $ from "jquery";
 import axios from "axios";
 import qs from "qs";
-const API_PROXY = "http://bird.ioliu.cn/v1?url=";
 let param = new FormData();
 export default {
   data() {
     return {
-      api: "http://wxsell.nat200.top",
       data: {
         token: this.getCookie("token")
       }
@@ -64,7 +62,7 @@ export default {
       var loading = weui.loading("注册中");
       axios
         .post(
-          this.api + "/sell/seller/register",
+          "/api/sell/seller/register",
           qs.stringify({
             username: this.username,
             password: this.password,
@@ -103,5 +101,4 @@ export default {
 </script>
 
 <style>
-
 </style>

@@ -61,12 +61,10 @@ import qs from "qs";
 import $ from "jquery";
 import weui from "weui.js";
 import axios from "axios";
-const API_PROXY = "http://bird.ioliu.cn/v1?url=";
 var $Dialog = $("#Dialog");
 export default {
   data() {
     return {
-      api: "http://wxsell.nat200.top",
       token: "",
       goodsclass: [],
       newgoodsclass: {
@@ -103,7 +101,7 @@ export default {
       var loading = weui.loading("提交中");
       axios
         .post(
-          this.api + "/sell/seller/category/save",
+          "/api/sell/seller/category/save",
           qs.stringify({
             categoryId: this.newgoodsclass.categoryId,
             categoryName: this.newgoodsclass.categoryName,
@@ -131,7 +129,7 @@ export default {
       var loading = weui.loading("提交中");
       axios
         .post(
-          this.api + "/sell/seller/category/save",
+          "/api/sell/seller/category/save",
           qs.stringify({
             categoryName: this.categoryName,
             categoryType: this.categoryType
@@ -161,12 +159,7 @@ export default {
       this.categoryType = "";
       this.token = this.getCookie("token");
       axios
-        .get(
-          API_PROXY +
-            this.api +
-            "/sell/seller/category/list?token=" +
-            this.token
-        )
+        .get("/api/sell/seller/category/list?token=" + this.token)
         .then(response => {
           console.log(response.data);
           this.goodsclass = response.data.data;
@@ -181,5 +174,4 @@ export default {
 </script>
 
 <style>
-
 </style>

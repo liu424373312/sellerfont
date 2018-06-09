@@ -13,11 +13,9 @@
 </template>
 <script>
   import axios from 'axios';
-  const API_PROXY = "http://bird.ioliu.cn/v2?url=";
 export default {
   data(){
     return {
-      api: "http://wxsell.nat200.top",
       token:'',
       groupNo:'',
       pic:''
@@ -27,12 +25,12 @@ export default {
     console.log("pic");
     this.token = this.getCookie("token");
     this.groupNo = this.getCookie("groupNo");
-    this.pic = 'http://wxsell.nat200.top/sell/seller/qrcode/create?token='+this.token+'&groupNo='+this.groupNo;
+    this.pic = '/api/sell/seller/qrcode/create?token='+this.token+'&groupNo='+this.groupNo;
     //this.getPic();
   },
   methods:{
     getPic(){
-      axios.get(API_PROXY + this.api + '/sell/seller/qrcode/create?token='+this.token+'&groupNo='+this.groupNo).then((res) => {
+      axios.get('/api/sell/seller/qrcode/create?token='+this.token+'&groupNo='+this.groupNo).then((res) => {
         console.log(res);
         this.pic = res.data;
         //console.log(this.pic);

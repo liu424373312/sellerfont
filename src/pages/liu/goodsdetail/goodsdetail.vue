@@ -96,13 +96,11 @@
 <script>
 import axios from "axios";
 import weui from "weui.js";
-const API_PROXY = "http://bird.ioliu.cn/v1?url=";
 export default {
   data() {
     return {
       goodsclass: [],
       goodsdetail: [],
-      api: "http://wxsell.nat200.top",
       btnshow: true,
       data: {},
       status: "",
@@ -116,8 +114,7 @@ export default {
   created() {
     this.getgoodsdetail();
     axios
-      .get(
-        API_PROXY + this.api + "/sell/seller/product/list?token=" + this.token
+      .get("/api/sell/seller/product/list?token=" + this.token
       )
       .then(response => {
         console.log(response.data);
@@ -158,7 +155,7 @@ export default {
       param.append("productIcon", this.goodsdetail.icon);
       console.log(param);
       axios
-        .post(this.api + "/sell/seller/product/save", param, {
+        .post("/api/sell/seller/product/save", param, {
           headers: {
             "Content-Type": "multipart/form-data"
           }
@@ -183,9 +180,7 @@ export default {
     onsale() {
       axios
         .get(
-          API_PROXY +
-            this.api +
-            "/sell/seller/product/on_sale?token=" +
+            "/api/sell/seller/product/on_sale?token=" +
             this.getCookie("token") +
             "&productId=" +
             this.getCookie("productId")
@@ -201,9 +196,7 @@ export default {
     offsale() {
       axios
         .get(
-          API_PROXY +
-            this.api +
-            "/sell/seller/product/off_sale?token=" +
+            "/api/sell/seller/product/off_sale?token=" +
             this.getCookie("token") +
             "&productId=" +
             this.getCookie("productId")
@@ -219,9 +212,7 @@ export default {
     getgoodsdetail() {
       axios
         .get(
-          API_PROXY +
-            this.api +
-            "/sell/seller/product/index?token=" +
+            "/api/sell/seller/product/index?token=" +
             this.getCookie("token") +
             "&productId=" +
             this.getCookie("productId")

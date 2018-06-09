@@ -64,80 +64,81 @@
 </template>
 
 <script>
-  import axios from 'axios';
-  import weui from 'weui.js';
-
-  const API_PROXY = 'http://bird.ioliu.cn/v1?url=';
-  export default {
-    data() {
-      return {
-        token: '',
-        api: 'http://wxsell.nat200.top',
-        dorDE:[],
-        createTime:'',
-        updateTime:'',
-        payStatus:'',
-        orderStatus:''
-      }
-    },
-    created() {
-      this.dorDE = this.$route.params.dorDE;
-      console.log(this.dorDE);
-      //创建时间
-      if(this.dorDE.createTime.toString().length === 10){
-        var date = new Date(this.dorDE.createTime * 1000);
-      }else{
-        var date = new Date(this.dorDE.createTime);
-      }
-      this.createTime = this.times(date);
-      //更新时间
-      if(this.dorDE.updateTime.toString().length === 10){
-        var date = new Date(this.dorDE.updateTime * 1000);
-      }else{
-        var date = new Date(this.dorDE.updateTime);
-      }
-      this.updateTime = this.times(date);
-      //订单状态
-      if(this.dorDE.orderStatus === 0){
-        this.orderStatus = "新订单";
-      }else if(this.dorDE.orderStatus === 1){
-        this.orderStatus = "已完结";
-      }else{
-        this.ordeStatus = "已取消"
-      }
-      //支付状态
-      if(this.dorDE.payStatus === 0){
-        this.payStatus = "未支付";
-      }else{
-        this.payStatus = "已支付"
-      }
-    },
-    methods: {
-      times(date1) {
-        if(date1.toString().length === 10){
-          date1 = date1 * 1000;
-        }
-        var Y = date1.getFullYear();
-        //console.log(Y);
-        //console.log(dorTime);
-        var M = (date1.getMonth() + 1 < 0 ? +(date1.getMonth() + 1) : date1.getMonth() + 1);
-        //console.log(M);
-        var D = date1.getDate();
-        //console.log(D);
-        var h = date1.getHours();
-        //console.log(h);
-        var m = (date1.getMinutes() < 10 ? '0' + date1.getMinutes() : date1.getMinutes());
-        //console.log(m);
-        var s = (date1.getSeconds() < 10 ? '0' + date1.getSeconds() : date1.getSeconds());
-        //console.log(s);
-        return Y + '-' + M + '-' + D + ' ' + h + ':' + m + ':' + s;
-        //console.log(this.createsTime);
-        //return this.createsTime;
-      }
+import axios from "axios";
+import weui from "weui.js";
+export default {
+  data() {
+    return {
+      token: "",
+      dorDE: [],
+      createTime: "",
+      updateTime: "",
+      payStatus: "",
+      orderStatus: ""
+    };
+  },
+  created() {
+    this.dorDE = this.$route.params.dorDE;
+    console.log(this.dorDE);
+    //创建时间
+    if (this.dorDE.createTime.toString().length === 10) {
+      var date = new Date(this.dorDE.createTime * 1000);
+    } else {
+      var date = new Date(this.dorDE.createTime);
     }
-  };
+    this.createTime = this.times(date);
+    //更新时间
+    if (this.dorDE.updateTime.toString().length === 10) {
+      var date = new Date(this.dorDE.updateTime * 1000);
+    } else {
+      var date = new Date(this.dorDE.updateTime);
+    }
+    this.updateTime = this.times(date);
+    //订单状态
+    if (this.dorDE.orderStatus === 0) {
+      this.orderStatus = "新订单";
+    } else if (this.dorDE.orderStatus === 1) {
+      this.orderStatus = "已完结";
+    } else {
+      this.ordeStatus = "已取消";
+    }
+    //支付状态
+    if (this.dorDE.payStatus === 0) {
+      this.payStatus = "未支付";
+    } else {
+      this.payStatus = "已支付";
+    }
+  },
+  methods: {
+    times(date1) {
+      if (date1.toString().length === 10) {
+        date1 = date1 * 1000;
+      }
+      var Y = date1.getFullYear();
+      //console.log(Y);
+      //console.log(dorTime);
+      var M =
+        date1.getMonth() + 1 < 0
+          ? +(date1.getMonth() + 1)
+          : date1.getMonth() + 1;
+      //console.log(M);
+      var D = date1.getDate();
+      //console.log(D);
+      var h = date1.getHours();
+      //console.log(h);
+      var m =
+        date1.getMinutes() < 10 ? "0" + date1.getMinutes() : date1.getMinutes();
+      //console.log(m);
+      var s =
+        date1.getSeconds() < 10 ? "0" + date1.getSeconds() : date1.getSeconds();
+      //console.log(s);
+      return Y + "-" + M + "-" + D + " " + h + ":" + m + ":" + s;
+      //console.log(this.createsTime);
+      //return this.createsTime;
+    }
+  }
+};
 </script>
 
 <style>
-
 </style>

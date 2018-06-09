@@ -19,10 +19,10 @@
     <replenishlist v-if="replenishlistshow" :replenishlist='listdata'></replenishlist>
     <dispatchlist v-if="dispatchlistshow" :dispatchlist='listdata'></dispatchlist>
     <div class="page">
-    <button class="weui-btn weui-btn_mini weui-btn_default" @click="backpage">上一页</button>
-    <span v-if="replenishlistshow">第{{replenishpage}}页</span>
-    <span v-if="dispatchlistshow">第{{dispatchpage}}页</span>
-    <button class="weui-btn weui-btn_mini weui-btn_default" @click="nextpage">下一页</button>
+      <button class="weui-btn weui-btn_mini weui-btn_default" @click="backpage">上一页</button>
+      <span v-if="replenishlistshow">第{{replenishpage}}页</span>
+      <span v-if="dispatchlistshow">第{{dispatchpage}}页</span>
+      <button class="weui-btn weui-btn_mini weui-btn_default" @click="nextpage">下一页</button>
     </div>
   </div>
 </template>
@@ -33,7 +33,6 @@ import searchorder from "../../../components/search/searchorder";
 import dispatchlist from "../../../components/orderlist/dispatchlist";
 import replenishlist from "../../../components/orderlist/replenishlist";
 import $ from "jquery";
-const API_PROXY = "http://bird.ioliu.cn/v1?url=";
 export default {
   components: {
     replenishlist,
@@ -43,12 +42,11 @@ export default {
   data() {
     return {
       token: "",
-      api: "http://wxsell.nat200.top",
       listdata: [],
       replenishlistshow: true,
       dispatchlistshow: false,
-      replenishpage:'1',
-      dispatchpage:'1'
+      replenishpage: "1",
+      dispatchpage: "1"
     };
   },
   created() {
@@ -69,10 +67,10 @@ export default {
     dispatchlist() {
       axios
         .get(
-          API_PROXY +
-            this.api +
-            "/sell/seller/dispatch/list?token=" +
-            this.token+"&page="+this.dispatchpage
+          "/api/sell/seller/dispatch/list?token=" +
+            this.token +
+            "&page=" +
+            this.dispatchpage
         )
         .then(res => {
           console.log(res);
@@ -87,10 +85,10 @@ export default {
     replenishlist() {
       axios
         .get(
-          API_PROXY +
-            this.api +
-            "/sell/seller/replenish/list?token="+
-            this.token+"&page="+this.replenishpage
+          "/api/sell/seller/replenish/list?token=" +
+            this.token +
+            "&page=" +
+            this.replenishpage
         )
         .then(res => {
           console.log(res);
@@ -103,22 +101,22 @@ export default {
       this.replenishlistshow = true;
       this.dispatchlistshow = false;
     },
-    nextpage(){
-      if(this.replenishlistshow){
+    nextpage() {
+      if (this.replenishlistshow) {
         this.replenishpage++;
         this.replenishlist();
       }
-      if(this.dispatchlistshow){
+      if (this.dispatchlistshow) {
         this.dispatchpage++;
         this.dispatchlist();
       }
     },
-    backpage(){
-      if(this.replenishlistshow){
+    backpage() {
+      if (this.replenishlistshow) {
         this.replenishpage--;
         this.replenishlist();
       }
-      if(this.dispatchlistshow){
+      if (this.dispatchlistshow) {
         this.dispatchpage--;
         this.dispatchlist();
       }
@@ -139,7 +137,7 @@ export default {
 #order {
   background-color: #f8f8f8;
 }
-.page{
+.page {
   position: relative;
   align-self: center;
 }

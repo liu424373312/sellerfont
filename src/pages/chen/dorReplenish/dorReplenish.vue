@@ -33,45 +33,50 @@
 </template>
 
 <script>
-  import axios from 'axios';
-  const API_PROXY = 'http://bird.ioliu.cn/v1?url=';
-  export default {
-    data() {
-      return {
-        items: [],
-        groupNo:'',
-        token:'',
-        api: 'http://wxsell.nat200.top',
-        goodsList:[]
-      }
-    },
-    created() {
-      this.token = this.getCookie("token");
-      console.log(this.token);
-      //this.groupNo = this.getCookie("groupNo");
-      //console.log(this.groupNo);
-      this.items = this.$route.params.items;
-      console.log(this.items);
-      //this.getGoodsList();
-    },
-    methods: {
-      getGoodsList(){
-        axios.get(API_PROXY + this.api +'/sell/seller/replenish/productlist?token='+this.token+'&groupNo='+this.groupNo).then((res) => {
-         //console.log(res);
+import axios from "axios";
+export default {
+  data() {
+    return {
+      items: [],
+      groupNo: "",
+      token: "",
+      goodsList: []
+    };
+  },
+  created() {
+    this.token = this.getCookie("token");
+    console.log(this.token);
+    //this.groupNo = this.getCookie("groupNo");
+    //console.log(this.groupNo);
+    this.items = this.$route.params.items;
+    console.log(this.items);
+    //this.getGoodsList();
+  },
+  methods: {
+    getGoodsList() {
+      axios
+        .get(
+          "/api/sell/seller/replenish/productlist?token=" +
+            this.token +
+            "&groupNo=" +
+            this.groupNo
+        )
+        .then(res => {
+          //console.log(res);
           this.goodsList = res.data.data;
           //console.log(this.goodsList);
-        }).catch((err) => {
-          console.log(err);
         })
-      },
-      change(obj) {
-        this.setCookie("quantity", obj);
-        this.$router.push({name: "textinput"});
-      }
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    change(obj) {
+      this.setCookie("quantity", obj);
+      this.$router.push({ name: "textinput" });
     }
   }
+};
 </script>
 
 <style>
-
 </style>

@@ -60,14 +60,12 @@ import axios from "axios";
 import qs from "qs";
 import weui from "weui.js";
 import Cartcontrol from "../../../components/carcontrol/carcontrol";
-const API_PROXY = "http://bird.ioliu.cn/v1?url=";
 export default {
   components: {
     Cartcontrol
   },
   data() {
     return {
-      api: "http://wxsell.nat200.top",
       token: "",
       replenishId: "",
       replenishdetail: "",
@@ -80,12 +78,7 @@ export default {
     this.token = this.getCookie("token");
     this.replenishId = this.getCookie("replenishId");
     axios
-      .get(
-        API_PROXY +
-          this.api +
-          "/sell/seller/replenish/detail?replenishId=" +
-          this.replenishId
-      )
+      .get("/api/sell/seller/replenish/detail?replenishId=" + this.replenishId)
       .then(response => {
         console.log(response.data);
         this.replenishdetail = response.data.data;
@@ -149,7 +142,7 @@ export default {
       //   this.totalP();
       console.log(send);
       axios
-        .post(this.api + "/sell/seller/replenish/finish", send, {
+        .post("/api/sell/seller/replenish/finish", send, {
           headers: {
             "Content-Type": "application/x-www-form-urlencoded"
           }
@@ -173,10 +166,7 @@ export default {
     cancel() {
       axios
         .get(
-          API_PROXY +
-            this.api +
-            "/sell/seller/replenish/cancel?replenishId=" +
-            this.replenishId
+          "/api/sell/seller/replenish/cancel?replenishId=" + this.replenishId
         )
         .then(res => {
           console.log(res.data);

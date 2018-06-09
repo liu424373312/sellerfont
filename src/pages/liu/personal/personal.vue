@@ -60,7 +60,6 @@
 <script>
 import axios from "axios";
 import weui from "weui.js";
-const API_PROXY = "http://bird.ioliu.cn/v1?url=";
 var qs = require("qs");
 export default {
   data() {
@@ -71,11 +70,9 @@ export default {
       oldpassword: "",
       dialogshow: false,
       picshow: false,
-      api: "http://wxsell.nat200.top",
       token: this.getCookie("token"),
       pic:
-        "http://wxsell.nat200.top/sell/seller/qrcode/createAdmin?token=" +
-        this.getCookie("token")
+        "/api/sell/seller/qrcode/createAdmin?token=" + this.getCookie("token")
     };
   },
   components: {},
@@ -98,7 +95,7 @@ export default {
       var loading = weui.loading("提交中");
       axios
         .post(
-          this.api + "/sell/seller/update",
+          "/api/sell/seller/update",
           qs.stringify({
             token: this.token,
             passwordOld: this.oldpassword,

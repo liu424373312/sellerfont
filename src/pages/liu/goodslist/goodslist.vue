@@ -42,11 +42,9 @@
 
 <script>
 import axios from "axios";
-const API_PROXY = "http://bird.ioliu.cn/v1?url=";
 export default {
   data() {
     return {
-      api: "http://wxsell.nat200.top",
       goodslist: [],
       productId: 123456,
       all: false,
@@ -61,9 +59,7 @@ export default {
     }
     this.token = this.getCookie("token");
     axios
-      .get(
-        API_PROXY + this.api + "/sell/seller/product/list?token=" + this.token
-      )
+      .get("/api/sell/seller/product/list?token=" + this.token)
       .then(response => {
         console.log(response.data);
         if (this.all) {
@@ -93,5 +89,4 @@ export default {
 </script>
 
 <style>
-
 </style>

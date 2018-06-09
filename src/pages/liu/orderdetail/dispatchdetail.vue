@@ -45,11 +45,9 @@
 <script>
 import axios from "axios";
 import weui from "weui.js";
-const API_PROXY = "http://bird.ioliu.cn/v1?url=";
 export default {
   data() {
     return {
-      api: "http://wxsell.nat200.top",
       token: "",
       groupNo: "",
       dispatchdetail: ""
@@ -60,9 +58,7 @@ export default {
     this.groupNo = this.getCookie("groupNo");
     axios
       .get(
-        API_PROXY +
-          this.api +
-          "/sell/seller/dispatch/detail?groupNo=" +
+        "/api/sell/seller/dispatch/detail?groupNo=" +
           this.groupNo +
           "&token=" +
           this.token
@@ -86,9 +82,7 @@ export default {
     finish() {
       axios
         .get(
-          API_PROXY +
-            this.api +
-            "/sell/seller/dispatch/finish?groupNo=" +
+          "/api/sell/seller/dispatch/finish?groupNo=" +
             this.groupNo +
             "&token=" +
             this.token
@@ -122,12 +116,10 @@ export default {
       var s = date.getSeconds();
       return Y + M + D + h + m + s;
     },
-    cancelorder(){
+    cancelorder() {
       axios
         .get(
-          API_PROXY +
-            this.api +
-            "/sell/seller/dispatch/cancel?groupNo=" +
+          "/api/sell/seller/dispatch/cancel?groupNo=" +
             this.groupNo +
             "&token=" +
             this.token

@@ -28,15 +28,12 @@
 import axios from "axios";
 import qs from "qs";
 import weui from "weui.js";
-
-const API_PROXY = "https://bird.ioliu.cn/v2/?url=";
 export default {
   data() {
     return {
       username: "",
       password: "",
       id: "",
-      api: "http://wxsell.nat200.top",
       token: "",
       openid: "",
       nickname: ""
@@ -61,8 +58,7 @@ export default {
         weui.topTips("密码不能为空!");
       }
       axios
-        .post(
-          this.api + "/sell/seller/login",
+        .post("/api/sell/seller/login",
           qs.stringify({
             username: this.username,
             password: this.password,

@@ -59,12 +59,9 @@
 <script>
 import axios from "axios";
 import search from "../../../components/search/search";
-
-const API_PROXY = "http://bird.ioliu.cn/v2?url=";
 export default {
   data() {
     return {
-      api: "http://wxsell.nat200.top",
       dorData: [],
       createsTime: [],
       token: "",
@@ -81,9 +78,7 @@ export default {
     this.schoolNo = this.getCookie("schoolNo");
     this.default_dormitory();
     axios
-      .get(
-        API_PROXY + this.api + "/sell/seller/school/list?token=" + this.token
-      )
+      .get("/api/sell/seller/school/list?token=" + this.token)
       .then(res => {
         console.log(res);
         this.school = res.data.data;
@@ -99,8 +94,7 @@ export default {
     getApi() {
       axios
         .get(
-          API_PROXY +
-            "http://wxsell.nat200.top/sell/seller/group/list?page=" +
+          "/api/sell/seller/group/list?page=" +
             this.page +
             "&groupDistrict=1&token=" +
             this.token
@@ -115,9 +109,7 @@ export default {
       this.domitory.splice(0, this.domitory.length);
       axios
         .get(
-          API_PROXY +
-            this.api +
-            "/sell/seller/group/districtList?token=" +
+          "/api/sell/seller/group/districtList?token=" +
             this.token +
             "&schoolNo=" +
             this.schoolNo
@@ -159,9 +151,7 @@ export default {
       this.domitory.splice(0, this.domitory.length);
       axios
         .get(
-          API_PROXY +
-            this.api +
-            "/sell/seller/group/districtList?token=" +
+          "/api/sell/seller/group/districtList?token=" +
             this.token +
             "&schoolNo=1"
         )
@@ -176,8 +166,7 @@ export default {
     getAll() {
       axios
         .get(
-          API_PROXY +
-            "http://wxsell.nat200.top/sell/seller/group/list?page=" +
+          "/api/sell/seller/group/list?page=" +
             this.page +
             "&groupDistrict=" +
             this.groupDistrict +

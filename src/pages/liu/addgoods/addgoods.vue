@@ -93,7 +93,6 @@ import weui from "weui.js";
 import $ from "jquery";
 import axios from "axios";
 import qs from "qs";
-const API_PROXY = "http://bird.ioliu.cn/v1?url=";
 var uploadCount = 0;
 var uploadList = [];
 var uploadCountDom = null;
@@ -101,7 +100,6 @@ let param = new FormData();
 export default {
   data() {
     return {
-      api: "http://wxsell.nat200.top",
       data: {
         token: this.getCookie("token"),
         productName: "",
@@ -120,8 +118,7 @@ export default {
   created() {
     this.token = this.getCookie("token");
     axios
-      .get(
-        API_PROXY + this.api + "/sell/seller/product/list?token=" + this.token
+      .get("/api/sell/seller/product/list?token=" + this.token
       )
       .then(response => {
         console.log(response.data);
@@ -142,7 +139,7 @@ export default {
       param.append("productDescription", this.data.productDescription);
       param.append("categoryType", this.data.categoryType);
       axios
-        .post(this.api + "/sell/seller/product/save", param, {
+        .post("/api/sell/seller/product/save", param, {
           headers: {
             "Content-Type": "multipart/form-data"
           }
@@ -206,7 +203,7 @@ export default {
     var uploadCountDom = document.getElementById("uploadCount");
     weui.uploader("#uploader", {
       url:
-        "http://bird.ioliu.cn/v1?url=http://wxsell.nat200.top/sell/seller/product/save?token=6bcafe2e-61e6-4400-b312-2b9a846f4bf3",
+        "/api/sell/seller/product/save?token=6bcafe2e-61e6-4400-b312-2b9a846f4bf3",
       auto: false,
       type: "file",
       fileVal: "fileVal",

@@ -27,7 +27,6 @@
 import axios from "axios";
 import orderlist from "../../../components/orderlist/orderlist";
 import $ from "jquery";
-const API_PROXY = "http://bird.ioliu.cn/v1?url=";
 export default {
   components: {
     orderlist
@@ -35,7 +34,6 @@ export default {
   data() {
     return {
       token: "",
-      api: "http://wxsell.nat200.top",
       listdata: [],
       orderStatus: "0",
       payStatus: "0",
@@ -60,9 +58,7 @@ export default {
     orderlist() {
       axios
         .get(
-          API_PROXY +
-            this.api +
-            "/sell/seller/order/list?token=" +
+            "/api/sell/seller/order/list?token=" +
             this.token +
             "&page=" +
             this.page +

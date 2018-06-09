@@ -80,13 +80,10 @@
 <script>
   import axios from 'axios';
   import weui from 'weui.js';
-
-  const API_PROXY = 'http://bird.ioliu.cn/v1?url=';
   export default {
     data() {
       return {
         token: '',
-        api: 'http://wxsell.nat200.top',
         goods:[]
       }
     },
