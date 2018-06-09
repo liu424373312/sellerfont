@@ -31,6 +31,8 @@ import axios from "axios";
 import qs from "qs";
 import weui from "weui.js";
 import carcontrol from "../../../components/carcontrol/stockout";
+var config = require("../../../../config");
+config = process.env.NODE_ENV === "development" ? config.dev : config.build;
 export default {
   data() {
     return {
@@ -53,7 +55,8 @@ export default {
     getList() {
       axios
         .get(
-          "/api/sell/seller/group/productList?token=" +
+          config.sellerUrl +
+            "/sell/seller/group/productList?token=" +
             this.token +
             "&groupNo=" +
             this.groupNo
@@ -116,7 +119,7 @@ export default {
           weui.confirm("确定回收商品?",function(){*/
       console.log("yes");
       axios
-        .post("/api/sell/seller/group/stockout", send, {
+        .post(config.sellerUrl + "/sell/seller/group/stockout", send, {
           headers: {
             "Content-Type": "application/x-www-form-urlencoded"
           }

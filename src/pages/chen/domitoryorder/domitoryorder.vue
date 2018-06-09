@@ -40,6 +40,8 @@
 <script>
 import orderlist from "../../../components/orderlist/orderlist";
 import axios from "axios";
+var config = require("../../../../config");
+config = process.env.NODE_ENV === "development" ? config.dev : config.build;
 export default {
   data() {
     return {
@@ -77,7 +79,8 @@ export default {
     getDorOrder() {
       axios
         .get(
-          "/api/sell/seller/order/list?token=" +
+          config.sellerUrl +
+            "/sell/seller/order/list?token=" +
             this.token +
             "&groupNo=" +
             this.orderNo +

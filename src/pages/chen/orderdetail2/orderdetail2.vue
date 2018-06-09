@@ -66,6 +66,8 @@
 <script>
 import axios from "axios";
 import weui from "weui.js";
+var config = require("../../../../config");
+config = process.env.NODE_ENV === "development" ? config.dev : config.build;
 export default {
   data() {
     return {

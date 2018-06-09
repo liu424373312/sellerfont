@@ -5,8 +5,7 @@
         <form class="weui-search-bar__form">
           <div class="weui-search-bar__box">
             <i class="weui-icon-search" @click="one"></i>
-            <input type="search" class="weui-search-bar__input" v-model="val" ref="searchinput" @blur="searchhide"
-                   placeholder="搜索" @input="one" required/>
+            <input type="search" class="weui-search-bar__input" v-model="val" ref="searchinput" @blur="searchhide" placeholder="搜索" @input="one" required/>
             <a href="javascript:" class="weui-icon-clear" @click="searchclear"></a>
           </div>
           <label class="weui-search-bar__label" v-show="searchtext" @click="searchshow">
@@ -32,74 +31,83 @@
 </template>
 
 <script>
-  import axios from 'axios';
-
-  const API_PROXY = 'http://bird.ioliu.cn/v2?url=';
-  export default {
-    data() {
-      return {
-        searchtext: true,
-        cancel: false,
-        token: '',
-        api: 'http://wxsell.nat200.top',
-        name: [],
-        val: ''
-      };
+import axios from "axios";
+var config = require("../../../config");
+config = process.env.NODE_ENV === "development" ? config.dev : config.build;
+export default {
+  data() {
+    return {
+      searchtext: true,
+      cancel: false,
+      token: "",
+      api: "http://wxsell.nat200.top",
+      name: [],
+      val: ""
+    };
+  },
+  created() {
+    let token = this.getCookie("token");
+    if (token === null || !token) {
+      window.location.href = " http://5ygsri.natappfree.cc/#/authorize";
+    } else {
+      this.token = token;
+    }
+  },
+  methods: {
+    searchshow() {
+      this.searchtext = false;
+      this.$refs.searchinput.focus();
+      this.cancel = true;
     },
-    created() {
-      let token = this.getCookie('token');
-      if (token === null || !token) {
-        window.location.href = " http://5ygsri.natappfree.cc/#/authorize";
-      } else {
-        this.token = token;
-      }
+    searchhide() {
+      this.searchtext = true;
+      this.cancel = false;
     },
-    methods: {
-      searchshow() {
-        this.searchtext = false;
-        this.$refs.searchinput.focus();
-        this.cancel = true;
-      },
-      searchhide() {
-        this.searchtext = true;
-        this.cancel = false;
-      },
-      searchclear() {
-        console.log((this.$refs.searchinput.value = ""));
-        this.searchtext = false;
-        this.cancel = true;
-        this.$refs.searchinput.focus();
-      },
-      one() {
-        this.name.splice(0, this.name.length);
-        console.log(this.val);
-        axios.get(API_PROXY + this.api + '/sell/seller/group/searchList?token=' + this.token + '&groupNo=' + this.val).then((res) => {
+    searchclear() {
+      console.log((this.$refs.searchinput.value = ""));
+      this.searchtext = false;
+      this.cancel = true;
+      this.$refs.searchinput.focus();
+    },
+    one() {
+      this.name.splice(0, this.name.length);
+      console.log(this.val);
+      axios
+        .get(
+          API_PROXY +
+            this.api +
+            "/sell/seller/group/searchList?token=" +
+            this.token +
+            "&groupNo=" +
+            this.val
+        )
+        .then(res => {
           console.log(res);
           this.name = res.data.data;
           /*for (let i = 0; i < res.data.data.length; i++) {
             this.name.push(res.data.data[i].groupNo);
           }*/
           console.log(this.name);
-        }).catch((err) => {
-          console.log(err);
         })
-      },
-      cancelSearch(){
-        this.val = '';
-        this.name.splice(0,this.splice.length);
-      },
-      gotoDor(obj){
-        console.log(obj);
-        this.setCookie("groupId",obj.groupId,1);
-        this.$router.push({name:'domitorydetail'});
-      }
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    cancelSearch() {
+      this.val = "";
+      this.name.splice(0, this.splice.length);
+    },
+    gotoDor(obj) {
+      console.log(obj);
+      this.setCookie("groupId", obj.groupId, 1);
+      this.$router.push({ name: "domitorydetail" });
     }
-
-  };
+  }
+};
 </script>
 
 <style>
-  .cancel {
-    display: block;
-  }
+.cancel {
+  display: block;
+}
 </style>

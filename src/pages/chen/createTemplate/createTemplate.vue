@@ -56,6 +56,8 @@ import axios from "axios";
 import qs from "qs";
 import weui from "weui.js";
 // const ERR_OK = 0;
+var config = require("../../../../config");
+config = process.env.NODE_ENV === "development" ? config.dev : config.build;
 export default {
   data() {
     return {
@@ -100,7 +102,8 @@ export default {
     this.groupNo = this.getCookie("groupNo");
     axios
       .get(
-        "/api/sell/seller/replenish/productlist?token=" +
+        config.sellerUrl +
+          "/sell/seller/replenish/productlist?token=" +
           this.token +
           "&groupNo=" +
           this.groupNo
@@ -217,7 +220,7 @@ export default {
       this.totalP();
       console.log(send);
       axios
-        .post("/api/sell/seller/dispatch/create", send, {
+        .post(config.sellerUrl + "/sell/seller/dispatch/create", send, {
           headers: {
             "Content-Type": "application/x-www-form-urlencoded"
           }

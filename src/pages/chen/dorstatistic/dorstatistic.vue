@@ -35,6 +35,8 @@
 <script>
 import axios from "axios";
 import weui from "weui.js";
+var config = require("../../../../config");
+config = process.env.NODE_ENV === "development" ? config.dev : config.build;
 export default {
   data() {
     return {
@@ -64,7 +66,8 @@ export default {
       this.sort = 0;
       axios
         .get(
-          "/api/sell/seller/group/salesList?token=" +
+          config.sellerUrl +
+            "/sell/seller/group/salesList?token=" +
             this.token +
             "&page=" +
             this.page
@@ -104,7 +107,8 @@ export default {
       this.sort = 1;
       axios
         .get(
-          "/api/sell/seller/group/salesList?token=" +
+          config.sellerUrl +
+            "/sell/seller/group/salesList?token=" +
             this.token +
             "&orderField=groupConsume" +
             "&page=" +
@@ -160,7 +164,8 @@ export default {
         this.showDor = false;
         axios
           .get(
-            "/api/sell/seller/group/salesList?token=" +
+            config.sellerUrl +
+              "/sell/seller/group/salesList?token=" +
               this.token +
               "&orderField=groupConsume" +
               "&page=" +
@@ -194,7 +199,8 @@ export default {
         this.showDor = true;
         axios
           .get(
-            "/api/sell/seller/group/salesList?token=" +
+            config.sellerUrl +
+              "/sell/seller/group/salesList?token=" +
               this.token +
               "&page=" +
               this.page
@@ -254,7 +260,8 @@ export default {
         //this.getShow();
         axios
           .get(
-            "/api/sell/seller/group/salesList?token=" +
+            config.sellerUrl +
+              "/sell/seller/group/salesList?token=" +
               this.token +
               "&orderField=groupConsume" +
               "&page=" +
@@ -293,7 +300,8 @@ export default {
         this.staData.splice(0, this.staData.length);
         axios
           .get(
-            "/api/sell/seller/group/salesList?token=" +
+            config.sellerUrl +
+              "/sell/seller/group/salesList?token=" +
               this.token +
               "&page=" +
               this.page

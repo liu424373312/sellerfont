@@ -28,6 +28,8 @@
 import axios from "axios";
 import qs from "qs";
 import weui from "weui.js";
+var config = require("../../../../config");
+config = process.env.NODE_ENV === "development" ? config.dev : config.build;
 export default {
   data() {
     return {
@@ -40,8 +42,8 @@ export default {
     };
   },
   created() {
-    this.openid = "oSpuJ1ryJLJwSnRbusu8wa1XjqnM";
-    // this.openid = this.getQueryOpenid("openid");
+    // this.openid = "oSpuJ1ryJLJwSnRbusu8wa1XjqnM";
+    this.openid = this.getQueryOpenid("openid");
     //let nickname=this.getQueryOpenid("nickname");
     let headImg = this.getQueryOpenid("headImgUrl");
     this.setCookie("headImg", headImg, 1);
@@ -58,7 +60,8 @@ export default {
         weui.topTips("密码不能为空!");
       }
       axios
-        .post("/api/sell/seller/login",
+        .post(
+          config.sellerUrl + "/sell/seller/login",
           qs.stringify({
             username: this.username,
             password: this.password,

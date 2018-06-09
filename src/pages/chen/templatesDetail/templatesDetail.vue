@@ -42,6 +42,8 @@
 import axios from "axios";
 import weui from "weui.js";
 import carcontrol from "../../../components/carcontrol/carcontrol";
+var config = require("../../../../config");
+config = process.env.NODE_ENV === "development" ? config.dev : config.build;
 export default {
   data() {
     return {
@@ -67,7 +69,8 @@ export default {
       this.crGoods.splice(0, this.crGoods.length);
       axios
         .get(
-          "/api/sell/seller/template/detail?token=" +
+          config.sellerUrl +
+            "/sell/seller/template/detail?token=" +
             this.token +
             "&groupNo=" +
             this.groupNo
@@ -101,7 +104,8 @@ export default {
     createRE() {
       axios
         .get(
-          "/api/sell/seller/template/create_replenish?token=" +
+          config.sellerUrl +
+            "/sell/seller/template/create_replenish?token=" +
             this.token +
             "&templateId=" +
             this.templateId
@@ -122,7 +126,8 @@ export default {
     delCR() {
       axios
         .get(
-          "/api/sell/seller/template/delete?token=" +
+          config.sellerUrl +
+            "/sell/seller/template/delete?token=" +
             this.token +
             "&templateId=" +
             this.templateId

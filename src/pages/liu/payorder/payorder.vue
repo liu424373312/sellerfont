@@ -16,9 +16,9 @@
     </div>
     <orderlist :orderlist='listdata' :orderStatus='orderStatus'></orderlist>
     <div class="page">
-    <button class="weui-btn weui-btn_mini weui-btn_default" @click="backpage">上一页</button>
-    <span>第{{page}}页</span>
-    <button class="weui-btn weui-btn_mini weui-btn_default" @click="nextpage">下一页</button>
+      <button class="weui-btn weui-btn_mini weui-btn_default" @click="backpage">上一页</button>
+      <span>第{{page}}页</span>
+      <button class="weui-btn weui-btn_mini weui-btn_default" @click="nextpage">下一页</button>
     </div>
   </div>
 </template>
@@ -27,6 +27,8 @@
 import axios from "axios";
 import orderlist from "../../../components/orderlist/orderlist";
 import $ from "jquery";
+var config = require("../../../../config");
+config = process.env.NODE_ENV === "development" ? config.dev : config.build;
 export default {
   components: {
     orderlist
@@ -58,7 +60,8 @@ export default {
     orderlist() {
       axios
         .get(
-            "/api/sell/seller/order/list?token=" +
+          config.sellerUrl +
+            "/sell/seller/order/list?token=" +
             this.token +
             "&page=" +
             this.page +
@@ -85,11 +88,11 @@ export default {
       this.payStatus = "1";
       this.orderlist();
     },
-    nextpage(){
+    nextpage() {
       this.page++;
       this.orderlist();
     },
-    backpage(){
+    backpage() {
       this.page--;
       this.orderlist();
     }

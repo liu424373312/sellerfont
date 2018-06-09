@@ -37,6 +37,8 @@
 <script>
 import searchgoods from "../../../components/search/searchgoods";
 import axios from "axios";
+var config = require("../../../../config");
+config = process.env.NODE_ENV === "development" ? config.dev : config.build;
 export default {
   data() {
     return {
@@ -61,8 +63,7 @@ export default {
   created() {
     this.token = this.getCookie("token");
     axios
-      .get("/api/sell/seller/product/list?token=" + this.token
-      )
+      .get(config.sellerUrl + "/sell/seller/product/list?token=" + this.token)
       .then(response => {
         console.log(response.data);
         this.goods = response.data.data;

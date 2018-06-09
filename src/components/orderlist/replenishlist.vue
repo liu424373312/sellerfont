@@ -31,23 +31,18 @@
 
 <script>
 import axios from "axios";
-const API_PROXY = "http://bird.ioliu.cn/v1?url=";
+var config = require("../../../config");
+config = process.env.NODE_ENV === "development" ? config.dev : config.build;
 export default {
   data() {
     return {
       token: "",
-      api: "http://wxsell.nat200.top",
       items: ""
     };
   },
   props: ["replenishlist"],
   created() {
-    let token = this.getCookie("token");
-    if (token === null || !token) {
-      window.location.href = "http://5ygsri.natappfree.cc/#/authorize";
-    } else {
-      this.token = token;
-    }
+    this.token = this.getCookie("token");
   },
   methods: {
     orderstatus(item) {
@@ -72,7 +67,7 @@ export default {
       console.log(this.items);
       axios
         .post(
-          this.api + "/sell/seller/replenish/finish",
+          config.sellerUrl + "/sell/seller/replenish/finish",
           { items: this.items, token: this.token },
           {
             headers: {
@@ -91,8 +86,7 @@ export default {
       console.log(item.replenishId);
       axios
         .get(
-          API_PROXY +
-            this.api +
+          config.sellerUrl +
             "/sell/seller/replenish/cancel?replenishId=" +
             item.replenishId
         )
@@ -125,10 +119,10 @@ export default {
 </script>
 
 <style>
-.fttext{
+.fttext {
   text-align: right;
 }
-.fttext{
+.fttext {
   text-align: right;
 }
 </style>

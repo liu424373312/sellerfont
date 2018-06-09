@@ -44,6 +44,8 @@ import weui from "weui.js";
 import $ from "jquery";
 import axios from "axios";
 import qs from "qs";
+var config = require("../../../../config");
+config = process.env.NODE_ENV === "development" ? config.dev : config.build;
 let param = new FormData();
 export default {
   data() {
@@ -62,7 +64,7 @@ export default {
       var loading = weui.loading("注册中");
       axios
         .post(
-          "/api/sell/seller/register",
+          config.sellerUrl + "/sell/seller/register",
           qs.stringify({
             username: this.username,
             password: this.password,

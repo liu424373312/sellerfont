@@ -33,6 +33,8 @@ import searchorder from "../../../components/search/searchorder";
 import dispatchlist from "../../../components/orderlist/dispatchlist";
 import replenishlist from "../../../components/orderlist/replenishlist";
 import $ from "jquery";
+var config = require("../../../../config");
+config = process.env.NODE_ENV === "development" ? config.dev : config.build;
 export default {
   components: {
     replenishlist,
@@ -67,7 +69,8 @@ export default {
     dispatchlist() {
       axios
         .get(
-          "/api/sell/seller/dispatch/list?token=" +
+          config.sellerUrl +
+            "/sell/seller/dispatch/list?token=" +
             this.token +
             "&page=" +
             this.dispatchpage
@@ -85,7 +88,8 @@ export default {
     replenishlist() {
       axios
         .get(
-          "/api/sell/seller/replenish/list?token=" +
+          config.sellerUrl +
+            "/sell/seller/replenish/list?token=" +
             this.token +
             "&page=" +
             this.replenishpage

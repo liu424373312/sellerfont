@@ -26,6 +26,8 @@
 
 <script>
 import axios from "axios";
+var config = require("../../../../config");
+config = process.env.NODE_ENV === "development" ? config.dev : config.build;
 export default {
   data() {
     return {
@@ -39,7 +41,7 @@ export default {
     this.groupNo = this.getCookie("groupNo");
     axios
       .get(
-        "/api/sell/seller/group/detail?token=" +
+        config.sellerUrl +"/sell/seller/group/detail?token=" +
           this.token +
           "&groupNo=" +
           this.groupNo

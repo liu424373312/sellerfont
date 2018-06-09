@@ -78,42 +78,46 @@
 </template>
 
 <script>
-  import axios from 'axios';
-  import weui from 'weui.js';
-  export default {
-    data() {
-      return {
-        token: '',
-        goods:[]
-      }
-    },
-    created() {
-      this.goods = this.$route.params.goods;
-      console.log(this.goods);
-    },
-    methods: {
-      times(date1) {
-        var Y = date1.getFullYear();
-        //console.log(Y);
-        //console.log(dorTime);
-        var M = (date1.getMonth() + 1 < 0 ? +(date1.getMonth() + 1) : date1.getMonth() + 1);
-        //console.log(M);
-        var D = date1.getDate();
-        //console.log(D);
-        var h = date1.getHours();
-        //console.log(h);
-        var m = (date1.getMinutes() < 10 ? '0' + date1.getMinutes() : date1.getMinutes());
-        //console.log(m);
-        var s = (date1.getSeconds() < 10 ? '0' + date1.getSeconds() : date1.getSeconds());
-        //console.log(s);
-        this.upTime = Y + '-' + M + '-' + D + ' ' + h + ':' + m + ':' + s;
-        //console.log(this.createsTime);
-        //return this.createsTime;
-      }
+import axios from "axios";
+import weui from "weui.js";
+export default {
+  data() {
+    return {
+      token: "",
+      goods: []
+    };
+  },
+  created() {
+    this.goods = this.$route.params.goods;
+    console.log(this.goods);
+  },
+  methods: {
+    times(date1) {
+      var Y = date1.getFullYear();
+      //console.log(Y);
+      //console.log(dorTime);
+      var M =
+        date1.getMonth() + 1 < 0
+          ? +(date1.getMonth() + 1)
+          : date1.getMonth() + 1;
+      //console.log(M);
+      var D = date1.getDate();
+      //console.log(D);
+      var h = date1.getHours();
+      //console.log(h);
+      var m =
+        date1.getMinutes() < 10 ? "0" + date1.getMinutes() : date1.getMinutes();
+      //console.log(m);
+      var s =
+        date1.getSeconds() < 10 ? "0" + date1.getSeconds() : date1.getSeconds();
+      //console.log(s);
+      this.upTime = Y + "-" + M + "-" + D + " " + h + ":" + m + ":" + s;
+      //console.log(this.createsTime);
+      //return this.createsTime;
     }
-  };
+  }
+};
 </script>
 
 <style>
-
 </style>

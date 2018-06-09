@@ -45,6 +45,8 @@
 <script>
 import axios from "axios";
 import weui from "weui.js";
+var config = require("../../../../config");
+config = process.env.NODE_ENV === "development" ? config.dev : config.build;
 export default {
   data() {
     return {
@@ -58,7 +60,8 @@ export default {
     this.groupNo = this.getCookie("groupNo");
     axios
       .get(
-        "/api/sell/seller/dispatch/detail?groupNo=" +
+        config.sellerUrl +
+          "/sell/seller/dispatch/detail?groupNo=" +
           this.groupNo +
           "&token=" +
           this.token
@@ -82,7 +85,8 @@ export default {
     finish() {
       axios
         .get(
-          "/api/sell/seller/dispatch/finish?groupNo=" +
+          config.sellerUrl +
+            "/sell/seller/dispatch/finish?groupNo=" +
             this.groupNo +
             "&token=" +
             this.token
@@ -119,7 +123,8 @@ export default {
     cancelorder() {
       axios
         .get(
-          "/api/sell/seller/dispatch/cancel?groupNo=" +
+          config.sellerUrl +
+            "/sell/seller/dispatch/cancel?groupNo=" +
             this.groupNo +
             "&token=" +
             this.token

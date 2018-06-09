@@ -35,6 +35,8 @@
 <script>
 import axios from "axios";
 import weui from "weui.js";
+var config = require("../../../../config");
+config = process.env.NODE_ENV === "development" ? config.dev : config.build;
 export default {
   data() {
     return {
@@ -55,7 +57,8 @@ export default {
     getDetail() {
       axios
         .get(
-          "/api/sell/seller/dispatch/detail?token=" +
+          config.sellerUrl +
+            "/sell/seller/dispatch/detail?token=" +
             this.token +
             "&groupNo=" +
             this.groupNo
@@ -72,7 +75,8 @@ export default {
     getList() {
       axios
         .get(
-          "/api/sell/seller/group/detail?token=" +
+          config.sellerUrl +
+            "/sell/seller/group/detail?token=" +
             this.token +
             "&groupNo=" +
             this.groupNo
@@ -88,7 +92,8 @@ export default {
     createMode() {
       axios
         .get(
-          "/api/sell/seller/dispatch/create_template?token=" +
+          config.sellerUrl +
+            "/sell/seller/dispatch/create_template?token=" +
             this.token +
             "&groupNo=" +
             this.groupNo
@@ -111,7 +116,7 @@ export default {
       this.$router.push({ name: "dorgroup" });
     }
   }
-}
+};
 </script>
 
 <style>

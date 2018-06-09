@@ -41,6 +41,8 @@
 import axios from "axios";
 import qs from "qs";
 import weui from "weui.js";
+var config = require("../../../../config");
+config = process.env.NODE_ENV === "development" ? config.dev : config.build;
 export default {
   data() {
     return {
@@ -63,7 +65,9 @@ export default {
   methods: {
     applys() {
       axios
-        .get("/api/sell/seller/boxApply/list?token=" + this.token)
+        .get(
+          config.sellerUrl + "/sell/seller/boxApply/list?token=" + this.token
+        )
         .then(response => {
           console.log(response);
           this.applyData = response.data.data.list;
@@ -138,14 +142,18 @@ export default {
       //this.id = obj.id;
       //console.log(obj.id);
       axios
-        .get("/api/sell/seller/boxApply/save?id=" + id)
+        .get(config.sellerUrl + "/sell/seller/boxApply/save?id=" + id)
         .then(res => {
           console.log(res);
           weui.toast("增加成功!", {
             duration: 1000
           });
           axios
-            .get("/api/sell/seller/boxApply/list?token=" + this.token)
+            .get(
+              config.sellerUrl +
+                "/sell/seller/boxApply/list?token=" +
+                this.token
+            )
             .then(res => {
               console.log(res);
             })
@@ -161,14 +169,18 @@ export default {
     del(obj) {
       let id = obj.id;
       axios
-        .get("/api/sell/seller/boxApply/delete?id=" + id)
+        .get(config.sellerUrl + "/sell/seller/boxApply/delete?id=" + id)
         .then(res => {
           console.log(res);
           weui.toast("操作成功", {
             duration: 2000
           });
           axios
-            .get("/api/sell/seller/boxApply/list?token=" + this.token)
+            .get(
+              config.sellerUrl +
+                "/sell/seller/boxApply/list?token=" +
+                this.token
+            )
             .then(res => {
               console.log(res);
             })

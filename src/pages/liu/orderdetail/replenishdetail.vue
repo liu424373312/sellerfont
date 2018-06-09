@@ -60,6 +60,8 @@ import axios from "axios";
 import qs from "qs";
 import weui from "weui.js";
 import Cartcontrol from "../../../components/carcontrol/carcontrol";
+var config = require("../../../../config");
+config = process.env.NODE_ENV === "development" ? config.dev : config.build;
 export default {
   components: {
     Cartcontrol
@@ -78,7 +80,11 @@ export default {
     this.token = this.getCookie("token");
     this.replenishId = this.getCookie("replenishId");
     axios
-      .get("/api/sell/seller/replenish/detail?replenishId=" + this.replenishId)
+      .get(
+        config.sellerUrl +
+          "/sell/seller/replenish/detail?replenishId=" +
+          this.replenishId
+      )
       .then(response => {
         console.log(response.data);
         this.replenishdetail = response.data.data;
@@ -142,7 +148,7 @@ export default {
       //   this.totalP();
       console.log(send);
       axios
-        .post("/api/sell/seller/replenish/finish", send, {
+        .post(config.sellerUrl + "/sell/seller/replenish/finish", send, {
           headers: {
             "Content-Type": "application/x-www-form-urlencoded"
           }
@@ -166,7 +172,9 @@ export default {
     cancel() {
       axios
         .get(
-          "/api/sell/seller/replenish/cancel?replenishId=" + this.replenishId
+          config.sellerUrl +
+            "/sell/seller/replenish/cancel?replenishId=" +
+            this.replenishId
         )
         .then(res => {
           console.log(res.data);

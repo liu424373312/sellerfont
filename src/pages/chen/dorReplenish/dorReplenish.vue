@@ -34,6 +34,8 @@
 
 <script>
 import axios from "axios";
+var config = require("../../../../config");
+config = process.env.NODE_ENV === "development" ? config.dev : config.build;
 export default {
   data() {
     return {
@@ -56,7 +58,8 @@ export default {
     getGoodsList() {
       axios
         .get(
-          "/api/sell/seller/replenish/productlist?token=" +
+          config.sellerUrl +
+            "/sell/seller/replenish/productlist?token=" +
             this.token +
             "&groupNo=" +
             this.groupNo

@@ -60,6 +60,8 @@
 <script>
 import axios from "axios";
 import weui from "weui.js";
+var config = require("../../../../config");
+config = process.env.NODE_ENV === "development" ? config.dev : config.build;
 var qs = require("qs");
 export default {
   data() {
@@ -72,7 +74,9 @@ export default {
       picshow: false,
       token: this.getCookie("token"),
       pic:
-        "/api/sell/seller/qrcode/createAdmin?token=" + this.getCookie("token")
+        config.sellerUrl +
+        "/sell/seller/qrcode/createAdmin?token=" +
+        this.getCookie("token")
     };
   },
   components: {},
@@ -95,7 +99,7 @@ export default {
       var loading = weui.loading("提交中");
       axios
         .post(
-          "/api/sell/seller/update",
+          config.sellerUrl + "/sell/seller/update",
           qs.stringify({
             token: this.token,
             passwordOld: this.oldpassword,

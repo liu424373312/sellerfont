@@ -62,6 +62,8 @@ import $ from "jquery";
 import weui from "weui.js";
 import axios from "axios";
 var $Dialog = $("#Dialog");
+var config = require("../../../../config");
+config = process.env.NODE_ENV === "development" ? config.dev : config.build;
 export default {
   data() {
     return {
@@ -101,7 +103,7 @@ export default {
       var loading = weui.loading("提交中");
       axios
         .post(
-          "/api/sell/seller/category/save",
+          config.sellerUrl + "/sell/seller/category/save",
           qs.stringify({
             categoryId: this.newgoodsclass.categoryId,
             categoryName: this.newgoodsclass.categoryName,
@@ -129,7 +131,7 @@ export default {
       var loading = weui.loading("提交中");
       axios
         .post(
-          "/api/sell/seller/category/save",
+          config.sellerUrl + "/sell/seller/category/save",
           qs.stringify({
             categoryName: this.categoryName,
             categoryType: this.categoryType
@@ -159,7 +161,9 @@ export default {
       this.categoryType = "";
       this.token = this.getCookie("token");
       axios
-        .get("/api/sell/seller/category/list?token=" + this.token)
+        .get(
+          config.sellerUrl + "/sell/seller/category/list?token=" + this.token
+        )
         .then(response => {
           console.log(response.data);
           this.goodsclass = response.data.data;

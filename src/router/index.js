@@ -29,7 +29,6 @@ import dorReplenishList from '../pages/chen/dorReplenishList/dorReplenishList'
 import dorstatistic from '../pages/chen/dorstatistic/dorstatistic'
 import templates from '../pages/chen/templates/templates'
 import dorGoodsList from '../pages/chen/dorGoodsList/dorGoodsList'
-import textinput from '../pages/chen/textinput/textinput'
 import dorgroup from '../pages/chen/dorgroup/dorgroup'
 import templatesDetail from '../pages/chen/templatesDetail/templatesDetail'
 import orderdetail2 from '../pages/chen/orderdetail2/orderdetail2'
@@ -53,11 +52,6 @@ const vueRouter = new Router({
       path:'/dorGoodsList',
       name:'dorGoodsList',
       component:dorGoodsList
-    },
-    {
-      path:'/textinput',
-      name:'textinput',
-      component:textinput
     },
     {
       path:'/templatesDetail',

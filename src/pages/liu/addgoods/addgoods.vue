@@ -93,6 +93,8 @@ import weui from "weui.js";
 import $ from "jquery";
 import axios from "axios";
 import qs from "qs";
+var config = require("../../../../config");
+config = process.env.NODE_ENV === "development" ? config.dev : config.build;
 var uploadCount = 0;
 var uploadList = [];
 var uploadCountDom = null;
@@ -118,8 +120,7 @@ export default {
   created() {
     this.token = this.getCookie("token");
     axios
-      .get("/api/sell/seller/product/list?token=" + this.token
-      )
+      .get(config.sellerUrl + "/sell/seller/product/list?token=" + this.token)
       .then(response => {
         console.log(response.data);
         this.goodsclass = response.data.data;
@@ -139,7 +140,7 @@ export default {
       param.append("productDescription", this.data.productDescription);
       param.append("categoryType", this.data.categoryType);
       axios
-        .post("/api/sell/seller/product/save", param, {
+        .post(config.sellerUrl + "/sell/seller/product/save", param, {
           headers: {
             "Content-Type": "multipart/form-data"
           }
@@ -264,5 +265,4 @@ export default {
 </script>
 
 <style>
-
 </style>

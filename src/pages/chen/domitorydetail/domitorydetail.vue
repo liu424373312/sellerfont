@@ -73,6 +73,8 @@
 <script>
 import axios from "axios";
 import weui from "weui.js";
+var config = require("../../../../config");
+config = process.env.NODE_ENV === "development" ? config.dev : config.build;
 export default {
   data() {
     return {
@@ -87,7 +89,9 @@ export default {
     this.token = this.getCookie("token");
     this.groupId = this.getCookie("groupId");
     axios
-      .get("/api/sell/seller/group/index?groupId=" + this.groupId)
+      .get(
+        config.sellerUrl + "/sell/seller/group/index?groupId=" + this.groupId
+      )
       .then(res => {
         console.log(res);
         this.dorDetail = res.data.data;

@@ -40,6 +40,8 @@
 
 <script>
 import axios from "axios";
+var config = require("../../../../config");
+config = process.env.NODE_ENV === "development" ? config.dev : config.build;
 export default {
   data() {
     return {
@@ -52,7 +54,9 @@ export default {
     this.token = this.getCookie("token");
     this.orderId = this.getCookie("orderId");
     axios
-      .get("/api/sell/seller/order/detail?orderId=" + this.orderId)
+      .get(
+        config.sellerUrl + "/sell/seller/order/detail?orderId=" + this.orderId
+      )
       .then(response => {
         console.log(response.data);
         this.orderdetail = response.data.data;

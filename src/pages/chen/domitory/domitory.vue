@@ -59,6 +59,8 @@
 <script>
 import axios from "axios";
 import search from "../../../components/search/search";
+var config = require("../../../../config");
+config = process.env.NODE_ENV === "development" ? config.dev : config.build;
 export default {
   data() {
     return {
@@ -78,7 +80,7 @@ export default {
     this.schoolNo = this.getCookie("schoolNo");
     this.default_dormitory();
     axios
-      .get("/api/sell/seller/school/list?token=" + this.token)
+      .get(config.sellerUrl + "/sell/seller/school/list?token=" + this.token)
       .then(res => {
         console.log(res);
         this.school = res.data.data;
@@ -94,7 +96,8 @@ export default {
     getApi() {
       axios
         .get(
-          "/api/sell/seller/group/list?page=" +
+          config.sellerUrl +
+            "/sell/seller/group/list?page=" +
             this.page +
             "&groupDistrict=1&token=" +
             this.token
@@ -109,7 +112,8 @@ export default {
       this.domitory.splice(0, this.domitory.length);
       axios
         .get(
-          "/api/sell/seller/group/districtList?token=" +
+          config.sellerUrl +
+            "/sell/seller/group/districtList?token=" +
             this.token +
             "&schoolNo=" +
             this.schoolNo
@@ -151,7 +155,8 @@ export default {
       this.domitory.splice(0, this.domitory.length);
       axios
         .get(
-          "/api/sell/seller/group/districtList?token=" +
+          config.sellerUrl +
+            "/sell/seller/group/districtList?token=" +
             this.token +
             "&schoolNo=1"
         )
@@ -166,7 +171,8 @@ export default {
     getAll() {
       axios
         .get(
-          "/api/sell/seller/group/list?page=" +
+          config.sellerUrl +
+            "/sell/seller/group/list?page=" +
             this.page +
             "&groupDistrict=" +
             this.groupDistrict +

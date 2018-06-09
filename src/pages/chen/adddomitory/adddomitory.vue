@@ -45,6 +45,8 @@
 import axios from "axios";
 import qs from "qs";
 import weui from "weui.js";
+var config = require("../../../../config");
+config = process.env.NODE_ENV === "development" ? config.dev : config.build;
 export default {
   data() {
     return {
@@ -129,7 +131,7 @@ export default {
         };
         let send = qs.stringify(obj);
         axios
-          .post("/api/sell/seller/group/save", send, {
+          .post(config.sellerUrl + "/sell/seller/group/save", send, {
             headers: {
               "Content-Type": "application/x-www-form-urlencoded"
             }

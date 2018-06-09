@@ -6,6 +6,8 @@
 <script>
 import axios from "axios";
 var qs = require("qs");
+var config = require("../../../../config");
+config = process.env.NODE_ENV === "development" ? config.dev : config.build;
 export default {
   data() {
     return {
@@ -15,7 +17,7 @@ export default {
   methods: {
   },
   created() {
-       window.location.href='/api/sell/wechat/authorize?returnUrl=http://wxsell.nat200.top/sellerInterface/#/';//izwu24.natappfree.cc/#/'//http://wxsell.nat200.top/sellerInterface/#/';
+       window.location.href=config.sellerUrl+'/sell/wechat/authorize?returnUrl='+config.sellerUrl+'/sellerInterface/#/';//izwu24.natappfree.cc/#/'//http://wxsell.nat200.top/sellerInterface/#/';
   }
 };
 </script>

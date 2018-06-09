@@ -18,29 +18,23 @@
 
 <script>
 import axios from "axios";
-const API_PROXY = "http://bird.ioliu.cn/v1?url=";
+var config = require("../../../config");
+config = process.env.NODE_ENV === "development" ? config.dev : config.build;
 export default {
   data() {
     return {
-      token: "",
-      api: "http://wxsell.nat200.top"
+      token: ""
     };
   },
   props: ["orderlist", "orderStatus"],
   created() {
-    let token = this.getCookie("token");
-    if (token === null || !token) {
-      window.location.href = "http://5ygsri.natappfree.cc/#/authorize";
-    } else {
-      this.token = token;
-    }
+    this.token = this.getCookie("token");
   },
   methods: {
     confirm(item) {
       axios
         .get(
-          API_PROXY +
-            this.api +
+          config.sellerUrl +
             "/sell/seller/order/finish?token=" +
             this.token +
             "&orderId=" +
@@ -56,8 +50,7 @@ export default {
     cancel(item) {
       axios
         .get(
-          API_PROXY +
-            this.api +
+          config.sellerUrl +
             "/sell/seller/order/cancel?token=" +
             this.token +
             "&orderId=" +

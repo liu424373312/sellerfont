@@ -96,6 +96,8 @@
 <script>
 import axios from "axios";
 import weui from "weui.js";
+var config = require("../../../../config");
+config = process.env.NODE_ENV === "development" ? config.dev : config.build;
 export default {
   data() {
     return {
@@ -114,8 +116,7 @@ export default {
   created() {
     this.getgoodsdetail();
     axios
-      .get("/api/sell/seller/product/list?token=" + this.token
-      )
+      .get(config.sellerUrl + "/sell/seller/product/list?token=" + this.token)
       .then(response => {
         console.log(response.data);
         this.goodsclass = response.data.data;
@@ -155,7 +156,7 @@ export default {
       param.append("productIcon", this.goodsdetail.icon);
       console.log(param);
       axios
-        .post("/api/sell/seller/product/save", param, {
+        .post(config.sellerUrl + "/sell/seller/product/save", param, {
           headers: {
             "Content-Type": "multipart/form-data"
           }
@@ -180,7 +181,8 @@ export default {
     onsale() {
       axios
         .get(
-            "/api/sell/seller/product/on_sale?token=" +
+          config.sellerUrl +
+            "/sell/seller/product/on_sale?token=" +
             this.getCookie("token") +
             "&productId=" +
             this.getCookie("productId")
@@ -196,7 +198,8 @@ export default {
     offsale() {
       axios
         .get(
-            "/api/sell/seller/product/off_sale?token=" +
+          config.sellerUrl +
+            "/sell/seller/product/off_sale?token=" +
             this.getCookie("token") +
             "&productId=" +
             this.getCookie("productId")
@@ -212,7 +215,8 @@ export default {
     getgoodsdetail() {
       axios
         .get(
-            "/api/sell/seller/product/index?token=" +
+          config.sellerUrl +
+            "/sell/seller/product/index?token=" +
             this.getCookie("token") +
             "&productId=" +
             this.getCookie("productId")
@@ -242,7 +246,7 @@ export default {
     },
     hidedialog() {
       this.dialogshow = false;
-      this.goodsclassdialogshow= false;
+      this.goodsclassdialogshow = false;
     }
   }
 };
