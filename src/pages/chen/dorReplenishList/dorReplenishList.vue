@@ -111,7 +111,7 @@ export default {
       this.$router.push({ name: "dorgroup" });
     }
   }
-};
+}
 </script>
 
 <style>

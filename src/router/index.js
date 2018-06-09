@@ -213,6 +213,7 @@ vueRouter.beforeEach((to, from, next) => {
   }
   console.log('openid:' + getCookie('openid'));
   console.log('token:' + getCookie('token'));
+<<<<<<< HEAD
   // if (to.name != 'authorize') {
   //   if (getCookie('openid') == 'null') {
   //     next({
@@ -226,6 +227,22 @@ vueRouter.beforeEach((to, from, next) => {
   //     }
   //   }
   // }
+=======
+  if (to.name != 'authorize') {
+    if (getCookie('openid') == 'null') {
+      next({
+        name: 'authorize'
+      })
+    }
+    if (to.name != 'login') {
+      if (getCookie('token') == 'null') {
+        next({
+          name: 'login'
+        })
+      }
+    }
+  }
+>>>>>>> 1b377a023c30d2b40bd86acb65decee603ce7aac
   next();
 });
 export default vueRouter
