@@ -51,6 +51,11 @@ export default {
     //this.setCookie("nickname",this.nickname,1);
   },
   methods: {
+    checkLogin(){
+      if(this.openid===null){
+        window.location.href="";
+      }
+    },
     login() {
       var loading = weui.loading("登录中");
       if (this.username === "") {
