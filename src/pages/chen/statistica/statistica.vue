@@ -60,7 +60,7 @@
                 <div class="weui-cell__bd">x{{x.quantity}}
                 </div>
               </a>
-              <!--<div class="weui-cell__ft">></div>-->
+              
             </div>
           </div>
         </div>
@@ -93,7 +93,7 @@ export default {
       goodsList: [],
       dorList: [],
       createTimes: [],
-      amount: 0,
+      amount: 0.0,
       kk: 1,
       page: 1,
       index: [
@@ -140,7 +140,8 @@ export default {
             "&endTime=" +
             this.eTime +
             "&page=" +
-            this.page
+            this.page +
+            "&size=100"
         )
         .then(res => {
           console.log(res);
@@ -169,7 +170,8 @@ export default {
             "&startTime=" +
             this.sTime +
             "&endTime=" +
-            this.eTime
+            this.eTime +
+            "&size=100"
         )
         .then(res => {
           console.log(res);
@@ -190,7 +192,7 @@ export default {
             this.goodsList[i].foods[j].quantity;
         }
       }
-      return this.amount.toFixed(2);
+      this.amount =  this.amount.toFixed(2);
     },
     getDetail(obj) {
       //console.log(obj);

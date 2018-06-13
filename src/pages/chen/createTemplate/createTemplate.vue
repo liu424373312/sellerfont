@@ -21,12 +21,22 @@
                 </div>
                 <div class="content">
                   <h2 class="name" style="margin-left:10px;">{{food.name}}</h2>
-                  <div class="extra">
-                    <span class="count" style="margin-left:10px;">仓库库存:{{food.quantity}}</span>
-                  </div>
                   <div class="price">
                     <span class="now" style="margin-left:10px;">￥{{food.price}}元</span>
                   </div>
+                  <div class="sales" v-if="food.sales > 0">
+                    <span class="sales" style="margin-left:10px;">商品销售量:{{food.sales}}</span>
+                  </div>
+                  <div class="extra">
+                    <span class="count" style="margin-left:10px;">仓库库存:{{food.quantity}}</span>
+                  </div>
+                  <div class="stock" style="margin-top:5px;" v-if="food.stock > 0" >
+                    <span class="stock" style="margin-left:10px;">寝室库存:{{food.stock}}</span>
+                  </div>
+                  <div class="stockout" style="margin-top:5px;" v-if="food.stockout > 0">
+                    <span class="stockout" style="margin-left:10px;">寝室回收数量:{{food.stockout}}</span>
+                  </div>
+        
                 </div>
                 <div class="cartcontrol-wrapper">
                   <cartcontrol :food="food"></cartcontrol>
@@ -332,7 +342,7 @@ export default {
 }
 
 .foods-wrapper .food-item .content .desc,
-.extra {
+.extra,.stock,.stockout ,.sales{
   line-height: 10px;
   font-size: 10px;
   color: rgb(147, 153, 159);

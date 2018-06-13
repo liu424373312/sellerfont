@@ -15,14 +15,13 @@
         </form>
         <a href="javascript:" class="weui-search-bar__cancel-btn cancel" v-show="cancel" id="searchCancel" @click="cancelSearch">取消</a>
       </div>
-
       <!--<div class="page__bd search" v-if="val !== '' " v-for="(item,index) in this.name" :key="index">{{item}}</div>-->
     </div>
     <div v-if="val !== ''">
       <div class="weui-panel__hd hd">查询结果</div>
       <div v-for="(item,index) in this.name" :key="index" class="weui-cell weui-cell_access" @click="gotoDor(item)">
         <div class="weui-cell__bd">
-          <h4 class="weui-media-box__title">{{item.groupNo}}</h4>
+          <h4 class="weui-media-box__title" style="font-size:14px;">{{item.groupNo}}</h4>
           <!--<p class="weui-media-box__desc">{{createsTime[index]}}</p>-->
         </div>
       </div>
@@ -42,16 +41,12 @@ export default {
       token: "",
       api: "http://wxsell.nat200.top",
       name: [],
-      val: ""
+      val: "",
+      token: ""
     };
   },
   created() {
-    let token = this.getCookie("token");
-    if (token === null || !token) {
-      window.location.href = " http://5ygsri.natappfree.cc/#/authorize";
-    } else {
-      this.token = token;
-    }
+    this.token = this.getCookie("token");
   },
   methods: {
     searchshow() {
@@ -74,8 +69,7 @@ export default {
       console.log(this.val);
       axios
         .get(
-          API_PROXY +
-            this.api +
+          config.sellerUrl +
             "/sell/seller/group/searchList?token=" +
             this.token +
             "&groupNo=" +

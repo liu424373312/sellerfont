@@ -1,5 +1,10 @@
 <template>
   <div id="templates">
+    <div class="weui-form-preview__ft" style="background:#0bb20c;">
+      <button class="weui-form-preview__btn weui-form-preview__btn_primary">
+        <span style="color:#fff;">创建统一模板</span>
+      </button>
+    </div>
     <div class="weui-panel__hd hd">模板管理</div>
     <div class="templatelist" v-for="(item,index) in this.templatesData" :key="index">
       <div class="weui-cell weui-cell_access" @click="getDetail(item)">

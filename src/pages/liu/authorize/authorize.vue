@@ -17,7 +17,7 @@ export default {
   methods: {
   },
   created() {
-       window.location.href=config.sellerUrl+'/sell/wechat/authorize?returnUrl='+config.sellerUrl+'/sellerInterface/#/';//izwu24.natappfree.cc/#/'//http://wxsell.nat200.top/sellerInterface/#/';
+       window.location.href=config.sellerUrl+'/sell/wechat/authorize?returnUrl='+'http://7h9ybt.natappfree.cc'/*config.sellerUrl*/+'/sellerInterface/#/';//izwu24.natappfree.cc/#/'//http://wxsell.nat200.top/sellerInterface/#/';
   }
 };
 </script>

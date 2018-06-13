@@ -8,7 +8,7 @@
     </div>
     <div class="weui-panel__hd hd">{{dorname}}</div>
     <div id="replenishlist">
-      <div class="weui-panel__bd" v-for="(item,index) in this.staData" :key="index">
+      <div class="weui-panel__bd" v-for="(item,index) in this.staData" :key="index" @click="gotoRep(item)">
         <div class="weui-media-box weui-media-box_appmsg">
 
           <div class="weui-media-box__bd">
@@ -55,9 +55,16 @@ export default {
     console.log(this.token);
     this.getQue();
     this.getStyle();
+    
     //this.getStatistic();
   },
   methods: {
+    gotoRep(item){
+      console.log(item);
+      this.setCookie("groupNo",item.groupNo);
+      //console.log(this.getCookie("groupNo"));
+      this.$router.push({'name':'createTemplate'});
+    },
     //缺货100间
     getQue() {
       this.showDor = !this.showDor;
@@ -72,8 +79,8 @@ export default {
             "&page=" +
             this.page
         )
-        .then(res => {
-          console.log(res);
+        .then((res) => {
+          //console.log(res);
           this.staData = res.data.data.list;
           this.upTimes.splice(0, this.upTimes.length);
           for (let i = 0; i < this.staData.length; i++) {
