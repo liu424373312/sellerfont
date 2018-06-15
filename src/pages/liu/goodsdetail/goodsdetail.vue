@@ -213,6 +213,7 @@ export default {
         });
     },
     getgoodsdetail() {
+      var loading = weui.loading("加载中");
       axios
         .get(
           config.sellerUrl +
@@ -231,9 +232,11 @@ export default {
             this.status = "下架";
             this.btnshow = false;
           }
+          loading.hide();
         })
         .catch(function(err) {
           console.log(err);
+          loading.hide();
         });
     },
     showdialog(index, item) {

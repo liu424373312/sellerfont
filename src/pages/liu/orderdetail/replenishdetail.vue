@@ -21,7 +21,7 @@
         </div>
         <div class="weui-form-preview__item">
           <label class="weui-form-preview__label">时间</label>
-          <span class="weui-form-preview__value">{{timestampToTime(replenishdetail.createTime)}}</span>
+          <span class="weui-form-preview__value">{{getLocalTime(replenishdetail.createTime)}}</span>
         </div>
         <div class="weui-form-preview__item">
           <label class="weui-form-preview__label">订单状态</label>
@@ -79,6 +79,7 @@ export default {
   created() {
     this.token = this.getCookie("token");
     this.replenishId = this.getCookie("replenishId");
+    var loading = weui.loading("加载中");
     axios
       .get(
         config.sellerUrl +
@@ -88,9 +89,11 @@ export default {
       .then(response => {
         console.log(response.data);
         this.replenishdetail = response.data.data;
+        loading.hide();
       })
       .catch(function(err) {
         console.log(err);
+        loading.hide();
       });
   },
   methods: {
@@ -191,19 +194,6 @@ export default {
           console.log(err);
           weui.alert("取消失败!");
         });
-    },
-    timestampToTime(timestamp) {
-      var date = new Date(timestamp * 1000); //时间戳为10位需*1000，时间戳为13位的话不需乘1000
-      var Y = date.getFullYear() + "-";
-      var M =
-        (date.getMonth() + 1 < 10
-          ? "0" + (date.getMonth() + 1)
-          : date.getMonth() + 1) + "-";
-      var D = date.getDate() + " ";
-      var h = date.getHours() + ":";
-      var m = date.getMinutes() + ":";
-      var s = date.getSeconds();
-      return Y + M + D + h + m + s;
     }
   }
 };

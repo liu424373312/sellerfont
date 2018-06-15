@@ -5,7 +5,7 @@
         <div class="weui-media-box__bd">
           <h4 class="weui-media-box__title">{{item1.groupNo}}</h4>
           <p class="weui-media-box__desc">{{item1.userName}} {{item1.userPhone}}</p>
-          <p class="weui-media-box__desc">时间:{{timestampToTime(item1.createTime)}}</p>
+          <p class="weui-media-box__desc">时间:{{getLocalTime(item1.createTime)}}</p>
         </div>
         <div class="weui-media-box__ft fttext">
           <p class="weui-media-box__desc">{{orderstatus(item1.replenishStatus)}}</p>
@@ -18,7 +18,7 @@
         <div class="weui-media-box__bd">
           <h4 class="weui-media-box__title">{{item2.groupNo}}</h4>
           <p class="weui-media-box__desc">{{item2.userName}} {{item2.userPhone}}</p>
-          <p class="weui-media-box__desc">时间:{{timestampToTime(item2.createTime)}}</p>
+          <p class="weui-media-box__desc">时间:{{getLocalTime(item2.createTime)}}</p>
         </div>
         <div class="weui-media-box__ft fttext">
           <p class="weui-media-box__desc">{{orderstatus(item2.replenishStatus)}}</p>
@@ -100,19 +100,6 @@ export default {
     detail(item) {
       this.setCookie("replenishId", item.replenishId, 1);
       this.$router.push({ name: "replenishdetail" });
-    },
-    timestampToTime(timestamp) {
-      var date = new Date(timestamp * 1000); //时间戳为10位需*1000，时间戳为13位的话不需乘1000
-      var Y = date.getFullYear() + "-";
-      var M =
-        (date.getMonth() + 1 < 10
-          ? "0" + (date.getMonth() + 1)
-          : date.getMonth() + 1) + "-";
-      var D = date.getDate() + " ";
-      var h = date.getHours() + ":";
-      var m = date.getMinutes() + ":";
-      var s = date.getSeconds();
-      return Y + M + D + h + m + s;
     }
   }
 };

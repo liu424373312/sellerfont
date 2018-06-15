@@ -13,11 +13,11 @@
         </div>
         <div class="weui-form-preview__item">
           <label class="weui-form-preview__label">时间</label>
-          <span class="weui-form-preview__value">{{timestampToTime(orderdetail.createTime)}}</span>
+          <span class="weui-form-preview__value">{{getLocalTime(orderdetail.updateTime)}}</span>
         </div>
         <div class="weui-form-preview__item">
           <label class="weui-form-preview__label">订单状态</label>
-          <span class="weui-form-preview__value">{{orderstatus(orderdetail.orderStatus)}}</span>
+          <span class="weui-form-preview__value">{{orderstatus(orderdetail.payStatus)}}</span>
         </div>
         <div class="weui-form-preview__item">
           <label class="weui-form-preview__label">订单编号</label>
@@ -40,6 +40,7 @@
 
 <script>
 import axios from "axios";
+import weui from "weui.js";
 var config = require("../../../../config");
 config = process.env.NODE_ENV === "development" ? config.dev : config.build;
 export default {
@@ -53,6 +54,7 @@ export default {
   created() {
     this.token = this.getCookie("token");
     this.orderId = this.getCookie("orderId");
+    var loading = weui.loading("加载中");
     axios
       .get(
         config.sellerUrl + "/sell/seller/order/detail?orderId=" + this.orderId
@@ -60,36 +62,22 @@ export default {
       .then(response => {
         console.log(response.data);
         this.orderdetail = response.data.data;
+        loading.hide();
       })
       .catch(function(err) {
         console.log(err);
+        loading.hide();
       });
   },
   methods: {
     orderstatus(item) {
       if (item == "0") {
-        return "新订单";
+        return "未支付订单";
       }
       if (item == "1") {
-        return "已完结";
-      }
-      if (item == "2") {
-        return "已取消";
+        return "已支付订单";
       }
     },
-    timestampToTime(timestamp) {
-      var date = new Date(timestamp * 1000); //时间戳为10位需*1000，时间戳为13位的话不需乘1000
-      var Y = date.getFullYear() + "-";
-      var M =
-        (date.getMonth() + 1 < 10
-          ? "0" + (date.getMonth() + 1)
-          : date.getMonth() + 1) + "-";
-      var D = date.getDate() + " ";
-      var h = date.getHours() + ":";
-      var m = date.getMinutes() + ":";
-      var s = date.getSeconds();
-      return Y + M + D + h + m + s;
-    }
   }
 };
 </script>

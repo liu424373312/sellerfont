@@ -160,6 +160,7 @@ export default {
       this.categoryName = "";
       this.categoryType = "";
       this.token = this.getCookie("token");
+      var loading = weui.loading("加载中");
       axios
         .get(
           config.sellerUrl + "/sell/seller/category/list?token=" + this.token
@@ -167,9 +168,11 @@ export default {
         .then(response => {
           console.log(response.data);
           this.goodsclass = response.data.data;
+          loading.hide();
         })
         .catch(function(err) {
           console.log(err);
+          loading.hide();
         });
     }
   },

@@ -20,8 +20,12 @@
     <dispatchlist v-if="dispatchlistshow" :dispatchlist='listdata'></dispatchlist>
     <div class="page">
       <button class="weui-btn weui-btn_mini weui-btn_default" @click="backpage">上一页</button>
-      <span v-if="replenishlistshow">第{{replenishpage}}页</span>
-      <span v-if="dispatchlistshow">第{{dispatchpage}}页</span>
+      <select v-if="replenishlistshow" @click="replenishlist" v-model="replenishpage" class="weui-btn weui-btn_mini weui-btn_default">
+        <option :value="index" v-for="(item,index) in 100" :key="index">{{index}}</option>
+      </select>
+      <select v-if="dispatchlistshow" @click="dispatchlist" v-model="dispatchpage" class="weui-btn weui-btn_mini weui-btn_default">
+        <option :value="index" v-for="(item,index) in 100" :key="index">{{index}}</option>
+      </select>
       <button class="weui-btn weui-btn_mini weui-btn_default" @click="nextpage">下一页</button>
     </div>
   </div>
@@ -32,6 +36,7 @@ import axios from "axios";
 import searchorder from "../../../components/search/searchorder";
 import dispatchlist from "../../../components/orderlist/dispatchlist";
 import replenishlist from "../../../components/orderlist/replenishlist";
+import weui from "weui.js";
 import $ from "jquery";
 var config = require("../../../../config");
 config = process.env.NODE_ENV === "development" ? config.dev : config.build;
@@ -67,6 +72,7 @@ export default {
   },
   methods: {
     dispatchlist() {
+      var loading = weui.loading("加载中");
       axios
         .get(
           config.sellerUrl +
@@ -78,14 +84,26 @@ export default {
         .then(res => {
           console.log(res);
           this.listdata = res.data.data.list;
+          if(this.listdata.length==0){
+            weui.alert('无更多数据');
+          }
+          loading.hide();
+          weui.toast("加载成功", {
+            duration: 1000
+          });
         })
         .catch(err => {
           console.log(err);
+          loading.hide();
+          weui.toast("失败!!!", {
+            duration: 1000
+          });
         });
       this.replenishlistshow = false;
       this.dispatchlistshow = true;
     },
     replenishlist() {
+      var loading = weui.loading("加载中");
       axios
         .get(
           config.sellerUrl +
@@ -96,11 +114,21 @@ export default {
         )
         .then(res => {
           console.log(res);
-          console.log();
           this.listdata = res.data.data.list;
+          if(this.listdata.length==0){
+            weui.alert('无更多数据');
+          }
+          loading.hide();
+          weui.toast("加载成功", {
+            duration: 1000
+          });
         })
         .catch(err => {
           console.log(err);
+          loading.hide();
+          weui.toast("失败!!!", {
+            duration: 1000
+          });
         });
       this.replenishlistshow = true;
       this.dispatchlistshow = false;

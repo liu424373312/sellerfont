@@ -42,6 +42,7 @@
 
 <script>
 import axios from "axios";
+import weui from "weui.js";
 var config = require("../../../../config");
 config = process.env.NODE_ENV === "development" ? config.dev : config.build;
 export default {
@@ -60,6 +61,7 @@ export default {
       this.all = true;
     }
     this.token = this.getCookie("token");
+    var loading = weui.loading("加载中");
     axios
       .get(config.sellerUrl + "/sell/seller/product/list?token=" + this.token)
       .then(response => {
@@ -69,9 +71,11 @@ export default {
         } else {
           this.goodslist = response.data.data[this.getCookie("goodsclass")];
         }
+        loading.hide();
       })
       .catch(function(err) {
         console.log(err);
+        loading.hide();
       });
   },
   methods: {

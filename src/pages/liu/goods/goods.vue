@@ -36,6 +36,7 @@
 
 <script>
 import searchgoods from "../../../components/search/searchgoods";
+import weui from "weui.js";
 import axios from "axios";
 var config = require("../../../../config");
 config = process.env.NODE_ENV === "development" ? config.dev : config.build;
@@ -62,14 +63,17 @@ export default {
   },
   created() {
     this.token = this.getCookie("token");
+    var loading = weui.loading("加载中");
     axios
       .get(config.sellerUrl + "/sell/seller/product/list?token=" + this.token)
       .then(response => {
         console.log(response.data);
         this.goods = response.data.data;
+        loading.hide();
       })
       .catch(function(err) {
         console.log(err);
+        loading.hide();
       });
   }
 };
