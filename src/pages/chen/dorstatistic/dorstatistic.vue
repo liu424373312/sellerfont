@@ -1,26 +1,32 @@
 <template>
   <div id="dorstatistic">
-    <div class="weui-form-preview__item" style="margin-left:25%;">
-      <a href="javascript:;" class="weui-btn weui-btn_primary weui-btn_mini" v-show="!this.showFlag" @click="getQue" style="background:#fff;color:#33cc00;top:10px;">存货排行</a>
-      <a href="javascript:;" class="weui-btn weui-btn_primary weui-btn_mini" v-show="this.showFlag" @click="getQue" style="background:#33cc00;color:#fff;">存货排行</a>
-      <a href="javascript:;" class="weui-btn weui-btn_primary weui-btn_mini" v-show="!this.showDor" @click="getStatistic" style="background:#fff;color:#33cc00;top:10px;">寝室销售统计</a>
-      <a href="javascript:;" class="weui-btn weui-btn_primary weui-btn_mini" v-show="this.showDor" @click="getStatistic" style="background:#33cc00;color:#fff;">寝室销售统计</a>
+    <searchdomitory></searchdomitory>
+    <div class="page__bd">
+      <div class="weui-tab">
+        <div class="weui-navbar" style="height: 44px;">
+          <a class="weui-tabbar__item weui-bar__item_on" @click="getQue">
+            <!-- <i class="icon-truck ordericon"></i> -->
+            <p class="weui-tabbar__label">存货排行</p>
+          </a>
+          <a class="weui-tabbar__item" @click="getStatistic">
+            <!-- <i class="icon-dropbox ordericon"></i> -->
+            <p class="weui-tabbar__label">寝室销售统计</p>
+          </a>
+        </div>
+      </div>
     </div>
     <div class="weui-panel__hd hd">{{dorname}}</div>
-    <div id="replenishlist">
-      <div class="weui-panel__bd" v-for="(item,index) in this.staData" :key="index" @click="gotoRep(item)">
-        <div class="weui-media-box weui-media-box_appmsg">
+    <div class="weui-panel__bd" v-for="(item,index) in this.staData" :key="index">
+      <div class="weui-media-box weui-media-box_appmsg">
+        <div class="weui-media-box__bd">
+          <h4 class="weui-media-box__title">{{item.groupNo}}</h4>
+          <p class="weui-media-box__desc">{{item.userName}} Tel:{{item.userPhone}}</p>
+          <p class="weui-media-box__desc">时间:{{upTimes[index]}}</p>
 
-          <div class="weui-media-box__bd">
-            <h4 class="weui-media-box__title">{{item.groupNo}}</h4>
-            <p class="weui-media-box__desc">{{item.userName}} Tel:{{item.userPhone}}</p>
-            <p class="weui-media-box__desc">时间:{{upTimes[index]}}</p>
-
-          </div>
-          <div class="weui-media-box__ft">
-            <p class="weui-media-box__desc">消费金额:￥{{item.groupConsume}}</p>
-            <p class="weui-media-box__desc">寝室商品总额:￥{{item.groupAmount}}</p>
-          </div>
+        </div>
+        <div class="weui-media-box__ft">
+          <p class="weui-media-box__desc">消费金额:￥{{item.groupConsume}}</p>
+          <p class="weui-media-box__desc">寝室商品总额:￥{{item.groupAmount}}</p>
         </div>
       </div>
     </div>
@@ -33,8 +39,10 @@
 </template>
 
 <script>
+import searchdomitory from "../../../components/search/searchdomitory";
 import axios from "axios";
 import weui from "weui.js";
+import $ from "jquery";
 var config = require("../../../../config");
 config = process.env.NODE_ENV === "development" ? config.dev : config.build;
 export default {
@@ -55,18 +63,29 @@ export default {
     console.log(this.token);
     this.getQue();
     this.getStyle();
-    
+
     //this.getStatistic();
   },
+  mounted() {
+    $(function() {
+      $(".weui-tabbar__item").on("click", function() {
+        $(this)
+          .addClass("weui-bar__item_on")
+          .siblings(".weui-bar__item_on")
+          .removeClass("weui-bar__item_on");
+      });
+    });
+  },
   methods: {
-    gotoRep(item){
+    gotoRep(item) {
       console.log(item);
-      this.setCookie("groupNo",item.groupNo);
+      this.setCookie("groupNo", item.groupNo);
       //console.log(this.getCookie("groupNo"));
-      this.$router.push({'name':'createTemplate'});
+      this.$router.push({ name: "createTemplate" });
     },
     //缺货100间
     getQue() {
+      var loading = weui.loading("加载中");
       this.showDor = !this.showDor;
       this.showFlag = !this.showFlag;
       this.dorname = "存货排行";
@@ -79,7 +98,7 @@ export default {
             "&page=" +
             this.page
         )
-        .then((res) => {
+        .then(res => {
           //console.log(res);
           this.staData = res.data.data.list;
           this.upTimes.splice(0, this.upTimes.length);
@@ -93,9 +112,17 @@ export default {
             this.times(date);
           }
           console.log(this.staData);
+          loading.hide();
+          weui.toast("加载成功", {
+            duration: 1000
+          });
         })
         .catch(err => {
           console.log(err);
+          loading.hide();
+          weui.toast("失败!!!", {
+            duration: 1000
+          });
         });
     },
     getShow() {
@@ -108,6 +135,7 @@ export default {
     },
     //销售统计
     getStatistic() {
+      var loading = weui.loading("加载中");
       this.showDor = !this.showDor;
       this.showFlag = !this.showFlag;
       this.dorname = "寝室销售统计";
@@ -135,9 +163,17 @@ export default {
             this.times(date);
           }
           console.log(this.staData);
+          loading.hide();
+          weui.toast("加载成功", {
+            duration: 1000
+          });
         })
         .catch(err => {
           console.log(err);
+          loading.hide();
+          weui.toast("失败!!!", {
+            duration: 1000
+          });
         });
     },
     times(date1) {
@@ -341,6 +377,9 @@ export default {
           });
       }
     }
+  },
+  components: {
+    searchdomitory
   }
 };
 </script>

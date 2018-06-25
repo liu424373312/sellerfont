@@ -34,6 +34,7 @@ import templatesDetail from '../pages/chen/templatesDetail/templatesDetail'
 import orderdetail2 from '../pages/chen/orderdetail2/orderdetail2'
 import pic from '../pages/pic/pic'
 import register from '../pages/liu/register/register'
+import addtemplates from '../pages/chen/addtemplates/addtemplates'
 Vue.use(Router);
 
 const vueRouter = new Router({
@@ -197,6 +198,11 @@ const vueRouter = new Router({
       path: '/register',
       name: 'register',
       component: register
+    },
+    {
+      path: '/addtemplates',
+      name: 'addtemplates',
+      component: addtemplates
     }
   ]
 })

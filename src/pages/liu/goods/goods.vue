@@ -1,7 +1,7 @@
 <template>
     <div id="goods">
         <searchgoods class="search" :data='goods'></searchgoods>
-        <div class="weui-cells__title hd"></div>
+        <div class="weui-cells__title hd">商品管理</div>
         <div class="weui-cells">
             <router-link :to="{ name:'addgoods',params:{goodsclass:goods}}" class="weui-cell weui-cell_access">
                 <div class="weui-cell__bd">

@@ -1,17 +1,26 @@
 <template>
   <div id="statistica">
-    <div class="weui-cells__title">类型</div>
+    <div class="weui-cells__title">统计</div>
     <div class="weui-cells">
-      <div class="weui-cell weui-cell_select">
+      <router-link to="dorstatistic" class="weui-cell weui-cell_access" href="javascript:;">
+        <div class="weui-cell__bd">
+          <p>寝室销售统计</p>
+        </div>
+        <div class="weui-cell__ft"></div>
+      </router-link>
+    </div>
+    <div class="weui-cells__title">销售统计</div>
+    <div class="weui-cells weui-cells_form">
+      <div class="weui-cell weui-cell_select weui-cell_select-after">
+        <div class="weui-cell__hd">
+          <label for="" class="weui-label">搜索类型</label>
+        </div>
         <div class="weui-cell__bd">
           <select class="weui-select" name="select2" @change="getAll($event)">
             <option v-for="(h,k) in this.index" :key="k" :value="h.indexId">{{h.name}}</option>
           </select>
         </div>
       </div>
-    </div>
-    <div class="weui-cells__title">时间</div>
-    <div class="weui-cells weui-cells_form">
       <div class="weui-cell">
         <div class="weui-cell__hd">
           <label for="" class="weui-label">开始时间</label>
@@ -31,7 +40,7 @@
     </div>
     <a href="javascript:;" class="weui-btn weui-btn_primary" @click="selectMore">查询</a>
     <div v-if="amount > 0" class="weui-cells__title" style="border-bottom:1px solid rgba(7,17,27,0.1)">合计金额￥{{amount}}</div>
-    <div v-if="kk === 2" class="domitorylist">
+    <!-- <div v-if="kk === 2" class="domitorylist">
       <router-link v-for="(item,index) in this.dorList" :key="index" :to="{name:'orderdetail2',params:{dorDE:item}}" class="weui-cell weui-cell_access">
         <div class="weui-cell__bd">
           <h4 class="weui-media-box__title">{{item.groupNo}}</h4>
@@ -41,7 +50,7 @@
         <div class="weui-cell__ft">
         </div>
       </router-link>
-    </div>
+    </div> -->
     <div v-if="kk === 1" v-for="(item,index) in this.goodsList" :key="index">
       <div class="page__bd page__bd_spacing">
         <div class="weui-cells__title">{{item.name}}</div>
@@ -60,7 +69,6 @@
                 <div class="weui-cell__bd">x{{x.quantity}}
                 </div>
               </a>
-              
             </div>
           </div>
         </div>
@@ -89,7 +97,7 @@ export default {
       sTime: "",
       eTime: "",
       startTime: "",
-      endTime: "",
+      endTime: new Date(),
       goodsList: [],
       dorList: [],
       createTimes: [],
@@ -138,24 +146,21 @@ export default {
             "&startTime=" +
             this.sTime +
             "&endTime=" +
-            this.eTime +
-            "&page=" +
-            this.page +
-            "&size=100"
+            this.eTime
         )
         .then(res => {
           console.log(res);
           this.amount = res.data.data.orderListAmount;
-          this.dorList = res.data.data.orderDTOVOList;
-          this.createTimes.splice(0, this.createTimes.length);
-          for (let i = 0; i < this.dorList.length; i++) {
-            if (this.dorList[i].createTime.toString().length === 10) {
-              var date = new Date(this.dorList[i].createTime * 1000);
-            } else {
-              var date = new Date(this.dorList[i].createTime);
-            }
-            this.times(date);
-          }
+          // this.dorList = res.data.data.orderDTOVOList;
+          // this.createTimes.splice(0, this.createTimes.length);
+          // for (let i = 0; i < this.dorList.length; i++) {
+          //   if (this.dorList[i].createTime.toString().length === 10) {
+          //     var date = new Date(this.dorList[i].createTime * 1000);
+          //   } else {
+          //     var date = new Date(this.dorList[i].createTime);
+          //   }
+          //   this.times(date);
+          // }
         })
         .catch(err => {
           console.log(err);
@@ -192,7 +197,7 @@ export default {
             this.goodsList[i].foods[j].quantity;
         }
       }
-      this.amount =  this.amount.toFixed(2);
+      this.amount = this.amount.toFixed(2);
     },
     getDetail(obj) {
       //console.log(obj);

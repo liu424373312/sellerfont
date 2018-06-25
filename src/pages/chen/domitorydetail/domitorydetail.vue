@@ -67,6 +67,7 @@
             <div class="weui-cell__ft"></div>
           </router-link>-->
     </div>
+    <a href="javascript:;" class="weui-btn weui-btn_warn" @click="deletedomitory">删除寝室</a>
   </div>
 </template>
 
@@ -111,6 +112,28 @@ export default {
       }).catch((err) => {
         console.log(err);
       })*/
+    },
+    deletedomitory() {
+      axios
+        .get(
+          config.sellerUrl +
+            "/sell/seller/group/delete?token=" +
+            this.token +
+            "&groupNo=" +
+            this.dorDetail.groupNo
+        )
+        .then(res => {
+          console.log(res);
+          if(res.data.msg=="成功"){
+            weui.toast("删除成功!", {
+              duration: 3000
+            });
+            this.$router.push("domitory");
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
     }
   }
 };

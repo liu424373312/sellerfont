@@ -18,6 +18,18 @@
                 <div class="weui-cell__ft"></div>
             </div>
         </div>
+        <div class="weui-panel__hd">管理员列表</div>
+        <div class="weui-panel__bd" v-for="(item,index) in list" :key="index">
+            <div class="weui-media-box weui-media-box_appmsg">
+                <div class="weui-media-box__bd">
+                    <h4 class="weui-media-box__title">{{item.name}}</h4>
+                    <p class="weui-media-box__desc">电话： {{item.phone}}</p>
+                </div>
+                <div class="weui-media-box__ft">
+                    <p class="weui-media-box__title">等级：{{item.rank}}</p>
+                </div>
+            </div>
+        </div>
         <div class="js_dialog" v-show="dialogshow">
             <div class="weui-mask"></div>
             <div class="weui-dialog">
@@ -67,6 +79,7 @@ export default {
   data() {
     return {
       username: this.getCookie("username"),
+      list: [],
       password: "",
       newpassword: "",
       oldpassword: "",
@@ -127,9 +140,25 @@ export default {
           loading.hide();
           weui.alert("修改失败");
         });
+    },
+    getlist() {
+      var loading = weui.loading("加载中");
+      axios
+        .get(config.sellerUrl + "/sell/seller/list?token=" + this.token)
+        .then(response => {
+          console.log(response.data);
+          this.list = response.data.data;
+          loading.hide();
+        })
+        .catch(function(err) {
+          console.log(err);
+          loading.hide();
+        });
     }
   },
-  created() {}
+  created() {
+    this.getlist();
+  }
 };
 </script>
 

@@ -14,12 +14,6 @@
         </div>
         <div class="weui-cell__ft"></div>
       </router-link>
-      <router-link to="dorstatistic" class="weui-cell weui-cell_access" href="javascript:;">
-        <div class="weui-cell__bd">
-          <p>寝室销售统计</p>
-        </div>
-        <div class="weui-cell__ft"></div>
-      </router-link>
     </div>
     <div class="weui-cell weui-cell_select weui-cell_select-after">
       <div class="weui-cell__hd">

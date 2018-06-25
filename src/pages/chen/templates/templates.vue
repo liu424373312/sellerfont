@@ -1,13 +1,24 @@
 <template>
   <div id="templates">
-    <div class="weui-panel__hd hd">模板管理</div>
-    <div class="templatelist" v-for="(item,index) in this.templatesData" :key="index">
-      <div class="weui-cell weui-cell_access" @click="getDetail(item)">
+    <div class="weui-cells__title hd">模板管理</div>
+    <div class="weui-cells">
+      <router-link :to="{ name:'addtemplates'}" class="weui-cell weui-cell_access">
         <div class="weui-cell__bd">
-          <h4 class="weui-media-box__title">{{item.templateName}}</h4>
-          <p class="weui-media-box__desc">{{upTime[index]}}</p>
+          <p>添加模板</p>
         </div>
-        <div class="weui-cell__ft">
+        <div class="weui-cell__ft"></div>
+      </router-link>
+    </div>
+    <div class="weui-cells__title hd">模板列表</div>
+    <div class="weui-cells">
+      <div class="templatelist" v-for="(item,index) in this.templatesData" :key="index">
+        <div class="weui-cell weui-cell_access" @click="getDetail(item)">
+          <div class="weui-cell__bd">
+            <h4 class="weui-media-box__title">{{item.templateName}}</h4>
+            <p class="weui-media-box__desc">{{upTime[index]}}</p>
+          </div>
+          <div class="weui-cell__ft">
+          </div>
         </div>
       </div>
     </div>
