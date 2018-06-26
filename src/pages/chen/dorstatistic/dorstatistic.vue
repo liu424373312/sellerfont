@@ -10,7 +10,7 @@
           </a>
           <a class="weui-tabbar__item" @click="getStatistic">
             <!-- <i class="icon-dropbox ordericon"></i> -->
-            <p class="weui-tabbar__label">寝室销售统计</p>
+            <p class="weui-tabbar__label">寝室销售排行</p>
           </a>
         </div>
       </div>
@@ -138,7 +138,7 @@ export default {
       var loading = weui.loading("加载中");
       this.showDor = !this.showDor;
       this.showFlag = !this.showFlag;
-      this.dorname = "寝室销售统计";
+      this.dorname = "寝室销售排行";
       this.sort = 1;
       axios
         .get(

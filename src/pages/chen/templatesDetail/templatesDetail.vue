@@ -3,10 +3,6 @@
     <div class="weui-form-preview">
       <div class="weui-form-preview__bd">
         <div class="weui-form-preview__item">
-          <label class="weui-form-preview__label">寝室号</label>
-          <span class="weui-form-preview__value">{{this.groupNo}}</span>
-        </div>
-        <div class="weui-form-preview__item">
           <label class="weui-form-preview__label">创建时间</label>
           <span class="weui-form-preview__value">{{this.upTime}}</span>
         </div>
@@ -28,12 +24,29 @@
       </div>
     </div>
     <div class="weui-form-preview__ft" style="background:#0bb20c;">
-      <button class="weui-form-preview__btn weui-form-preview__btn_primary" @click="createRE">
-        <span style="color:#fff;">创建配送单</span>
+      <button class="weui-form-preview__btn weui-form-preview__btn_primary" @click="showdialog">
+        <span style="color:#fff;">创建补货单</span>
       </button>
       <a href="javascript:;" class="weui-form-preview__btn weui-btn_warn" @click="delCR">
         <span style="color:#fff;">删除模板</span>
       </a>
+    </div>
+    <div class="js_dialog" v-show="dialogshow">
+      <div class="weui-mask"></div>
+      <div class="weui-dialog">
+        <div class="weui-dialog__hd">
+          <strong class="weui-dialog__title">创建补货单</strong>
+        </div>
+        <div class="weui-dialog__bd">
+          <div class="weui-cell">
+            <input class="weui-input" v-model="groupNo" placeholder="请输入寝室号">
+          </div>
+        </div>
+        <div class="weui-dialog__ft">
+          <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary" @click="createRE">确认</a>
+          <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_default" @click="hidedialog">取消</a>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -49,18 +62,20 @@ export default {
     return {
       crdetails: [],
       token: "",
+      templateId: "",
       groupNo: "",
       upTime: "",
       createTime: "",
       crGoods: [],
-      templateId: ""
+      templateId: "",
+      dialogshow: false
     };
   },
   created() {
     this.token = this.getCookie("token");
     console.log(this.token);
-    this.groupNo = this.getCookie("templateName");
-    console.log(this.groupNo);
+    this.templateId = this.getCookie("templateId");
+    console.log(this.templateId);
     this.getDetailList();
   },
   methods: {
@@ -72,8 +87,8 @@ export default {
           config.sellerUrl +
             "/sell/seller/template/detail?token=" +
             this.token +
-            "&groupNo=" +
-            this.groupNo
+            "&templateId=" +
+            this.templateId
         )
         .then(res => {
           console.log(res);
@@ -108,19 +123,24 @@ export default {
             "/sell/seller/template/create_replenish?token=" +
             this.token +
             "&templateId=" +
-            this.templateId
+            this.templateId +
+            "&groupNo=" +
+            this.groupNo
         )
         .then(res => {
           console.log(res);
           if (res.data.msg === "成功") {
-            weui.toast("创建配送单成功!", {
+            weui.toast("创建补货单成功!", {
               duration: 1000
             });
+            this.$router.push({ name: "templates" });
+          } else {
+            weui.topTips(res.data.msg);
           }
         })
         .catch(err => {
           console.log(err);
-          weui.topTips("创建配送单失败!");
+          weui.topTips("创建补货单失败!");
         });
     },
     delCR() {
@@ -194,6 +214,12 @@ export default {
       this.upTime = Y + "-" + M + "-" + D + " " + h + ":" + m + ":" + s;
       //console.log(this.createsTime);
       //return this.createsTime;
+    },
+    showdialog(index, item) {
+      this.dialogshow = true;
+    },
+    hidedialog() {
+      this.dialogshow = false;
     }
   },
   components: {

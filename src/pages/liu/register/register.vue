@@ -60,10 +60,10 @@ export default {
     };
   },
   created() {
-    // this.openid = this.getQueryOpenid("openid");
+    this.openid = this.getQueryOpenid("openid");
     this.setCookie("openid", this.openid, 1);
-    // this.schoolNo = this.getQueryOpenid("schoolNo");
-    // this.rank = this.getQueryOpenid("rank");
+    this.schoolNo = this.getQueryOpenid("schoolNo");
+    this.rank = this.getQueryOpenid("rank");
   },
   methods: {
     register() {

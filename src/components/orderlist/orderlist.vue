@@ -1,10 +1,10 @@
 <template>
   <div id="orederlist">
     <div class="weui-panel__hd">支付订单列表</div>
-    <div class="weui-panel__hd">{{orderlist.length}}条记录
-      <span v-if="orderStatus=='1'">总金额：{{count.toFixed()}}￥</span>
+    <div class="weui-panel__hd">{{orderlist.orderListSize}}条记录
+      <span v-if="orderStatus=='1'">总金额：{{orderlist.orderListAmount}}￥</span>
     </div>
-    <div class="weui-panel__bd" v-for="(item,index) in orderlist" :key="index" @click="detail(item)">
+    <div class="weui-panel__bd" v-for="(item,index) in orderlist.orderDTOVOList" :key="index" @click="detail(item)">
       <div class="weui-media-box weui-media-box_appmsg">
         <div class="weui-media-box__bd">
           <h4 class="weui-media-box__title">{{item.groupNo}}</h4>

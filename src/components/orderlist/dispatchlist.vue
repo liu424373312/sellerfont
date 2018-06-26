@@ -5,7 +5,7 @@
         <div class="weui-media-box__bd">
           <h4 class="weui-media-box__title">{{item.groupNo}}</h4>
           <p class="weui-media-box__desc">{{item.userName}} {{item.userPhone}}</p>
-          <p class="weui-media-box__desc">时间:{{getLocalTime(item.createTime)}}</p>
+          <p class="weui-media-box__desc">时间:{{getLocalTime(item.updateTime)}}</p>
         </div>
         <div class="weui-media-box__ft">
           <p class="weui-media-box__title">{{item.dispatchAmount}}￥</p>

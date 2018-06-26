@@ -1,10 +1,10 @@
 <template>
   <div id="statistica">
-    <div class="weui-cells__title">统计</div>
+    <div class="weui-cells__title">排行</div>
     <div class="weui-cells">
       <router-link to="dorstatistic" class="weui-cell weui-cell_access" href="javascript:;">
         <div class="weui-cell__bd">
-          <p>寝室销售统计</p>
+          <p>寝室销售排行</p>
         </div>
         <div class="weui-cell__ft"></div>
       </router-link>
@@ -16,7 +16,7 @@
           <label for="" class="weui-label">搜索类型</label>
         </div>
         <div class="weui-cell__bd">
-          <select class="weui-select" name="select2" @change="getAll($event)">
+          <select v-model="se" class="weui-select" name="select2" @change="getAll($event)">
             <option v-for="(h,k) in this.index" :key="k" :value="h.indexId">{{h.name}}</option>
           </select>
         </div>
@@ -35,6 +35,15 @@
         </div>
         <div class="weui-cell__bd">
           <input class="weui-input" type="date" value="" v-model="eTime" />
+        </div>
+      </div>
+      <div v-if="se==3" class="weui-cell">
+        <div class="weui-cell__hd">
+          <label for="" class="weui-label">寝室号
+          </label>
+        </div>
+        <div class="weui-cell__bd">
+          <input class="weui-input" type="text" v-model="groupNo" />
         </div>
       </div>
     </div>
@@ -92,6 +101,8 @@ config = process.env.NODE_ENV === "development" ? config.dev : config.build;
 export default {
   data() {
     return {
+      se: "1",
+      groupNo: "",
       token: "",
       sort: "1",
       sTime: "",
@@ -112,6 +123,10 @@ export default {
         {
           indexId: 2,
           name: "订单销售统计"
+        },
+        {
+          indexId: 3,
+          name: "寝室订单销售统计"
         }
       ]
     };
@@ -147,6 +162,37 @@ export default {
             this.sTime +
             "&endTime=" +
             this.eTime
+        )
+        .then(res => {
+          console.log(res);
+          this.amount = res.data.data.orderListAmount;
+          // this.dorList = res.data.data.orderDTOVOList;
+          // this.createTimes.splice(0, this.createTimes.length);
+          // for (let i = 0; i < this.dorList.length; i++) {
+          //   if (this.dorList[i].createTime.toString().length === 10) {
+          //     var date = new Date(this.dorList[i].createTime * 1000);
+          //   } else {
+          //     var date = new Date(this.dorList[i].createTime);
+          //   }
+          //   this.times(date);
+          // }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    getDoOrders() {
+      axios
+        .get(
+          config.sellerUrl +
+            "/sell/seller/order/timeBetween?token=" +
+            this.token +
+            "&startTime=" +
+            this.sTime +
+            "&endTime=" +
+            this.eTime +
+            "&groupNo=" +
+            this.groupNo
         )
         .then(res => {
           console.log(res);
@@ -244,6 +290,11 @@ export default {
       if (this.sort === "2") {
         this.kk = 2;
         this.getOrders();
+        //console.log("22");
+      }
+      if (this.sort === "3") {
+        this.kk = 3;
+        this.getDoOrders();
         //console.log("22");
       }
     },

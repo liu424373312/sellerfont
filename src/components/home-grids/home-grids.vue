@@ -1,13 +1,13 @@
 <template>
     <div id="home-grids">
         <div class="weui-grids">
-            <router-link to="goods" class="weui-grid">
+            <router-link v-if="rank" to="goods" class="weui-grid">
                 <div class="weui-grid__icon">
                     <i class="icon-goods homeicon"></i>
                 </div>
                 <p class="weui-grid__label">商品管理</p>
             </router-link>
-            <router-link :to="{name:'domitory'}" class="weui-grid">
+            <router-link v-if="rank" :to="{name:'domitory'}" class="weui-grid">
                 <div class="weui-grid__icon">
                     <i class="icon-domitory homeicon"></i>
                 </div>
@@ -25,7 +25,7 @@
                 </div>
                 <p class="weui-grid__label">销售统计</p>
             </router-link>
-            <router-link :to="{name:'templates'}" class="weui-grid">
+            <router-link v-if="rank" :to="{name:'templates'}" class="weui-grid">
                 <div class="weui-grid__icon">
                     <i class="icon-copy homeicon"></i>
                 </div>

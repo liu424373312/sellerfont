@@ -71,7 +71,7 @@ export default {
             this.token +
             "&page=" +
             this.page +
-            "&size=30" +
+            "&size=100" +
             "&orderStatus=" +
             this.orderStatus +
             "&payStatus=" +
@@ -80,12 +80,9 @@ export default {
         .then(res => {
           console.log(res);
           this.count = 0;
-          this.listdata = res.data.data.orderDTOVOList;
-          if(this.listdata.length==0){
+          this.listdata = res.data.data;
+          if(this.listdata.orderDTOVOList.length==0){
             weui.alert('无更多数据');
-          }
-          for (var i = 0; i < this.listdata.length; i++) {
-            this.count = this.count + this.listdata[i].orderAmount;
           }
           loading.hide();
           weui.toast("加载成功", {

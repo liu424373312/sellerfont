@@ -70,6 +70,7 @@ export default {
     getDetail(obj) {
       console.log(obj);
       this.setCookie("templateName", obj.templateName, 1);
+      this.setCookie("templateId", obj.templateId, 1);
       this.$router.push({ name: "templatesDetail" });
     },
     times(date1) {
