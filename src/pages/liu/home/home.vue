@@ -1,6 +1,5 @@
 <template>
   <div id="home">
-      <homegheader></homegheader>
       <homegrids></homegrids>
   </div>
 </template>

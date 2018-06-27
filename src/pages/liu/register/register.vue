@@ -50,20 +50,22 @@ let param = new FormData();
 export default {
   data() {
     return {
-        openid: "oSpuJ1ryJLJwSnRbusu8wa1XjqnM",
-        schoolNo: "1",
-        rank: 0,
-        username:'',
-        password:'',
-        name:'',
-        phone:''
+      openid: "",
+      schoolNo: "1",
+      rank: 0,
+      username: "",
+      password: "",
+      name: "",
+      phone: ""
     };
   },
   created() {
-    this.openid = this.getQueryOpenid("openid");
+    this.openid = this.GetUrlParam("openid");
     this.setCookie("openid", this.openid, 1);
-    this.schoolNo = this.getQueryOpenid("schoolNo");
-    this.rank = this.getQueryOpenid("rank");
+    this.schoolNo = this.GetUrlParam("schoolNo");
+    this.rank = this.GetUrlParam("rank");
+    let headImg = this.GetUrlParam("headImgUrl");
+    this.setCookie("headImg", headImg, 1);
   },
   methods: {
     register() {
@@ -103,11 +105,25 @@ export default {
           weui.alert("注册失败");
         });
     },
-    getQueryOpenid(name) {
-      var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
-      var r = window.location.search.substr(1).match(reg);
-      if (r != null) return unescape(r[2]);
-      return null;
+    GetUrlParam(paraName) {
+      var url = document.location.toString();
+      var arrObj = url.split("?");
+
+      if (arrObj.length > 1) {
+        var arrPara = arrObj[1].split("&");
+        var arr;
+
+        for (var i = 0; i < arrPara.length; i++) {
+          arr = arrPara[i].split("=");
+
+          if (arr != null && arr[0] == paraName) {
+            return arr[1];
+          }
+        }
+        return "";
+      } else {
+        return "";
+      }
     }
   },
   mounted() {}

@@ -21,7 +21,7 @@
         </div>
         <div class="weui-form-preview__item">
           <label class="weui-form-preview__label">时间</label>
-          <span class="weui-form-preview__value">{{getLocalTime(replenishdetail.createTime)}}</span>
+          <span class="weui-form-preview__value">{{getLocalTime(replenishdetail.updateTime)}}</span>
         </div>
         <div class="weui-form-preview__item">
           <label class="weui-form-preview__label">订单状态</label>

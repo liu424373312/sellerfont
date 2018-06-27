@@ -1,15 +1,18 @@
 <template>
   <div id="app">
+    <homeheader v-if="$route.name!='login'&$route.name!='register'&$route.name!='authorize'"></homeheader>
     <router-view></router-view>
   </div>
 </template>
 
 <script>
-import myheader from "./components/header/header";
+import homeheader from "./components/home-header/home-header";
 export default {
   name: "App",
   components: {
-    myheader
+    homeheader
+  },
+  created(){
   }
 };
 </script>

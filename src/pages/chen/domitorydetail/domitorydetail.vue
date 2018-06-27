@@ -54,12 +54,6 @@
         </div>
         <div class="weui-cell__ft"></div>
       </router-link>
-      <router-link class="weui-cell weui-cell_access" :to="{name:'domitorydemo'}">
-        <div class="weui-cell__bd">
-          <p>寝室商品模板</p>
-        </div>
-        <div class="weui-cell__ft"></div>
-      </router-link>
       <!--<router-link class="weui-cell weui-cell_access" :to="{name:'stockout'}">
             <div class="weui-cell__bd">
               <p>回收零食</p>

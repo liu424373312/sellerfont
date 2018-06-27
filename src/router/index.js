@@ -38,36 +38,35 @@ import addtemplates from '../pages/chen/addtemplates/addtemplates'
 Vue.use(Router);
 
 const vueRouter = new Router({
-  routes: [
-    {
-      path:'/orderdetail2',
-      name:'orderdetail2',
-      component:orderdetail2
+  routes: [{
+      path: '/orderdetail2',
+      name: 'orderdetail2',
+      component: orderdetail2
     },
     {
-      path:'/dorgroup',
-      name:'dorgroup',
-      component:dorgroup
+      path: '/dorgroup',
+      name: 'dorgroup',
+      component: dorgroup
     },
     {
-      path:'/dorGoodsList',
-      name:'dorGoodsList',
-      component:dorGoodsList
+      path: '/dorGoodsList',
+      name: 'dorGoodsList',
+      component: dorGoodsList
     },
     {
-      path:'/templatesDetail',
-      name:'templatesDetail',
-      component:templatesDetail
+      path: '/templatesDetail',
+      name: 'templatesDetail',
+      component: templatesDetail
     },
     {
-      path:'/templates',
-      name:'templates',
-      component:templates
+      path: '/templates',
+      name: 'templates',
+      component: templates
     },
     {
-      path:'/dorstatistic',
-      name:'dorstatistic',
-      component:dorstatistic
+      path: '/dorstatistic',
+      name: 'dorstatistic',
+      component: dorstatistic
     },
     {
       path: '/orderdetail1',

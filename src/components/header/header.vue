@@ -1,6 +1,6 @@
 <template>
   <div id="header">
-  <div>主  页</div>
+  <router-link to="home" >主  页</router-link>
   </div>
 </template>
 
@@ -13,7 +13,6 @@ export default {};
   width: 100%;
   height: 30px;
   text-align: center;
-  background:dodgerblue;
-  border-radius: 1px;
+  border: 1px;
 }
 </style>

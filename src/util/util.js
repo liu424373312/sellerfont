@@ -9,11 +9,8 @@ exports.install = function (Vue, options) {
       window.document.cookie = name + "=" + value + ";path=/;expires=" + d.toGMTString();
     },
     Vue.prototype.delCookie = function (name) {
-      this.set(name, '', -1);
     },
     Vue.prototype.getLocalTime = function (nS) {
-      return new Date(parseInt(nS) * 1000)
-        .toLocaleString()
-        .replace(/:\d{1,2}$/, " ");
+      return new Date(parseInt(nS) * 1000).toLocaleString().replace(/:\d{1,2}$/,' ');     
     }
 }

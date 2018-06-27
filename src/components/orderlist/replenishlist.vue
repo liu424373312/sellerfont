@@ -5,7 +5,7 @@
         <div class="weui-media-box__bd">
           <h4 class="weui-media-box__title">{{item1.groupNo}}</h4>
           <p class="weui-media-box__desc">{{item1.userName}} {{item1.userPhone}}</p>
-          <p class="weui-media-box__desc">时间:{{getLocalTime(item1.createTime)}}</p>
+          <p class="weui-media-box__desc">时间:{{getLocalTime(item1.updateTime)}}</p>
         </div>
         <div class="weui-media-box__ft fttext">
           <p class="weui-media-box__desc">{{orderstatus(item1.replenishStatus)}}</p>
@@ -18,7 +18,7 @@
         <div class="weui-media-box__bd">
           <h4 class="weui-media-box__title">{{item2.groupNo}}</h4>
           <p class="weui-media-box__desc">{{item2.userName}} {{item2.userPhone}}</p>
-          <p class="weui-media-box__desc">时间:{{getLocalTime(item2.createTime)}}</p>
+          <p class="weui-media-box__desc">时间:{{getLocalTime(item2.updateTime)}}</p>
         </div>
         <div class="weui-media-box__ft fttext">
           <p class="weui-media-box__desc">{{orderstatus(item2.replenishStatus)}}</p>

@@ -13,7 +13,7 @@
         </div>
         <div class="weui-form-preview__item">
           <label class="weui-form-preview__label">创建时间</label>
-          <span class="weui-form-preview__value">{{getLocalTime(dispatchdetail.createTime)}}</span>
+          <span class="weui-form-preview__value">{{getLocalTime(dispatchdetail.updateTime)}}</span>
         </div>
         <div class="weui-form-preview__item">
           <label class="weui-form-preview__label">订单状态</label>

@@ -1,15 +1,18 @@
 <template>
   <div id="home-header">
-    <div class="weui-cell">
-      <div class="weui-cell__hd"><img :src="this.headImg" alt="" style="width:20px;margin-right:5px;display:block">
+    <div class="weui-cell" style="background-color:#fff">
+      <div class="weui-cell__hd">
+        <router-link to="home" style="display:inline;font-size:14px;line-height:14px;">主页</router-link>
+        <img :src="this.headImg" alt="" style="width:20px;margin-right:5px;margin-left:5px">
       </div>
       <div class="weui-cell__bd">
-        <p style="display:block;font-size:14px;line-height:14px;">{{this.schoolName}}</p>
+        <p style="display:inline;font-size:14px;line-height:14px;">{{this.schoolName}}</p>
+      </div>
+      <div class="weui-cell__ft">
         <div id="out" @click="out">
           <span>登出</span>
         </div>
       </div>
-      <div class="weui-cell__ft"></div>
     </div>
   </div>
 </template>
@@ -33,8 +36,8 @@ export default {
   created() {
     this.headImg = this.getCookie("headImg");
     this.schoolNo = this.getCookie("schoolNo");
-    console.log(this.schoolNo);
     this.getSchool();
+    console.log(this.$route.name);
   },
   methods: {
     getSchool() {
