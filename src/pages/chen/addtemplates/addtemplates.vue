@@ -294,7 +294,7 @@ export default {
 .goods {
   display: flex;
   position: absolute;
-  top: 20px;
+  top: 45px;
   bottom: 45px;
   width: 100%;
   overflow: hidden;
